@@ -1,0 +1,141 @@
+> **Project:** AI Command Center — Frontend UI Only
+>
+> Build the complete React/TypeScript frontend for a local-first multi-agent AI orchestration platform. This is a **UI shell only** — do not create any backend, server, database, authentication system, or deployment configuration. All data will come from a pre-existing FastAPI backend via HTTP and Server-Sent Events (SSE). Your job is to build the visual interface and wire it to that API contract.
+>
+> ---
+>
+> **Tech Stack — use exactly these, nothing else:**
+> - React 18 + TypeScript
+> - Vite (not Next.js, not CRA)
+> - Tailwind CSS
+> - shadcn/ui component library
+> - TanStack Query (React Query v5) for all server state
+> - Zustand for UI-only state (command palette open/closed, sidebar state)
+> - React Router v6 for page routing
+> - No Replit-specific packages, no Replit Auth, no Replit DB
+>
+> ---
+>
+> **Project Structure — follow this exactly:**
+> ```
+> src/
+> ├── main.tsx
+> ├── App.tsx
+> ├── components/
+> │   ├── layout/
+> │   │   ├── Sidebar.tsx
+> │   │   ├── CommandPalette.tsx
+> │   │   └── StatusBar.tsx
+> │   ├── dashboard/
+> │   │   ├── AgentFleetPanel.tsx
+> │   │   ├── AgentCard.tsx
+> │   │   ├── ActivityFeed.tsx
+> │   │   ├── AttentionQueue.tsx
+> │   │   ├── DecisionPacket.tsx
+> │   │   └── AmbientStatusBanner.tsx
+> │   ├── chat/
+> │   │   ├── ChatInterface.tsx
+> │   │   ├── MessageBubble.tsx
+> │   │   ├── ToolCallDisclosure.tsx
+> │   │   ├── CheckpointBanner.tsx
+> │   │   └── ChatInput.tsx
+> │   ├── agents/
+> │   │   └── AgentDetailDrawer.tsx
+> │   ├── analytics/
+> │   │   ├── CostAnalyticsPage.tsx
+> │   │   └── AuditLogPage.tsx
+> │   ├── memory/
+> │   │   └── KnowledgeBasePage.tsx
+> │   ├── integrations/
+> │   │   ├── IntegrationsPage.tsx
+> │   │   └── MCPServerCard.tsx
+> │   ├── settings/
+> │   │   ├── SettingsPage.tsx
+> │   │   └── ExportImportPage.tsx
+> │   └── ui/
+> │       ├── Button.tsx
+> │       ├── Badge.tsx
+> │       ├── StatusIndicator.tsx
+> │       ├── DiffViewer.tsx
+> │       ├── Modal.tsx
+> │       └── ProgressBar.tsx
+> ├── hooks/
+> │   ├── useSSE.ts
+> │   ├── useAttentionQueue.ts
+> │   ├── useAgentStatus.ts
+> │   └── useCostSummary.ts
+> ├── stores/
+> │   └── uiStore.ts
+> ├── api/
+> │   ├── client.ts
+> │   ├── chat.ts
+> │   ├── agents.ts
+> │   └── projects.ts
+> └── lib/
+>     ├── accessibility.ts
+>     └── formatters.ts
+> ```
+>
+> ---
+>
+> **Pages and Routing:**
+> - `/` → Dashboard (AgentFleetPanel + ActivityFeed + AttentionQueue)
+> - `/chat` → ChatInterface
+> - `/analytics/cost` → CostAnalyticsPage
+> - `/analytics/audit` → AuditLogPage
+> - `/memory` → KnowledgeBasePage
+> - `/integrations` → IntegrationsPage
+> - `/settings` → SettingsPage
+> - `/settings/export` → ExportImportPage
+>
+> ---
+>
+> **API Contract — use these mock endpoints (hardcode base URL as `http://localhost:8000`):**
+> - `GET /api/v1/health` → system health status
+> - `GET /api/v1/agents` → list of agents with status
+> - `GET /api/v1/attention-queue` → list of pending approval items
+> - `POST /api/v1/attention-queue/{id}/approve` → approve a decision
+> - `POST /api/v1/attention-queue/{id}/reject` → reject a decision
+> - `GET /api/v1/chat/{thread_id}` → chat message history
+> - `POST /api/v1/chat` → send a message, returns `thread_id`
+> - `GET /api/v1/chat/{thread_id}/stream` → SSE stream of agent tokens and events
+> - `GET /api/v1/cost-analytics` → 5-layer cost breakdown
+> - `GET /api/v1/audit-log` → paginated audit entries
+> - `GET /api/v1/memory` → project anchor + memory items
+> - `GET /api/v1/mcp-servers` → list of MCP integrations with trust tier
+>
+> Use realistic mock/placeholder data everywhere so the UI is fully navigable without a running backend.
+>
+> ---
+>
+> **Visual Design:**
+> - Dark theme by default, with a subtle light mode toggle in settings
+> - Left sidebar navigation, main content area, right panel for Attention Queue
+> - Agent status uses five states: `idle` (grey), `thinking` (blue, animated pulse), `running-tool` (teal), `awaiting-approval` (amber), `error` (red)
+> - Every status indicator must use **both color and an icon shape** — never color alone
+> - The ActivityFeed auto-scrolls but has a visible "Pause Updates" button
+> - The CommandPalette opens with `⌘K` / `Ctrl+K` and searches across agents, pages, and recent actions
+> - The AttentionQueue sits in a persistent right panel and shows a badge count when items are waiting
+>
+> ---
+>
+> **Accessibility Requirements:**
+> - `ActivityFeed` container must have `role="log"` and `aria-live="polite"`
+> - `CommandPalette` input must use `role="combobox"` with `aria-expanded` and `aria-activedescendant`
+> - All modals must trap focus and use `role="dialog"` with `aria-modal="true"`
+> - All buttons must have descriptive `aria-label` attributes
+> - Tab order must follow visual reading order: sidebar → main content → right panel
+>
+> ---
+>
+> **Constraints — strictly do not:**
+> - Create any Python files, FastAPI routes, or backend logic
+> - Create any database schema or ORM models
+> - Add any authentication or session management
+> - Use Next.js, Remix, or any SSR framework
+> - Add any Replit-specific packages or configuration
+> - Create a `server.js` or any Node.js server
+> - Generate Docker files, CI/CD configs, or deployment manifests
+>
+> The output must be a clean, exportable Vite + React project that can be dropped into a larger monorepo's `frontend/` directory with zero modifications.
+

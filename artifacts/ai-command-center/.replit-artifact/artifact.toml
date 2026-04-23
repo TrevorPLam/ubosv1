@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "AI Command Center"
+version = "1.0.0"
+id = "artifacts/ai-command-center"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19420
+
+[services.development]
+run = "pnpm --filter @workspace/ai-command-center run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/ai-command-center", "run", "build" ]
+publicDir = "artifacts/ai-command-center/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19420"
+BASE_PATH = "/"
