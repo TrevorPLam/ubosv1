@@ -1,6 +1,6 @@
 import { Message, FileAttachment, Citation, submitFeedback } from "@/api/chat";
 import { cn } from "@/lib/utils";
-import { Bot, User, Copy, Download, FileText, Image, GitBranch, Edit, Globe, BookOpen } from "lucide-react";
+import { Bot, User, Copy, Download, FileText, GitBranch, Edit, Globe, BookOpen, MoreHorizontal, RefreshCw, Share2 } from "lucide-react";
 import { ToolCallDisclosure } from "./ToolCallDisclosure";
 import { FeedbackControls } from "./FeedbackControls";
 import { FeedbackModal } from "./FeedbackModal";
@@ -8,7 +8,7 @@ import { MessageEditor } from "./MessageEditor";
 import { CitationBadge } from "./CitationBadge";
 import { ConfidenceIndicator } from "./ConfidenceIndicator";
 import { format } from "date-fns";
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { useClipboard } from "@/hooks/useClipboard";
 import { toast } from "sonner";
 import {
@@ -18,6 +18,13 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function MessageBubble({ 
   message, 
@@ -224,6 +231,58 @@ export function MessageBubble({
     }
   };
 
+  const handleShare = useCallback(async () => {
+    if (!message.content) return;
+    if (navigator.share) {
+      try {
+        await navigator.share({ text: message.content });
+        return;
+      } catch {
+        // Fall through to clipboard fallback if user cancelled or API unavailable
+      }
+    }
+    try {
+      await copy(message.content);
+      toast.success("Copied to clipboard", {
+        description: "Message copied — paste it anywhere to share",
+        duration: 2000,
+      });
+    } catch {
+      toast.error("Share failed", { duration: 3000 });
+    }
+  }, [message.content, copy]);
+
+  // Keyboard shortcut handler for focused message article
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    // Skip when focus is inside an input/textarea (e.g. editing)
+    const tag = (e.target as HTMLElement).tagName;
+    if (tag === "INPUT" || tag === "TEXTAREA" || (e.target as HTMLElement).isContentEditable) return;
+
+    // Ignore modifier combos that belong to the browser / OS
+    if (e.metaKey || e.altKey) return;
+
+    switch (e.key.toLowerCase()) {
+      case "c":
+        if (!e.ctrlKey) { e.preventDefault(); handleCopy(); }
+        break;
+      case "e":
+        if (isUser && onStartEdit && !e.ctrlKey) { e.preventDefault(); onStartEdit(message.id); }
+        break;
+      case "r":
+        if (!isUser && isLastAssistantMessage && onRegenerate && !e.ctrlKey) {
+          e.preventDefault();
+          onRegenerate(message.id);
+        }
+        break;
+      case "b":
+        if (onBranch && !isSystem && !e.ctrlKey) { e.preventDefault(); handleBranch(); }
+        break;
+      case "s":
+        if (!e.ctrlKey) { e.preventDefault(); handleShare(); }
+        break;
+    }
+  }, [handleCopy, handleShare, handleBranch, isUser, isSystem, isLastAssistantMessage, message.id, onStartEdit, onRegenerate, onBranch]);
+
   if (isSystem) {
     return (
       <div className="flex justify-center my-4">
@@ -244,9 +303,10 @@ export function MessageBubble({
     <div 
       className={cn("flex gap-4 max-w-4xl group", isUser ? "ml-auto flex-row-reverse" : "")}
       data-message-id={message.id}
-      tabIndex={0} // Make message focusable for keyboard navigation
+      tabIndex={0}
       role="article"
       aria-label={`${isUser ? "You" : message.agentId || "Assistant"} message`}
+      onKeyDown={handleKeyDown}
     >
       <div className={cn(
         "w-8 h-8 rounded-md flex items-center justify-center shrink-0 mt-1",
@@ -274,48 +334,13 @@ export function MessageBubble({
           >
             {renderWithCitations(message.content, message.sources, searchTerm)}
             
-            {/* Action buttons - appear on hover */}
+            {/* Three-dot actions menu — appears on hover or keyboard focus */}
             <div className={cn(
-              "absolute top-2 right-2 flex items-center gap-1 transition-all duration-200",
-              "opacity-0 group-hover:opacity-100",
-              "focus:opacity-100",
+              "absolute top-1.5 right-1.5 flex items-center gap-1 transition-all duration-150",
+              "opacity-0 group-hover:opacity-100 group-focus-within:opacity-100",
               isHovered ? "opacity-100" : "opacity-0"
             )}>
-              {/* Edit button - only for user messages */}
-              {isUser && onStartEdit && (
-                <button
-                  onClick={() => onStartEdit(message.id)}
-                  className={cn(
-                    "p-1.5 rounded-md transition-all duration-200",
-                    "bg-background/80 hover:bg-background border border-border/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
-                  )}
-                  aria-label="Edit message"
-                  title="Edit message"
-                >
-                  <Edit className="w-3.5 h-3.5 text-muted-foreground" />
-                </button>
-              )}
-              
-              {/* Regenerate button - only for last assistant message */}
-              {!isUser && isLastAssistantMessage && onRegenerate && (
-                <button
-                  onClick={() => onRegenerate(message.id)}
-                  disabled={isRegenerating}
-                  className={cn(
-                    "p-1.5 rounded-md transition-all duration-200",
-                    "bg-background/80 hover:bg-background border border-border/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                    isRegenerating && "opacity-50 cursor-not-allowed"
-                  )}
-                  aria-label="Regenerate response"
-                  title="Regenerate response"
-                >
-                  <Edit className="w-3.5 h-3.5 text-muted-foreground" />
-                </button>
-              )}
-              
-              {/* Feedback controls - only for assistant messages */}
+              {/* Inline feedback controls for assistant messages */}
               {!isUser && (
                 <FeedbackControls
                   messageId={message.id}
@@ -325,27 +350,109 @@ export function MessageBubble({
                   isLoading={isSubmittingFeedback}
                 />
               )}
-              
-              {/* Copy button */}
-              {isSupported && message.content && (
-                <button
-                  onClick={handleCopy}
-                  disabled={isLoading}
-                  className={cn(
-                    "p-1.5 rounded-md transition-all duration-200",
-                    "bg-background/80 hover:bg-background border border-border/50",
-                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                    isLoading && "opacity-50 cursor-not-allowed"
-                  )}
-                  aria-label="Copy message"
-                  title="Copy message (Ctrl+C)"
+
+              {/* Three-dot DropdownMenu */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <button
+                    className={cn(
+                      "p-1.5 rounded-md transition-all duration-150",
+                      "bg-background/80 hover:bg-background border border-border/50",
+                      "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-1"
+                    )}
+                    aria-label="Message actions"
+                    title="Message actions"
+                  >
+                    <MoreHorizontal className="w-3.5 h-3.5 text-muted-foreground" />
+                  </button>
+                </DropdownMenuTrigger>
+
+                <DropdownMenuContent
+                  align={isUser ? "start" : "end"}
+                  side="bottom"
+                  sideOffset={6}
+                  loop
+                  className="w-52"
                 >
-                  <Copy className={cn(
-                    "w-3.5 h-3.5 transition-transform",
-                    isCopied ? "text-green-600 scale-110" : "text-muted-foreground"
-                  )} />
-                </button>
-              )}
+                  {/* Copy */}
+                  {message.content && (
+                    <DropdownMenuItem
+                      onSelect={handleCopy}
+                      disabled={!isSupported || isLoading}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Copy className="w-4 h-4" />
+                        Copy message
+                      </span>
+                      <kbd className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded font-mono">C</kbd>
+                    </DropdownMenuItem>
+                  )}
+
+                  {/* Edit — user messages only */}
+                  {isUser && onStartEdit && (
+                    <DropdownMenuItem
+                      onSelect={() => onStartEdit(message.id)}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="flex items-center gap-2">
+                        <Edit className="w-4 h-4" />
+                        Edit message
+                      </span>
+                      <kbd className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded font-mono">E</kbd>
+                    </DropdownMenuItem>
+                  )}
+
+                  {/* Regenerate — last assistant message only */}
+                  {!isUser && isLastAssistantMessage && onRegenerate && (
+                    <DropdownMenuItem
+                      onSelect={() => onRegenerate(message.id)}
+                      disabled={isRegenerating}
+                      className="flex items-center justify-between"
+                    >
+                      <span className="flex items-center gap-2">
+                        <RefreshCw className={cn("w-4 h-4", isRegenerating && "animate-spin")} />
+                        Regenerate
+                      </span>
+                      <kbd className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded font-mono">R</kbd>
+                    </DropdownMenuItem>
+                  )}
+
+                  {/* Branch */}
+                  {onBranch && !isSystem && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onSelect={handleBranch}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="flex items-center gap-2">
+                          <GitBranch className="w-4 h-4" />
+                          Branch from here
+                        </span>
+                        <kbd className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded font-mono">B</kbd>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+
+                  {/* Share */}
+                  {message.content && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem
+                        onSelect={handleShare}
+                        className="flex items-center justify-between"
+                      >
+                        <span className="flex items-center gap-2">
+                          <Share2 className="w-4 h-4" />
+                          Share
+                        </span>
+                        <kbd className="text-[10px] text-muted-foreground bg-muted px-1.5 py-0.5 rounded font-mono">S</kbd>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
         )}
@@ -429,6 +536,25 @@ export function MessageBubble({
             <Copy className="w-4 h-4" />
             Copy message
           </ContextMenuItem>
+          {isUser && onStartEdit && (
+            <ContextMenuItem
+              onClick={() => onStartEdit(message.id)}
+              className="flex items-center gap-2"
+            >
+              <Edit className="w-4 h-4" />
+              Edit message
+            </ContextMenuItem>
+          )}
+          {!isUser && isLastAssistantMessage && onRegenerate && (
+            <ContextMenuItem
+              onClick={() => onRegenerate(message.id)}
+              disabled={isRegenerating}
+              className="flex items-center gap-2"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Regenerate
+            </ContextMenuItem>
+          )}
           {onBranch && !isSystem && (
             <>
               <ContextMenuSeparator />
@@ -438,6 +564,18 @@ export function MessageBubble({
               >
                 <GitBranch className="w-4 h-4" />
                 Branch from here
+              </ContextMenuItem>
+            </>
+          )}
+          {message.content && (
+            <>
+              <ContextMenuSeparator />
+              <ContextMenuItem
+                onClick={handleShare}
+                className="flex items-center gap-2"
+              >
+                <Share2 className="w-4 h-4" />
+                Share
               </ContextMenuItem>
             </>
           )}

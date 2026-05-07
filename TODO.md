@@ -719,15 +719,15 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 🛠️ TASK-014: Consolidate Message Actions Menu
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: High  
 **Estimated Effort**: Medium
 
 ### Definition of Done
-- [ ] Three-dot menu on each message
-- [ ] Centralized actions: Copy, Edit, Regenerate, Branch, Share
-- [ ] Keyboard shortcuts for common actions
-- [ ] Accessible ARIA labels and focus management
+- [x] Three-dot menu on each message
+- [x] Centralized actions: Copy, Edit, Regenerate, Branch, Share
+- [x] Keyboard shortcuts for common actions
+- [x] Accessible ARIA labels and focus management
 
 ### Out of Scope
 - Custom user-defined actions
