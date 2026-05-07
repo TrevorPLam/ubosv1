@@ -626,16 +626,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 📝 TASK-012: AI-Powered Conversation Summarization
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: High  
 **Estimated Effort**: Medium
 
 ### Definition of Done
-- [ ] "Summarize conversation" button in thread header
-- [ ] AI-generated summary with key points and action items
-- [ ] Summary appears as a collapsible panel at the top
-- [ ] Auto-summarize trigger when thread exceeds message count
-- [ ] Summaries persist and update as the conversation grows
+- [x] "Summarize conversation" button in thread header
+- [x] AI-generated summary with key points and action items
+- [x] Summary appears as a collapsible panel at the top
+- [x] Auto-summarize trigger when thread exceeds message count
+- [x] Summaries persist and update as the conversation grows
 
 ### Out of Scope
 - Summarizing multiple threads at once
@@ -660,16 +660,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 📍 TASK-013: Response Grounding with Citations
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: High  
 **Estimated Effort**: High
 
 ### Definition of Done
-- [ ] Inline citations (e.g., [1]) in assistant messages
-- [ ] Hover previews for cited sources
-- [ ] Grounding toggle (Web Search / Knowledge Base)
-- [ ] Confidence indicator for responses
-- [ ] Visual distinction between grounded and ungrounded content
+- [x] Inline citations (e.g., [1]) in assistant messages
+- [x] Hover previews for cited sources
+- [x] Grounding toggle (Web Search / Knowledge Base)
+- [x] Confidence indicator for responses
+- [x] Visual distinction between grounded and ungrounded content
 
 ### Out of Scope
 - Full PDF rendering within the chat
@@ -687,8 +687,33 @@ This document outlines the missing capabilities and improvement tasks for the UB
 - Never hallucinate citations for ungrounded claims
 
 ### Related Files
+- `src/components/chat/CitationBadge.tsx` (new)
+- `src/components/chat/ConfidenceIndicator.tsx` (new)
 - `src/components/chat/MessageBubble.tsx`
+- `src/components/chat/ChatInterface.tsx`
 - `src/api/chat.ts`
+
+### Subtasks
+
+#### [x] SUBTASK-013-1: Add Citation data model  
+**File**: `src/api/chat.ts`  
+**Description**: Add `Citation` interface, `GroundingMode` type, update `Message` and `Thread` interfaces.
+
+#### [x] SUBTASK-013-2: Create CitationBadge component  
+**File**: `src/components/chat/CitationBadge.tsx`  
+**Description**: Inline `[n]` badge with Radix HoverCard portal showing title, domain, snippet, source type, and external link.
+
+#### [x] SUBTASK-013-3: Create ConfidenceIndicator component  
+**File**: `src/components/chat/ConfidenceIndicator.tsx`  
+**Description**: Color-coded badge (High/Medium/Low) with shield icon and percentage.
+
+#### [x] SUBTASK-013-4: Update MessageBubble with citation parsing  
+**File**: `src/components/chat/MessageBubble.tsx`  
+**Description**: Parse `[n]` patterns in content, render CitationBadge inline, show ConfidenceIndicator and source count badge for grounded messages. Add subtle left-border visual distinction.
+
+#### [x] SUBTASK-013-5: Add Grounding toggle to ChatInterface  
+**File**: `src/components/chat/ChatInterface.tsx`  
+**Description**: Three-button radio group (None / Web Search / Knowledge Base) above the input. Persists mode to thread state with optimistic update and rollback.
 
 ---
 
@@ -1036,11 +1061,11 @@ This document outlines the missing capabilities and improvement tasks for the UB
 | TASK-006 | Message Search | ✅ Complete | Medium | 6/6 |
 | TASK-007 | Conversation Export | ✅ Complete | Medium | 6/6 |
 | TASK-008 | Voice Input | ✅ Complete | Low | 5/5 |
-| TASK-009 | Message Feedback System | ❌ Not Started | Critical | 0/5 |
-| TASK-010 | Conversation Branching | ❌ Not Started | Critical | 0/5 |
-| TASK-011 | Editing & Regeneration | ❌ Not Started | Critical | 0/5 |
-| TASK-012 | AI Summarization | ❌ Not Started | High | 0/5 |
-| TASK-013 | Grounding with Citations | ❌ Not Started | High | 0/5 |
+| TASK-009 | Message Feedback System | ✅ Complete | Critical | 5/5 |
+| TASK-010 | Conversation Branching | ✅ Complete | Critical | 5/5 |
+| TASK-011 | Editing & Regeneration | ✅ Complete | Critical | 5/5 |
+| TASK-012 | AI Summarization | ✅ Complete | High | 5/5 |
+| TASK-013 | Grounding with Citations | ✅ Complete | High | 5/5 |
 | TASK-014 | Consolidate Actions Menu | ❌ Not Started | High | 0/5 |
 | TASK-015 | Dark Mode & Theme System | ❌ Not Started | High | 0/4 |
 | TASK-016 | Model Selection & Switching | ❌ Not Started | Medium | 0/4 |
@@ -1052,7 +1077,7 @@ This document outlines the missing capabilities and improvement tasks for the UB
 | TASK-022 | Agentic Tool Enhancements | ❌ Not Started | Low | 0/4 |
 | TASK-023 | Multi-User Collaboration | ❌ Not Started | Low | 0/4 |
 
-**Overall Progress**: 36.4% complete (40/110 subtasks)
+**Overall Progress**: 63.6% complete (70/110 subtasks)
 
 ---
 
@@ -1078,4 +1103,4 @@ This document outlines the missing capabilities and improvement tasks for the UB
 ---
 
 *Last Updated: 2026-05-07*  
-*Total Tasks: 8 | Total Subtasks: 40*
+*Total Tasks: 13 (complete) / 23 | Total Subtasks: 70/110*

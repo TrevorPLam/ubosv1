@@ -25,6 +25,18 @@ export interface MessageVersion {
   isCurrent: boolean;
 }
 
+export interface Citation {
+  number: number;
+  title: string;
+  url?: string;
+  snippet: string;
+  sourceType: 'web' | 'knowledge_base' | 'document';
+  domain?: string;
+  publishedAt?: string;
+}
+
+export type GroundingMode = 'web' | 'knowledge_base' | 'none';
+
 export interface Message {
   id: string;
   role: 'user' | 'assistant' | 'tool_call' | 'tool_result' | 'system';
@@ -40,6 +52,11 @@ export interface Message {
   editedAt?: string;
   originalContent?: string;
   versions?: MessageVersion[];
+  // Grounding and citations
+  sources?: Citation[];
+  confidence?: number; // 0–1
+  groundingMode?: GroundingMode;
+  isGrounded?: boolean;
 }
 
 export interface ConversationSummary {
@@ -63,6 +80,7 @@ export interface Thread {
   parentThreadId?: string;
   branchPointMessageId?: string;
   summary?: ConversationSummary;
+  groundingMode?: GroundingMode;
 }
 
 export const mockThreads: Thread[] = [
@@ -118,9 +136,39 @@ export const mockThreads: Thread[] = [
       {
         id: "m7",
         role: "assistant",
-        content: "I found a critical security issue in `src/utils/token.ts`. You are storing both the access token and the refresh token in `localStorage`. This makes them vulnerable to XSS attacks. I strongly recommend moving them to HttpOnly, Secure cookies.",
+        content: "I found a critical security issue in `src/utils/token.ts`. You are storing both the access token and the refresh token in `localStorage`. This makes them vulnerable to XSS attacks [1]. I strongly recommend moving them to HttpOnly, Secure cookies [2]. According to OWASP security guidelines [3], tokens stored in `localStorage` can be accessed by any JavaScript running on the page, making them susceptible to cross-site scripting attacks.",
         timestamp: new Date(Date.now() - 1000 * 60 * 54).toISOString(),
-        agentId: "agent-3"
+        agentId: "agent-3",
+        isGrounded: true,
+        groundingMode: 'knowledge_base' as const,
+        confidence: 0.92,
+        sources: [
+          {
+            number: 1,
+            title: "OWASP XSS Prevention Cheat Sheet",
+            url: "https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html",
+            snippet: "localStorage and sessionStorage are accessible to JavaScript on the same domain, making them vulnerable to XSS attacks. Sensitive tokens should be stored in HttpOnly cookies to prevent script access.",
+            sourceType: 'knowledge_base' as const,
+            domain: "owasp.org",
+            publishedAt: "2024-01-15",
+          },
+          {
+            number: 2,
+            title: "MDN Web Docs: HttpOnly cookies",
+            url: "https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies",
+            snippet: "The HttpOnly attribute restricts access to cookies from JavaScript, meaning document.cookie cannot access HttpOnly cookies, which helps mitigate XSS attacks on authentication tokens.",
+            sourceType: 'web' as const,
+            domain: "developer.mozilla.org",
+          },
+          {
+            number: 3,
+            title: "JWT Security Best Practices — Auth0",
+            url: "https://auth0.com/blog/a-look-at-the-latest-draft-for-jwt-bcp/",
+            snippet: "Never store tokens in localStorage or sessionStorage when security is a concern. Use HttpOnly cookies with SameSite=Strict to mitigate both CSRF and XSS risks simultaneously.",
+            sourceType: 'web' as const,
+            domain: "auth0.com",
+          },
+        ],
       }
     ]
   },
@@ -677,3 +725,19 @@ function generateOverallSummary(messages: Message[]): string {
   
   return summary;
 }
+
+// Grounding Mode Management
+export const setThreadGroundingMode = (
+  threadId: string,
+  mode: GroundingMode
+): Promise<Thread> => {
+  return mockFetch(undefined, 100).then(() => {
+    const thread = mockThreads.find(t => t.id === threadId);
+    if (!thread) {
+      throw new Error('Thread not found');
+    }
+    thread.groundingMode = mode;
+    thread.updatedAt = new Date().toISOString();
+    return { ...thread };
+  });
+};

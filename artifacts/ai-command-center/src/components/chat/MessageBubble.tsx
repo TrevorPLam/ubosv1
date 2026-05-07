@@ -1,10 +1,12 @@
-import { Message, FileAttachment, submitFeedback } from "@/api/chat";
+import { Message, FileAttachment, Citation, submitFeedback } from "@/api/chat";
 import { cn } from "@/lib/utils";
-import { Bot, User, Copy, Download, FileText, Image, GitBranch, Edit } from "lucide-react";
+import { Bot, User, Copy, Download, FileText, Image, GitBranch, Edit, Globe, BookOpen } from "lucide-react";
 import { ToolCallDisclosure } from "./ToolCallDisclosure";
 import { FeedbackControls } from "./FeedbackControls";
 import { FeedbackModal } from "./FeedbackModal";
 import { MessageEditor } from "./MessageEditor";
+import { CitationBadge } from "./CitationBadge";
+import { ConfidenceIndicator } from "./ConfidenceIndicator";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useClipboard } from "@/hooks/useClipboard";
@@ -60,6 +62,31 @@ export function MessageBubble({
             </mark>
           ) : part
         )}
+      </>
+    );
+  };
+
+  // Renders message content with inline [n] citation badges replacing citation markers.
+  const renderWithCitations = (content: string, sources?: Citation[], term?: string) => {
+    if (!sources || sources.length === 0) {
+      return <HighlightedText text={content} term={term} />;
+    }
+
+    // Split on [n] patterns, keeping them as tokens
+    const CITATION_RE = /(\[\d+\])/g;
+    const parts = content.split(CITATION_RE);
+
+    return (
+      <>
+        {parts.map((part, i) => {
+          const match = part.match(/^\[(\d+)\]$/);
+          if (match) {
+            const num = parseInt(match[1], 10);
+            const citation = sources.find((s) => s.number === num);
+            return <CitationBadge key={i} number={num} citation={citation} />;
+          }
+          return <HighlightedText key={i} text={part} term={term} />;
+        })}
       </>
     );
   };
@@ -235,15 +262,17 @@ export function MessageBubble({
         </div>
         
         {message.content && (
-          <div 
+          <div
             className={cn(
               "relative rounded-lg px-4 py-2 text-sm max-w-prose whitespace-pre-wrap break-words transition-all duration-200",
-              isUser ? "bg-primary text-primary-foreground" : "bg-card border shadow-sm"
+              isUser ? "bg-primary text-primary-foreground" : "bg-card border shadow-sm",
+              // Grounded messages get a subtle left accent
+              !isUser && message.isGrounded && "border-l-2 border-l-primary/40"
             )}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <HighlightedText text={message.content} term={searchTerm} />
+            {renderWithCitations(message.content, message.sources, searchTerm)}
             
             {/* Action buttons - appear on hover */}
             <div className={cn(
@@ -318,6 +347,32 @@ export function MessageBubble({
                 </button>
               )}
             </div>
+          </div>
+        )}
+
+        {/* Grounding footer: confidence + source type badge + citations list */}
+        {!isUser && message.isGrounded && (message.confidence !== undefined || message.sources) && (
+          <div className="flex flex-wrap items-center gap-2 mt-1 px-1">
+            {message.confidence !== undefined && (
+              <ConfidenceIndicator confidence={message.confidence} />
+            )}
+            {message.sources && message.sources.length > 0 && (
+              <span
+                className={cn(
+                  "inline-flex items-center gap-1 px-2 py-0.5 rounded-full border text-[11px] font-medium",
+                  "text-sky-700 bg-sky-50 border-sky-200",
+                  "dark:text-sky-400 dark:bg-sky-950/50 dark:border-sky-800"
+                )}
+                aria-label={`${message.sources.length} source${message.sources.length !== 1 ? "s" : ""} — ${message.groundingMode === "web" ? "Web Search" : "Knowledge Base"}`}
+              >
+                {message.groundingMode === "web" ? (
+                  <Globe className="w-3 h-3" aria-hidden="true" />
+                ) : (
+                  <BookOpen className="w-3 h-3" aria-hidden="true" />
+                )}
+                {message.sources.length} source{message.sources.length !== 1 ? "s" : ""}
+              </span>
+            )}
           </div>
         )}
 

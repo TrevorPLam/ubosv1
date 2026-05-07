@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, updateMessage, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, Message, Thread } from "@/api/chat";
+import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, updateMessage, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, setThreadGroundingMode, Message, Thread, GroundingMode } from "@/api/chat";
 import { useBackgroundTask } from "@/hooks/useBackgroundTask";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
@@ -8,7 +8,7 @@ import { SummaryPanel } from "./SummaryPanel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CheckpointBanner } from "./CheckpointBanner";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit, Search, X, ChevronUp, ChevronDown, Download, Sparkles } from "lucide-react";
+import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit, Search, X, ChevronUp, ChevronDown, Download, Sparkles, Globe, BookOpen, CircleOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn, formatToJSON, formatToMarkdown, formatToText } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -129,6 +129,14 @@ export function ChatInterface() {
   // Summary state
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [isUpdatingSummary, setIsUpdatingSummary] = useState(false);
+
+  // Grounding mode state — synced to the active thread
+  const [groundingMode, setGroundingModeLocal] = useState<GroundingMode>('none');
+
+  // Sync grounding mode when the active thread changes
+  useEffect(() => {
+    setGroundingModeLocal(activeThread?.groundingMode ?? 'none');
+  }, [activeThread?.id]);
 
   // Debounced search logic
   useEffect(() => {
@@ -640,6 +648,34 @@ export function ChatInterface() {
     }
   }, [activeThread, isGeneratingSummary, isUpdatingSummary, queryClient, executeTask]);
 
+  // Grounding mode handler — persists to thread and local state
+  const handleGroundingModeChange = useCallback(async (mode: GroundingMode) => {
+    setGroundingModeLocal(mode);
+    if (!activeThread) return;
+
+    // Optimistic cache update
+    queryClient.setQueryData(['chat-threads'], (old: any) => {
+      if (!old) return old;
+      return old.map((t: Thread) =>
+        t.id === activeThread.id ? { ...t, groundingMode: mode } : t
+      );
+    });
+
+    try {
+      await setThreadGroundingMode(activeThread.id, mode);
+    } catch {
+      // Rollback on error
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
+        if (!old) return old;
+        return old.map((t: Thread) =>
+          t.id === activeThread.id ? { ...t, groundingMode: activeThread.groundingMode } : t
+        );
+      });
+      setGroundingModeLocal(activeThread.groundingMode ?? 'none');
+      toast.error("Failed to update grounding mode");
+    }
+  }, [activeThread, queryClient]);
+
   // Auto-summarization trigger
   useEffect(() => {
     if (activeThread && shouldAutoSummarize(activeThread) && !isGeneratingSummary && !isUpdatingSummary) {
@@ -984,6 +1020,39 @@ export function ChatInterface() {
                 <div ref={bottomRef} className="h-1" />
               </div>
             </ScrollArea>
+
+            {/* Grounding Mode Toggle — controls which knowledge source backs AI responses */}
+            <div className="px-6 py-2 border-t flex items-center gap-3 bg-card/40">
+              <span className="text-[11px] text-muted-foreground font-medium uppercase tracking-wide shrink-0">
+                Grounding
+              </span>
+              <div className="flex items-center gap-1" role="radiogroup" aria-label="Grounding mode">
+                {(
+                  [
+                    { mode: 'none' as GroundingMode, label: 'None', Icon: CircleOff },
+                    { mode: 'web' as GroundingMode, label: 'Web Search', Icon: Globe },
+                    { mode: 'knowledge_base' as GroundingMode, label: 'Knowledge Base', Icon: BookOpen },
+                  ] as const
+                ).map(({ mode, label, Icon }) => (
+                  <button
+                    key={mode}
+                    onClick={() => handleGroundingModeChange(mode)}
+                    className={cn(
+                      "flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium transition-colors",
+                      groundingMode === mode
+                        ? "bg-primary text-primary-foreground shadow-sm"
+                        : "text-muted-foreground hover:text-foreground hover:bg-muted"
+                    )}
+                    role="radio"
+                    aria-checked={groundingMode === mode}
+                    aria-label={label}
+                  >
+                    <Icon className="w-3 h-3" aria-hidden="true" />
+                    {label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <ChatInput
               onSend={handleSend}
