@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, updateMessage, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, setThreadGroundingMode, Message, Thread, GroundingMode } from "@/api/chat";
+import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, updateMessage, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, setThreadGroundingMode, createBranchFromMessage, Message, Thread, GroundingMode } from "@/api/chat";
 import { useBackgroundTask } from "@/hooks/useBackgroundTask";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import { SummaryPanel } from "./SummaryPanel";
+import { ContextWindowBar } from "./ContextWindowBar";
+import { DEFAULT_MODEL, type ModelKey } from "@/lib/tokens";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CheckpointBanner } from "./CheckpointBanner";
 import { formatDistanceToNow } from "date-fns";
@@ -129,6 +131,9 @@ export function ChatInterface() {
   // Summary state
   const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
   const [isUpdatingSummary, setIsUpdatingSummary] = useState(false);
+
+  // Context window / model selection state
+  const [selectedModel, setSelectedModel] = useState<ModelKey>(DEFAULT_MODEL);
 
   // Grounding mode state — synced to the active thread
   const [groundingMode, setGroundingModeLocal] = useState<GroundingMode>('none');
@@ -648,6 +653,36 @@ export function ChatInterface() {
     }
   }, [activeThread, isGeneratingSummary, isUpdatingSummary, queryClient, executeTask]);
 
+  // Branch the active thread at its last message (used from ContextWindowBar)
+  const handleBranchFromContext = useCallback(async () => {
+    if (!activeThread || activeThread.messages.length === 0) return;
+
+    const lastMessage = activeThread.messages[activeThread.messages.length - 1];
+    try {
+      const branchedThread = await createBranchFromMessage(
+        activeThread.id,
+        lastMessage.id,
+        `${activeThread.title} (branch)`
+      );
+
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
+        if (!old) return [branchedThread];
+        return [branchedThread, ...old];
+      });
+
+      setActiveThreadId(branchedThread.id);
+      toast.success("Thread branched", {
+        description: "Continuing in a new branch with the same context",
+        duration: 2000,
+      });
+    } catch (error) {
+      toast.error("Failed to branch thread", {
+        description: error instanceof Error ? error.message : "Unknown error",
+        duration: 3000,
+      });
+    }
+  }, [activeThread, queryClient]);
+
   // Grounding mode handler — persists to thread and local state
   const handleGroundingModeChange = useCallback(async (mode: GroundingMode) => {
     setGroundingModeLocal(mode);
@@ -935,6 +970,16 @@ export function ChatInterface() {
                 {threadsPanelOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
               </button>
             </div>
+
+            {/* Context window usage bar */}
+            <ContextWindowBar
+              messages={activeThread.messages}
+              streamingText={streamingText}
+              selectedModel={selectedModel}
+              onModelChange={setSelectedModel}
+              onSuggestSummarize={handleGenerateSummary}
+              onSuggestBranch={handleBranchFromContext}
+            />
 
             <ScrollArea className="flex-1 p-6">
               <div className="max-w-3xl mx-auto space-y-6 pb-4">
