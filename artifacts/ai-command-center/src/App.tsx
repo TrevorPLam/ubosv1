@@ -12,6 +12,12 @@ import { Dashboard } from "@/pages/Dashboard";
 import { AgentsPage } from "@/pages/AgentsPage";
 import { ChatInterface } from "@/components/chat/ChatInterface";
 import { CRMPage } from "@/components/crm/CRMPage";
+import { ContactsPage } from "@/components/crm/ContactsPage";
+import { PipelinePage } from "@/components/crm/PipelinePage";
+import { AgreementsPage } from "@/components/crm/AgreementsPage";
+import { EmailPage } from "@/components/crm/EmailPage";
+import { SMSPage } from "@/components/crm/SMSPage";
+import { CRMAnalyticsPage } from "@/components/crm/CRMAnalyticsPage";
 import { ClientsPage } from "@/components/clients/ClientsPage";
 import { WorkPage } from "@/components/work/WorkPage";
 import { CalendarPage } from "@/components/calendar/CalendarPage";
@@ -61,6 +67,12 @@ function Router() {
         <Route path="/agents" component={AgentsPage} />
         <Route path="/chat" component={ChatInterface} />
         <Route path="/crm" component={CRMPage} />
+        <Route path="/crm/contacts" component={ContactsPage} />
+        <Route path="/crm/pipeline" component={PipelinePage} />
+        <Route path="/crm/agreements" component={AgreementsPage} />
+        <Route path="/crm/email" component={EmailPage} />
+        <Route path="/crm/sms" component={SMSPage} />
+        <Route path="/crm/analytics" component={CRMAnalyticsPage} />
         <Route path="/clients" component={ClientsPage} />
         <Route path="/work" component={WorkPage} />
         <Route path="/calendar" component={CalendarPage} />
