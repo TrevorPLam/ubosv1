@@ -46,6 +46,13 @@ import { SEOPage } from "@/components/marketing/SEOPage";
 import { SocialsPage } from "@/components/marketing/SocialsPage";
 import { MarketingAnalyticsPage } from "@/components/marketing/MarketingAnalyticsPage";
 import { ContentManagementPage } from "@/components/marketing/ContentManagementPage";
+import { TeamPage } from "@/components/team/TeamPage";
+import { DirectoryPage } from "@/components/team/DirectoryPage";
+import { OnboardingPage } from "@/components/team/OnboardingPage";
+import { OffboardingPage } from "@/components/team/OffboardingPage";
+import { TimeOffPage } from "@/components/team/TimeOffPage";
+import { TeamDocumentsPage } from "@/components/team/TeamDocumentsPage";
+import { ComplianceTrackingPage } from "@/components/team/ComplianceTrackingPage";
 import { VendorsPage } from "@/components/vendors/VendorsPage";
 import { VendorRecordsPage } from "@/components/vendors/VendorRecordsPage";
 import { ContractAwarenessPage } from "@/components/vendors/ContractAwarenessPage";
@@ -94,6 +101,13 @@ function Router() {
         <Route path="/marketing/socials" component={SocialsPage} />
         <Route path="/marketing/analytics" component={MarketingAnalyticsPage} />
         <Route path="/marketing/content-management" component={ContentManagementPage} />
+        <Route path="/team" component={TeamPage} />
+        <Route path="/team/directory" component={DirectoryPage} />
+        <Route path="/team/onboarding" component={OnboardingPage} />
+        <Route path="/team/offboarding" component={OffboardingPage} />
+        <Route path="/team/time-off" component={TimeOffPage} />
+        <Route path="/team/documents" component={TeamDocumentsPage} />
+        <Route path="/team/compliance" component={ComplianceTrackingPage} />
         <Route path="/finance" component={FinancePage} />
         <Route path="/finance/overview" component={OverviewPage} />
         <Route path="/finance/chart-of-accounts" component={ChartOfAccountsPage} />
