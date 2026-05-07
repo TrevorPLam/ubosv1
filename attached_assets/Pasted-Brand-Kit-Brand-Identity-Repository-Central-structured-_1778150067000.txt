@@ -1,0 +1,54 @@
+Brand Kit
+Brand Identity Repository – Central, structured storage for logos (all variants/formats), color palettes (hex/RGB/CMYK), typography specs, iconography, and imagery guidelines.
+
+Voice & Tone Guidelines – Documented brand voice characteristics, tone matrices by channel/audience, approved messaging frameworks, key terminology, and anti-patterns that AI agents reference to ensure every generated communication stays on-brand.
+
+Brand Compliance Checker – Automatically checks all AI-generated content (emails, social posts, campaign assets) against voice/tone/visual rules before publishing; routes flagged content to the human approval queue.
+
+Template Library – Version-controlled library of email templates, social post templates, proposals, presentation decks, and letterhead locked to brand standards.
+
+Lightweight Digital Asset Management – Asset tagging, version history, usage rights tracking, and expiration alerts to prevent outdated or unlicensed assets from appearing in campaigns.
+
+SEO
+Keyword Rank Tracker – Tracks target keyword positions with historical trends, SERP feature detection (featured snippets, AI Overviews, knowledge panels), and competitor position monitoring.
+
+AI Visibility Tracker – Monitors brand mentions, citation frequency, and source trust scoring across ChatGPT, Gemini, Perplexity, and Google AI Overviews; tracks brand mention rate and first-mention rate for commercial queries.
+
+Site Audit – Crawls for technical issues: broken links, missing meta tags, mobile usability, page speed, and structured data validation. Optionally connects to Semrush/Ahrefs for deep backlink analysis.
+
+Content Optimizer – AI agent analyzes top-ranking pages (standard SERP + AI Overviews) for a target topic, then suggests on-page improvements covering structure, entity coverage, and AI-citation-worthiness factors.
+
+SEO Dashboard – Unified view combining organic traffic, keyword rankings, AI visibility metrics, technical health score, and content performance in a single command center.
+
+Socials
+Content Calendar & Publisher – Visual calendar for planning and scheduling posts across Meta, X, LinkedIn, TikTok, etc.; includes drag-and-drop scheduling, platform previews, and AI-suggested optimal posting times.
+
+Unified Inbox – All comments, DMs, and mentions from connected platforms in one feed; AI agent triages by sentiment/urgency, suggests response drafts, and routes critical items to the attention queue.
+
+Analytics & Attribution – Post-level metrics (reach, impressions, engagement, clicks, shares) plus UTM-based mapping to CRM deals and revenue, delivering consistent cross-platform reporting.
+
+Social Listening – Tracks brand mentions, keyword monitoring, competitor activity, and sentiment trends across social platforms and the broader web.
+
+AI Content Assistant – Generates post drafts, suggests hashtags, recommends content based on trending topics, and repurposes long-form content into social snippets, all bounded by brand voice guidelines.
+
+Analytics
+Unified Marketing Dashboard – Single view combining website traffic, SEO rankings, AI visibility, social performance, email metrics, ad spend/performance, and CRM pipeline contribution, eliminating dashboard-hopping.
+
+Multi-Touch Attribution – Maps customer touchpoints across channels (ad → site → email → social → deal) to CRM contacts; supports first-touch, last-touch, linear, time-decay, and custom weighted models on a unified data foundation.
+
+Campaign ROI & ROAS – Ties marketing spend (from Finance/AP) to attributed revenue (from CRM), calculating ROAS, CAC, and LTV:CAC ratios per campaign/channel with real-time budget vs. actual tracking.
+
+UTM Management – Centralized UTM builder and tracker that ensures every link is tagged with consistent naming conventions and all UTM performance flows back to campaigns and contacts.
+
+AI-Powered Insights – Agent proactively surfaces anomalous performance changes, underperforming channels, overspending campaigns, audience shifts, and optimization recommendations.
+
+Content Management
+Content Calendar – Visual calendar of all content (blog, social, email, landing pages, video, podcast) color-coded by type, status, and campaign; supports drag-and-drop rescheduling, assignee management, and dependency tracking.
+
+Content Brief Generator – AI agent creates SEO-informed briefs from keyword data, competitor analysis, and brand guidelines, including target keyword, semantic entities, outline, linking strategy, and voice/tone reminders.
+
+Production Workflow – Kanban/list view of content stages (Ideation → Briefed → Drafting → Review → Approved → Published → Analyzing); AI agents auto-advance based on rules, and reviews flow through the unified attention queue.
+
+Content Repository – Searchable, filterable library of all content with attached performance metrics (traffic, rankings, conversions, shares, revenue influenced) and full version history.
+
+AI Content Assistant – Generates drafts, suggests headlines, rewrites for different tones/channels, expands outlines, and repurposes content across formats, governed by the Brand Kit’s voice/tone rules.

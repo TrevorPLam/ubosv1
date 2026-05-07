@@ -24,6 +24,12 @@ import { KnowledgeBasePage } from "@/components/memory/KnowledgeBasePage";
 import { IntegrationsPage } from "@/components/integrations/IntegrationsPage";
 import { SettingsPage } from "@/components/settings/SettingsPage";
 import { ExportImportPage } from "@/components/settings/ExportImportPage";
+import { MarketingPage } from "@/components/marketing/MarketingPage";
+import { BrandKitPage } from "@/components/marketing/BrandKitPage";
+import { SEOPage } from "@/components/marketing/SEOPage";
+import { SocialsPage } from "@/components/marketing/SocialsPage";
+import { MarketingAnalyticsPage } from "@/components/marketing/MarketingAnalyticsPage";
+import { ContentManagementPage } from "@/components/marketing/ContentManagementPage";
 
 const queryClient = new QueryClient();
 
@@ -54,6 +60,12 @@ function Router() {
         <Route path="/work" component={WorkPage} />
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/documents" component={DocumentsPage} />
+        <Route path="/marketing" component={MarketingPage} />
+        <Route path="/marketing/brand-kit" component={BrandKitPage} />
+        <Route path="/marketing/seo" component={SEOPage} />
+        <Route path="/marketing/socials" component={SocialsPage} />
+        <Route path="/marketing/analytics" component={MarketingAnalyticsPage} />
+        <Route path="/marketing/content-management" component={ContentManagementPage} />
         <Route path="/finance" component={FinancePage} />
         <Route path="/assets" component={AssetsPage} />
         <Route path="/settings" component={SettingsPage} />
