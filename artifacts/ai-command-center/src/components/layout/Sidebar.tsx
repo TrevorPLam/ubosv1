@@ -1,5 +1,5 @@
 import { useLocation, Link } from "wouter";
-import { LayoutDashboard, MessageSquare, KanbanSquare, CalendarDays, FolderOpen, Banknote, LineChart, FileText, Database, Blocks, Settings, Activity, PanelLeftClose, PanelLeftOpen, Users, Building2 } from "lucide-react";
+import { LayoutDashboard, MessageSquare, KanbanSquare, CalendarDays, FolderOpen, Banknote, Package, LineChart, FileText, Database, Blocks, Settings, Activity, PanelLeftClose, PanelLeftOpen, Users, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/uiStore";
 import { useAttentionQueue } from "@/hooks/useAttentionQueue";
@@ -18,6 +18,7 @@ export function Sidebar() {
     { href: "/calendar", icon: CalendarDays, label: "Calendar" },
     { href: "/documents", icon: FolderOpen, label: "Documents" },
     { href: "/finance", icon: Banknote, label: "Finance" },
+    { href: "/assets", icon: Package, label: "Assets" },
     { href: "/analytics/cost", icon: LineChart, label: "Cost Analytics" },
     { href: "/analytics/audit", icon: Activity, label: "Audit Log" },
     { href: "/memory", icon: Database, label: "Memory" },

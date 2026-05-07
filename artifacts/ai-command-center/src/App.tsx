@@ -16,6 +16,7 @@ import { WorkPage } from "@/components/work/WorkPage";
 import { CalendarPage } from "@/components/calendar/CalendarPage";
 import { DocumentsPage } from "@/components/documents/DocumentsPage";
 import { FinancePage } from "@/components/finance/FinancePage";
+import { AssetsPage } from "@/components/assets/AssetsPage";
 import { CostAnalyticsPage } from "@/components/analytics/CostAnalyticsPage";
 import { AuditLogPage } from "@/components/analytics/AuditLogPage";
 import { KnowledgeBasePage } from "@/components/memory/KnowledgeBasePage";
@@ -52,6 +53,7 @@ function Router() {
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/documents" component={DocumentsPage} />
         <Route path="/finance" component={FinancePage} />
+        <Route path="/assets" component={AssetsPage} />
         <Route path="/analytics/cost" component={CostAnalyticsPage} />
         <Route path="/analytics/audit" component={AuditLogPage} />
         <Route path="/memory" component={KnowledgeBasePage} />
