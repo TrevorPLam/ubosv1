@@ -1,6 +1,7 @@
+import { Link } from "wouter";
 import { MCPServerCard, MCPServer } from "./MCPServerCard";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Plus, ChevronRight } from "lucide-react";
 
 const mockServers: MCPServer[] = [
   {
@@ -40,6 +41,11 @@ const mockServers: MCPServer[] = [
 export function IntegrationsPage() {
   return (
     <div className="p-8 max-w-7xl mx-auto h-full overflow-y-auto">
+      <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+        <Link href="/settings" className="hover:text-foreground transition-colors">Settings</Link>
+        <ChevronRight className="w-3.5 h-3.5" />
+        <span className="text-foreground">Integrations</span>
+      </div>
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">MCP Integrations</h1>

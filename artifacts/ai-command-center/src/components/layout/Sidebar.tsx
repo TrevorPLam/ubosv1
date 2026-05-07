@@ -19,10 +19,6 @@ export function Sidebar() {
     { href: "/documents", icon: FolderOpen, label: "Documents" },
     { href: "/finance", icon: Banknote, label: "Finance" },
     { href: "/assets", icon: Package, label: "Assets" },
-    { href: "/analytics/cost", icon: LineChart, label: "Cost Analytics" },
-    { href: "/analytics/audit", icon: Activity, label: "Audit Log" },
-    { href: "/memory", icon: Database, label: "Memory" },
-    { href: "/integrations", icon: Blocks, label: "Integrations" },
     { href: "/settings", icon: Settings, label: "Settings" },
   ];
 

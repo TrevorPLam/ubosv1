@@ -1,7 +1,8 @@
+import { Link } from "wouter";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Search } from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
 import { formatDate } from "@/lib/formatters";
 
 const mockAuditLogs = Array.from({ length: 25 }).map((_, i) => ({
@@ -17,6 +18,11 @@ export function AuditLogPage() {
   return (
     <div className="p-8 max-w-7xl mx-auto h-full flex flex-col">
       <div className="mb-6">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+          <Link href="/settings" className="hover:text-foreground transition-colors">Settings</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-foreground">Audit Log</span>
+        </div>
         <h1 className="text-3xl font-bold tracking-tight">Audit Log</h1>
         <p className="text-muted-foreground mt-1">Immutable record of all agent actions and system events.</p>
       </div>

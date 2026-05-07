@@ -54,11 +54,11 @@ function Router() {
         <Route path="/documents" component={DocumentsPage} />
         <Route path="/finance" component={FinancePage} />
         <Route path="/assets" component={AssetsPage} />
-        <Route path="/analytics/cost" component={CostAnalyticsPage} />
-        <Route path="/analytics/audit" component={AuditLogPage} />
-        <Route path="/memory" component={KnowledgeBasePage} />
-        <Route path="/integrations" component={IntegrationsPage} />
         <Route path="/settings" component={SettingsPage} />
+        <Route path="/settings/cost-analytics" component={CostAnalyticsPage} />
+        <Route path="/settings/audit-log" component={AuditLogPage} />
+        <Route path="/settings/memory" component={KnowledgeBasePage} />
+        <Route path="/settings/integrations" component={IntegrationsPage} />
         <Route path="/settings/export" component={ExportImportPage} />
         <Route component={NotFound} />
       </Switch>

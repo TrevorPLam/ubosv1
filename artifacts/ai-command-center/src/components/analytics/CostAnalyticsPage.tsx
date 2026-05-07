@@ -1,8 +1,9 @@
+import { Link } from "wouter";
 import { useCostSummary } from "@/hooks/useCostSummary";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { formatCurrency } from "@/lib/formatters";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { DollarSign, TrendingUp, Cpu, Server } from "lucide-react";
+import { DollarSign, TrendingUp, Cpu, Server, ChevronRight } from "lucide-react";
 
 export function CostAnalyticsPage() {
   const { data: costData } = useCostSummary();
@@ -12,6 +13,11 @@ export function CostAnalyticsPage() {
   return (
     <div className="p-8 max-w-7xl mx-auto space-y-8 overflow-y-auto h-full">
       <div>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+          <Link href="/settings" className="hover:text-foreground transition-colors">Settings</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-foreground">Cost Analytics</span>
+        </div>
         <h1 className="text-3xl font-bold tracking-tight">Cost Analytics</h1>
         <p className="text-muted-foreground mt-1">Token usage and operational expenses across the fleet.</p>
       </div>

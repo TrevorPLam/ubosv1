@@ -1,7 +1,8 @@
+import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
-import { Search, FileText, Database, Code, FolderGit2 } from "lucide-react";
+import { Search, FileText, Database, Code, FolderGit2, ChevronRight } from "lucide-react";
 import { mockProjects } from "@/api/projects";
 
 const memoryItems = [
@@ -16,6 +17,11 @@ export function KnowledgeBasePage() {
   return (
     <div className="p-8 max-w-7xl mx-auto h-full flex flex-col gap-8 overflow-y-auto">
       <div>
+        <div className="flex items-center gap-2 text-sm text-muted-foreground mb-3">
+          <Link href="/settings" className="hover:text-foreground transition-colors">Settings</Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-foreground">Memory</span>
+        </div>
         <h1 className="text-3xl font-bold tracking-tight">Shared Memory</h1>
         <p className="text-muted-foreground mt-1">Context and knowledge base accessible by all agents.</p>
       </div>
