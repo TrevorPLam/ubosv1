@@ -328,7 +328,7 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 🔍 TASK-006: Implement Message Search
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: Medium  
 **Estimated Effort**: High
 
@@ -522,16 +522,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 🗳️ TASK-009: Implement Message Feedback System
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: Critical  
 **Estimated Effort**: Medium
 
 ### Definition of Done
-- [ ] Thumbs-up / thumbs-down buttons on each assistant message
-- [ ] Optional text comment for negative feedback
-- [ ] Persist feedback alongside messages in local state/API
-- [ ] Visual highlight on the selected rating
-- [ ] Accessible buttons with proper aria-labels
+- [x] Thumbs-up / thumbs-down buttons on each assistant message
+- [x] Optional text comment for negative feedback
+- [x] Persist feedback alongside messages in local state/API
+- [x] Visual highlight on the selected rating
+- [x] Accessible buttons with proper aria-labels
 
 ### Out of Scope
 - Integration with external analytics platforms
@@ -556,16 +556,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 🌿 TASK-010: Implement Conversation Branching
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: Critical  
 **Estimated Effort**: High
 
 ### Definition of Done
-- [ ] "Branch from here" option on every message
-- [ ] New thread created with full history up to that point
-- [ ] Original conversation preserved intact
-- [ ] Clear visual distinction between branches in the sidebar
-- [ ] Smooth transition to the new branched thread
+- [x] "Branch from here" option on every message
+- [x] New thread created with full history up to that point
+- [z] Original conversation preserved intact
+- [x] Clear visual distinction between branches in the sidebar
+- [x] Smooth transition to the new branched thread
 
 ### Out of Scope
 - Multi-way merging of branches
@@ -591,16 +591,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## ✏️ TASK-011: Implement Message Editing & Regeneration
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: Critical  
 **Estimated Effort**: High
 
 ### Definition of Done
-- [ ] Edit button on user messages (hover-triggered)
-- [ ] Automatic AI response regeneration after edit
-- [ ] Regenerate button on the most recent AI response
-- [ ] Version history for edited messages
-- [ ] Proper state management to invalidate post-edit history
+- [x] Edit button on user messages (hover-triggered)
+- [x] Automatic AI response regeneration after edit
+- [x] Regenerate button on the most recent AI response
+- [x] Version history for edited messages
+- [x] Proper state management to invalidate post-edit history
 
 ### Out of Scope
 - Editing messages from previous sessions

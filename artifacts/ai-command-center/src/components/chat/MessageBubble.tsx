@@ -1,9 +1,10 @@
 import { Message, FileAttachment, submitFeedback } from "@/api/chat";
 import { cn } from "@/lib/utils";
-import { Bot, User, Copy, Download, FileText, Image } from "lucide-react";
+import { Bot, User, Copy, Download, FileText, Image, GitBranch, Edit } from "lucide-react";
 import { ToolCallDisclosure } from "./ToolCallDisclosure";
 import { FeedbackControls } from "./FeedbackControls";
 import { FeedbackModal } from "./FeedbackModal";
+import { MessageEditor } from "./MessageEditor";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useClipboard } from "@/hooks/useClipboard";
@@ -12,10 +13,33 @@ import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
+  ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
-export function MessageBubble({ message, searchTerm }: { message: Message; searchTerm?: string }) {
+export function MessageBubble({ 
+  message, 
+  searchTerm, 
+  onBranch,
+  onEdit,
+  onStartEdit,
+  onCancelEdit,
+  onRegenerate,
+  isRegenerating,
+  isLastAssistantMessage,
+  editingMessageId
+}: { 
+  message: Message; 
+  searchTerm?: string; 
+  onBranch?: (messageId: string) => void;
+  onEdit?: (messageId: string, newContent: string) => void;
+  onStartEdit?: (messageId: string) => void;
+  onCancelEdit?: (messageId: string) => void;
+  onRegenerate?: (messageId: string) => void;
+  isRegenerating?: boolean;
+  isLastAssistantMessage?: boolean;
+  editingMessageId?: string | null;
+}) {
   const isUser = message.role === "user";
   const isSystem = message.role === "system";
   const [isHovered, setIsHovered] = useState(false);
@@ -167,6 +191,12 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
     }
   };
 
+  const handleBranch = () => {
+    if (onBranch) {
+      onBranch(message.id);
+    }
+  };
+
   if (isSystem) {
     return (
       <div className="flex justify-center my-4">
@@ -222,6 +252,40 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
               "focus:opacity-100",
               isHovered ? "opacity-100" : "opacity-0"
             )}>
+              {/* Edit button - only for user messages */}
+              {isUser && onStartEdit && (
+                <button
+                  onClick={() => onStartEdit(message.id)}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all duration-200",
+                    "bg-background/80 hover:bg-background border border-border/50",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                  )}
+                  aria-label="Edit message"
+                  title="Edit message"
+                >
+                  <Edit className="w-3.5 h-3.5 text-muted-foreground" />
+                </button>
+              )}
+              
+              {/* Regenerate button - only for last assistant message */}
+              {!isUser && isLastAssistantMessage && onRegenerate && (
+                <button
+                  onClick={() => onRegenerate(message.id)}
+                  disabled={isRegenerating}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all duration-200",
+                    "bg-background/80 hover:bg-background border border-border/50",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                    isRegenerating && "opacity-50 cursor-not-allowed"
+                  )}
+                  aria-label="Regenerate response"
+                  title="Regenerate response"
+                >
+                  <Edit className="w-3.5 h-3.5 text-muted-foreground" />
+                </button>
+              )}
+              
               {/* Feedback controls - only for assistant messages */}
               {!isUser && (
                 <FeedbackControls
@@ -281,11 +345,25 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
   );
 
   // Wrap with context menu for right-click copy functionality
+  // Check if this message is currently being edited
+  const isCurrentlyEditing = editingMessageId === message.id;
+
   return (
     <>
       <ContextMenu>
         <ContextMenuTrigger asChild>
-          {messageContent}
+          {isCurrentlyEditing && isUser ? (
+            <MessageEditor
+              messageId={message.id}
+              initialContent={message.content}
+              onSave={onEdit || (() => {})}
+              onCancel={() => onCancelEdit && onCancelEdit(message.id)}
+              showVersionHistory={!!message.versions && message.versions.length > 0}
+              versions={message.versions || []}
+            />
+          ) : (
+            messageContent
+          )}
         </ContextMenuTrigger>
         <ContextMenuContent>
           <ContextMenuItem 
@@ -296,6 +374,18 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
             <Copy className="w-4 h-4" />
             Copy message
           </ContextMenuItem>
+          {onBranch && !isSystem && (
+            <>
+              <ContextMenuSeparator />
+              <ContextMenuItem 
+                onClick={handleBranch}
+                className="flex items-center gap-2"
+              >
+                <GitBranch className="w-4 h-4" />
+                Branch from here
+              </ContextMenuItem>
+            </>
+          )}
         </ContextMenuContent>
       </ContextMenu>
 

@@ -1,12 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, Message, Thread } from "@/api/chat";
+import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, updateMessage, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, Message, Thread } from "@/api/chat";
+import { useBackgroundTask } from "@/hooks/useBackgroundTask";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
+import { SummaryPanel } from "./SummaryPanel";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CheckpointBanner } from "./CheckpointBanner";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit, Search, X, ChevronUp, ChevronDown, Download } from "lucide-react";
+import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit, Search, X, ChevronUp, ChevronDown, Download, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn, formatToJSON, formatToMarkdown, formatToText } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -81,6 +83,9 @@ export function ChatInterface() {
     queryFn: getThreads,
   });
 
+  // Background task execution for non-blocking operations
+  const { isRunning: isBackgroundTaskRunning, executeTask } = useBackgroundTask();
+
   const [threadsPanelOpen, setThreadsPanelOpen] = useState(true);
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const activeThread = threads.find(t => t.id === activeThreadId) || threads[0];
@@ -114,6 +119,16 @@ export function ChatInterface() {
   const [searchResults, setSearchResults] = useState<string[]>([]);
   const [currentSearchIndex, setCurrentSearchIndex] = useState(-1);
   const [isSearching, setIsSearching] = useState(false);
+
+  // Message editing state
+  const [editingMessageId, setEditingMessageId] = useState<string | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [isRegenerating, setIsRegenerating] = useState(false);
+  const [regeneratingMessageId, setRegeneratingMessageId] = useState<string | null>(null);
+
+  // Summary state
+  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false);
+  const [isUpdatingSummary, setIsUpdatingSummary] = useState(false);
 
   // Debounced search logic
   useEffect(() => {
@@ -363,6 +378,275 @@ export function ChatInterface() {
     setDeleteDialogOpen(false);
     setThreadToDelete(null);
   }, []);
+
+  // Message editing handlers
+  const handleStartMessageEdit = useCallback((messageId: string) => {
+    // Prevent editing during streaming or other operations
+    if (isThinking || streamingMsgId || isRegenerating) {
+      toast.error("Cannot edit during active operations", {
+        description: "Please wait for the current operation to complete",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setEditingMessageId(messageId);
+    setIsEditing(true);
+  }, [isThinking, streamingMsgId, isRegenerating]);
+
+  const handleSaveMessageEdit = useCallback(async (messageId: string, newContent: string) => {
+    if (!activeThread || !newContent.trim()) {
+      setEditingMessageId(null);
+      setIsEditing(false);
+      return;
+    }
+
+    // Optimistic update
+    const previousThreads = queryClient.getQueryData(['chat-threads']);
+    
+    try {
+      // Update cache optimistically
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
+        if (!old) return old;
+        return old.map((t: Thread) => {
+          if (t.id !== activeThread.id) return t;
+          return {
+            ...t,
+            messages: t.messages.map((m: Message) => 
+              m.id === messageId 
+                ? { 
+                    ...m, 
+                    content: newContent,
+                    isEdited: true,
+                    editedAt: new Date().toISOString(),
+                    originalContent: m.originalContent || m.content,
+                    timestamp: new Date().toISOString()
+                  }
+                : m
+            ),
+            updatedAt: new Date().toISOString()
+          };
+        });
+      });
+
+      // Call API to update message
+      await updateMessage(activeThread.id, messageId, newContent);
+      
+      setEditingMessageId(null);
+      setIsEditing(false);
+      
+      toast.success("Message updated", {
+        description: "Your message has been edited successfully",
+        duration: 2000,
+      });
+
+      // Automatically regenerate response if there's an assistant message after this user message
+      const messageIndex = activeThread.messages.findIndex(m => m.id === messageId);
+      const nextMessage = activeThread.messages[messageIndex + 1];
+      if (nextMessage && nextMessage.role === 'assistant') {
+        handleRegenerateMessageResponse(nextMessage.id);
+      }
+    } catch (error) {
+      console.error('[ChatInterface] Edit error:', error);
+      
+      // Rollback on error
+      queryClient.setQueryData(['chat-threads'], previousThreads);
+      
+      toast.error("Failed to edit message", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+      
+      setEditingMessageId(null);
+      setIsEditing(false);
+    }
+  }, [activeThread, queryClient]);
+
+  const handleCancelMessageEdit = useCallback((messageId: string) => {
+    setEditingMessageId(null);
+    setIsEditing(false);
+  }, []);
+
+  const handleRegenerateMessageResponse = useCallback(async (messageId: string) => {
+    if (!activeThread) return;
+    
+    // Prevent regeneration during streaming or other operations
+    if (isThinking || streamingMsgId || isEditing) {
+      toast.error("Cannot regenerate during active operations", {
+        description: "Please wait for the current operation to complete",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setRegeneratingMessageId(messageId);
+    setIsRegenerating(true);
+
+    // Optimistic update - remove the old response
+    const previousThreads = queryClient.getQueryData(['chat-threads']);
+    
+    try {
+      // Update cache optimistically
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
+        if (!old) return old;
+        return old.map((t: Thread) => {
+          if (t.id !== activeThread.id) return t;
+          const messageIndex = t.messages.findIndex(m => m.id === messageId);
+          if (messageIndex === -1) return t;
+          
+          // Remove the assistant message being regenerated
+          const newMessages = [...t.messages];
+          newMessages.splice(messageIndex, 1);
+          
+          return {
+            ...t,
+            messages: newMessages,
+            updatedAt: new Date().toISOString()
+          };
+        });
+      });
+
+      // Call API to regenerate response
+      const newResponse = await regenerateResponse(activeThread.id, messageId);
+      
+      setRegeneratingMessageId(null);
+      setIsRegenerating(false);
+      
+      toast.success("Response regenerated", {
+        description: "A new response has been generated",
+        duration: 2000,
+      });
+    } catch (error) {
+      console.error('[ChatInterface] Regenerate error:', error);
+      
+      // Rollback on error
+      queryClient.setQueryData(['chat-threads'], previousThreads);
+      
+      toast.error("Failed to regenerate response", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+      
+      setRegeneratingMessageId(null);
+      setIsRegenerating(false);
+    }
+  }, [activeThread, queryClient, isThinking, streamingMsgId, isEditing]);
+
+  // Summary generation handlers
+  const handleGenerateSummary = useCallback(async () => {
+    if (!activeThread || isGeneratingSummary || isUpdatingSummary) return;
+
+    // Check if thread has enough messages for summarization
+    const conversationMessages = activeThread.messages.filter(
+      m => m.role === 'user' || m.role === 'assistant'
+    );
+
+    if (conversationMessages.length < 3) {
+      toast.error("Thread too short for summarization", {
+        description: "At least 3 messages are required to generate a summary",
+        duration: 3000,
+      });
+      return;
+    }
+
+    setIsGeneratingSummary(true);
+
+    try {
+      // Use background task for non-blocking execution
+      await executeTask({
+        id: `summary-${activeThread.id}-${Date.now()}`,
+        execute: () => generateSummary(activeThread.id),
+        onComplete: (summary) => {
+          // Update cache with new summary
+          queryClient.setQueryData(['chat-threads'], (old: any) => {
+            if (!old) return old;
+            return old.map((t: Thread) => 
+              t.id === activeThread.id 
+                ? { ...t, summary, updatedAt: new Date().toISOString() }
+                : t
+            );
+          });
+
+          toast.success("Summary generated", {
+            description: "AI summary has been created for this conversation",
+            duration: 2000,
+          });
+        },
+        onError: (error) => {
+          console.error('[ChatInterface] Summary generation error:', error);
+          
+          toast.error("Failed to generate summary", {
+            description: error.message,
+            duration: 3000,
+          });
+        }
+      });
+    } catch (error) {
+      console.error('[ChatInterface] Background task error:', error);
+      
+      toast.error("Failed to start summary generation", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    } finally {
+      setIsGeneratingSummary(false);
+    }
+  }, [activeThread, isGeneratingSummary, isUpdatingSummary, queryClient, executeTask]);
+
+  const handleUpdateSummary = useCallback(async () => {
+    if (!activeThread || !activeThread.summary || isGeneratingSummary || isUpdatingSummary) return;
+
+    setIsUpdatingSummary(true);
+
+    try {
+      // Use background task for non-blocking execution
+      await executeTask({
+        id: `update-summary-${activeThread.id}-${Date.now()}`,
+        execute: () => updateSummary(activeThread.id, activeThread.summary!.id),
+        onComplete: (updatedSummary) => {
+          // Update cache with updated summary
+          queryClient.setQueryData(['chat-threads'], (old: any) => {
+            if (!old) return old;
+            return old.map((t: Thread) => 
+              t.id === activeThread.id 
+                ? { ...t, summary: updatedSummary, updatedAt: new Date().toISOString() }
+                : t
+            );
+          });
+
+          toast.success("Summary updated", {
+            description: "AI summary has been updated with latest conversation",
+            duration: 2000,
+          });
+        },
+        onError: (error) => {
+          console.error('[ChatInterface] Summary update error:', error);
+          
+          toast.error("Failed to update summary", {
+            description: error.message,
+            duration: 3000,
+          });
+        }
+      });
+    } catch (error) {
+      console.error('[ChatInterface] Background task error:', error);
+      
+      toast.error("Failed to start summary update", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    } finally {
+      setIsUpdatingSummary(false);
+    }
+  }, [activeThread, isGeneratingSummary, isUpdatingSummary, queryClient, executeTask]);
+
+  // Auto-summarization trigger
+  useEffect(() => {
+    if (activeThread && shouldAutoSummarize(activeThread) && !isGeneratingSummary && !isUpdatingSummary) {
+      // Auto-generate summary for long threads
+      handleGenerateSummary();
+    }
+  }, [activeThread?.messages.length, activeThread?.summary, isGeneratingSummary, isUpdatingSummary, handleGenerateSummary]);
 
   // Auto-focus edit input
   useEffect(() => {
@@ -618,10 +902,28 @@ export function ChatInterface() {
 
             <ScrollArea className="flex-1 p-6">
               <div className="max-w-3xl mx-auto space-y-6 pb-4">
+                {/* Summary Panel */}
+                <SummaryPanel
+                  summary={activeThread.summary || null}
+                  isLoading={isGeneratingSummary || isUpdatingSummary}
+                  onGenerate={handleGenerateSummary}
+                  onRefresh={handleUpdateSummary}
+                />
+
                 {activeThread.messages.map((msg, i) => (
-                  <div key={msg.id} ref={el => messageRefs.current[msg.id] = el}>
+                  <div key={msg.id} ref={(el) => { messageRefs.current[msg.id] = el; }}>
                     {i === 2 && <CheckpointBanner title="Initial context gathered" time="10:45 AM" />}
-                    <MessageBubble message={msg} searchTerm={isSearchOpen ? searchQuery : undefined} />
+                    <MessageBubble 
+                      message={msg} 
+                      searchTerm={isSearchOpen ? searchQuery : undefined} 
+                      onEdit={handleSaveMessageEdit}
+                      onStartEdit={handleStartMessageEdit}
+                      onCancelEdit={handleCancelMessageEdit}
+                      onRegenerate={handleRegenerateMessageResponse}
+                      isRegenerating={isRegenerating && regeneratingMessageId === msg.id}
+                      isLastAssistantMessage={msg.role === 'assistant' && msg.id === activeThread.messages[activeThread.messages.length - 1]?.id}
+                      editingMessageId={editingMessageId}
+                    />
                   </div>
                 ))}
 
