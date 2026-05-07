@@ -20,6 +20,7 @@ import { EmailPage } from "@/components/crm/EmailPage";
 import { SMSPage } from "@/components/crm/SMSPage";
 import { CRMAnalyticsPage } from "@/components/crm/CRMAnalyticsPage";
 import { ClientsPage } from "@/components/clients/ClientsPage";
+import { ClientDetailPage } from "@/components/clients/ClientDetailPage";
 import { WorkPage } from "@/components/work/WorkPage";
 import { CalendarPage } from "@/components/calendar/CalendarPage";
 import { DocumentsPage } from "@/components/documents/DocumentsPage";
@@ -97,6 +98,7 @@ function Router() {
         <Route path="/crm/sms" component={SMSPage} />
         <Route path="/crm/analytics" component={CRMAnalyticsPage} />
         <Route path="/clients" component={ClientsPage} />
+        <Route path="/clients/:id" component={ClientDetailPage} />
         <Route path="/work" component={WorkPage} />
         <Route path="/calendar" component={CalendarPage} />
         <Route path="/documents" component={DocumentsPage} />
