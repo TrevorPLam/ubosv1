@@ -34,6 +34,11 @@ import { ReportsPage } from "@/components/finance/ReportsPage";
 import { BudgetPage } from "@/components/finance/BudgetPage";
 import { GoalsPage } from "@/components/finance/GoalsPage";
 import { AssetsPage } from "@/components/assets/AssetsPage";
+import { KnowledgePage } from "@/components/knowledge/KnowledgePage";
+import { SOPsPage } from "@/components/knowledge/SOPsPage";
+import { WikiPage } from "@/components/knowledge/WikiPage";
+import { TrainingPage } from "@/components/knowledge/TrainingPage";
+import { CertificationsPage } from "@/components/knowledge/CertificationsPage";
 import { CostAnalyticsPage } from "@/components/analytics/CostAnalyticsPage";
 import { AuditLogPage } from "@/components/analytics/AuditLogPage";
 import { KnowledgeBasePage } from "@/components/memory/KnowledgeBasePage";
@@ -124,6 +129,11 @@ function Router() {
         <Route path="/vendors/purchase-approvals" component={PurchaseApprovalsPage} />
         <Route path="/vendors/spend-visibility" component={SpendVisibilityPage} />
         <Route path="/assets" component={AssetsPage} />
+        <Route path="/knowledge" component={KnowledgePage} />
+        <Route path="/knowledge/sops" component={SOPsPage} />
+        <Route path="/knowledge/wiki" component={WikiPage} />
+        <Route path="/knowledge/training" component={TrainingPage} />
+        <Route path="/knowledge/certifications" component={CertificationsPage} />
         <Route path="/settings" component={SettingsPage} />
         <Route path="/settings/cost-analytics" component={CostAnalyticsPage} />
         <Route path="/settings/audit-log" component={AuditLogPage} />
