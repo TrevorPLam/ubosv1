@@ -156,9 +156,9 @@ export function ChatInterface() {
     const previousThreads = queryClient.getQueryData(['chat-threads']);
     
     try {
-      queryClient.setQueryData(['chat-threads'], (old: typeof threads) => {
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
         if (!old) return old;
-        return old.map(t => 
+        return old.map((t: any) => 
           t.id === editingThreadId 
             ? { ...t, title: editingTitle.trim(), updatedAt: new Date().toISOString() }
             : t
@@ -203,9 +203,9 @@ export function ChatInterface() {
     const previousThreads = queryClient.getQueryData(['chat-threads']);
     
     try {
-      queryClient.setQueryData(['chat-threads'], (old: typeof threads) => {
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
         if (!old) return old;
-        return old.filter(t => t.id !== threadToDelete);
+        return old.filter((t: any) => t.id !== threadToDelete);
       });
 
       await deleteThread(threadToDelete);
@@ -291,9 +291,9 @@ export function ChatInterface() {
     const assistantMsgId = `assistant-${Date.now()}`;
 
     // Add user message
-    queryClient.setQueryData(['chat-threads'], (old: typeof threads) => {
+    queryClient.setQueryData(['chat-threads'], (old: any) => {
       if (!old) return old;
-      return old.map(t => {
+      return old.map((t: any) => {
         if (t.id !== activeThread.id) return t;
         const userMsg: Message = {
           id: userMsgId,
@@ -321,9 +321,9 @@ export function ChatInterface() {
       (fullText) => {
         if (ctrl.signal.aborted) return;
         // Commit final message into query cache
-        queryClient.setQueryData(['chat-threads'], (old: typeof threads) => {
+        queryClient.setQueryData(['chat-threads'], (old: any) => {
           if (!old) return old;
-          return old.map(t => {
+          return old.map((t: any) => {
             if (t.id !== activeThread.id) return t;
             const assistantMsg: Message = {
               id: assistantMsgId,
@@ -547,7 +547,6 @@ export function ChatInterface() {
           </div>
         </ScrollArea>
       </div>
-    </div>
 
       {/* Delete Confirmation Dialog */}
       <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
@@ -568,5 +567,6 @@ export function ChatInterface() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+    </div>
   );
 }
