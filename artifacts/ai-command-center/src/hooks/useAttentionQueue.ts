@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { startSimulator, eventBus, ApprovalRequestedEvent } from '@/lib/eventBus';
 
 export interface QueueItem {
   id: string;
@@ -39,6 +40,21 @@ const INITIAL_QUEUE: QueueItem[] = [
 export const useAttentionQueue = () => {
   const [queue, setQueue] = useState<QueueItem[]>(INITIAL_QUEUE);
 
+  useEffect(() => {
+    startSimulator();
+  }, []);
+
+  useEffect(() => {
+    const unsub = eventBus.on('approval_requested', (event: ApprovalRequestedEvent) => {
+      setQueue(q => {
+        // Avoid duplicates
+        if (q.some(item => item.id === event.id)) return q;
+        return [event, ...q];
+      });
+    });
+    return unsub;
+  }, []);
+
   const approve = (id: string) => {
     setQueue(q => q.filter(item => item.id !== id));
   };
@@ -47,10 +63,5 @@ export const useAttentionQueue = () => {
     setQueue(q => q.filter(item => item.id !== id));
   };
 
-  return {
-    queue,
-    approve,
-    reject,
-    count: queue.length
-  };
+  return { queue, approve, reject, count: queue.length };
 };
