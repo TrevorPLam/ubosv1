@@ -23,6 +23,15 @@ import { WorkPage } from "@/components/work/WorkPage";
 import { CalendarPage } from "@/components/calendar/CalendarPage";
 import { DocumentsPage } from "@/components/documents/DocumentsPage";
 import { FinancePage } from "@/components/finance/FinancePage";
+import { OverviewPage } from "@/components/finance/OverviewPage";
+import { ChartOfAccountsPage } from "@/components/finance/ChartOfAccountsPage";
+import { TransactionsPage } from "@/components/finance/TransactionsPage";
+import { InvoicesPage } from "@/components/finance/InvoicesPage";
+import { BillsPage } from "@/components/finance/BillsPage";
+import { JournalEntriesPage } from "@/components/finance/JournalEntriesPage";
+import { ReportsPage } from "@/components/finance/ReportsPage";
+import { BudgetPage } from "@/components/finance/BudgetPage";
+import { GoalsPage } from "@/components/finance/GoalsPage";
 import { AssetsPage } from "@/components/assets/AssetsPage";
 import { CostAnalyticsPage } from "@/components/analytics/CostAnalyticsPage";
 import { AuditLogPage } from "@/components/analytics/AuditLogPage";
@@ -84,6 +93,15 @@ function Router() {
         <Route path="/marketing/analytics" component={MarketingAnalyticsPage} />
         <Route path="/marketing/content-management" component={ContentManagementPage} />
         <Route path="/finance" component={FinancePage} />
+        <Route path="/finance/overview" component={OverviewPage} />
+        <Route path="/finance/chart-of-accounts" component={ChartOfAccountsPage} />
+        <Route path="/finance/transactions" component={TransactionsPage} />
+        <Route path="/finance/invoices" component={InvoicesPage} />
+        <Route path="/finance/bills" component={BillsPage} />
+        <Route path="/finance/journal-entries" component={JournalEntriesPage} />
+        <Route path="/finance/reports" component={ReportsPage} />
+        <Route path="/finance/budget" component={BudgetPage} />
+        <Route path="/finance/goals" component={GoalsPage} />
         <Route path="/vendors" component={VendorsPage} />
         <Route path="/vendors/vendor-records" component={VendorRecordsPage} />
         <Route path="/vendors/contract-awareness" component={ContractAwarenessPage} />
