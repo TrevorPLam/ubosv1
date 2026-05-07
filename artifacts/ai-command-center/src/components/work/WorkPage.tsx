@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
 import {
   Plus, FolderKanban, Bot, MessageSquare, ChevronRight,
   Circle, Clock, Eye, CheckCircle2, AlertTriangle, Flag,
-  LayoutGrid, List, Search, Filter, Sparkles
+  LayoutGrid, List, Search, Filter, Sparkles, PanelRightClose, PanelRightOpen
 } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
@@ -479,6 +479,7 @@ export function WorkPage() {
   const [search, setSearch] = useState("");
   const [filterPriority, setFilterPriority] = useState<string>("all");
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+  const [projectsPanelOpen, setProjectsPanelOpen] = useState(true);
   const [createModal, setCreateModal] = useState<{ open: boolean; status: TaskStatus }>({
     open: false,
     status: "backlog",
@@ -503,71 +504,6 @@ export function WorkPage() {
 
   return (
     <div className="flex h-full bg-background overflow-hidden" data-testid="work-page">
-      {/* ── Project sidebar ── */}
-      <div className="w-56 border-r bg-card flex flex-col shrink-0">
-        <div className="p-4 border-b flex items-center justify-between">
-          <h2 className="font-semibold text-sm flex items-center gap-2">
-            <FolderKanban className="w-4 h-4" />
-            Projects
-          </h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            aria-label="New project"
-            data-testid="button-new-project"
-          >
-            <Plus className="w-3.5 h-3.5" />
-          </Button>
-        </div>
-
-        <ScrollArea className="flex-1">
-          <div className="p-2 flex flex-col gap-0.5">
-            {projects.map(p => {
-              const isActive = p.id === selectedProjectId;
-              const pTasks = allTasks.filter(t => t.projectId === p.id);
-              const donePct = pTasks.length
-                ? Math.round((pTasks.filter(t => t.status === "done").length / pTasks.length) * 100)
-                : 0;
-              return (
-                <button
-                  key={p.id}
-                  onClick={() => setSelectedProjectId(p.id)}
-                  data-testid={`project-item-${p.id}`}
-                  aria-label={`Select project ${p.name}`}
-                  className={cn(
-                    "w-full text-left px-3 py-2.5 rounded-lg transition-colors",
-                    isActive
-                      ? "bg-primary/10 text-primary"
-                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
-                  )}
-                >
-                  <div className="flex items-center gap-2.5 mb-1.5">
-                    <div className={cn("w-2 h-2 rounded-full shrink-0", PROJECT_COLORS[p.id] ?? "bg-zinc-500")} />
-                    <span className="text-[13px] font-medium truncate">{p.name}</span>
-                  </div>
-                  <div className="flex items-center gap-2 pl-4">
-                    <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-green-500/70 rounded-full transition-all"
-                        style={{ width: `${donePct}%` }}
-                      />
-                    </div>
-                    <span className="text-[10px] text-muted-foreground/60 tabular-nums shrink-0">{donePct}%</span>
-                  </div>
-                </button>
-              );
-            })}
-          </div>
-        </ScrollArea>
-
-        <div className="p-3 border-t">
-          <div className="text-[11px] text-muted-foreground/60 text-center">
-            {projects.length} projects · {allTasks.length} tasks total
-          </div>
-        </div>
-      </div>
-
       {/* ── Main content ── */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header */}
@@ -650,6 +586,13 @@ export function WorkPage() {
               <Plus className="w-3.5 h-3.5" />
               Add Task
             </Button>
+            <button
+              onClick={() => setProjectsPanelOpen(p => !p)}
+              aria-label={projectsPanelOpen ? "Collapse projects panel" : "Expand projects panel"}
+              className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shrink-0"
+            >
+              {projectsPanelOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+            </button>
           </div>
         </div>
 
@@ -686,6 +629,74 @@ export function WorkPage() {
             </div>
           </ScrollArea>
         )}
+      </div>
+
+      {/* ── Projects panel (right) ── */}
+      <div className={cn(
+        "border-l bg-card flex flex-col shrink-0 transition-all duration-300 overflow-hidden",
+        projectsPanelOpen ? "w-56" : "w-0"
+      )}>
+        <div className="p-4 border-b flex items-center justify-between min-w-[224px]">
+          <h2 className="font-semibold text-sm flex items-center gap-2">
+            <FolderKanban className="w-4 h-4" />
+            Projects
+          </h2>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            aria-label="New project"
+            data-testid="button-new-project"
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </Button>
+        </div>
+
+        <ScrollArea className="flex-1 min-w-[224px]">
+          <div className="p-2 flex flex-col gap-0.5">
+            {projects.map(p => {
+              const isActive = p.id === selectedProjectId;
+              const pTasks = allTasks.filter(t => t.projectId === p.id);
+              const donePct = pTasks.length
+                ? Math.round((pTasks.filter(t => t.status === "done").length / pTasks.length) * 100)
+                : 0;
+              return (
+                <button
+                  key={p.id}
+                  onClick={() => setSelectedProjectId(p.id)}
+                  data-testid={`project-item-${p.id}`}
+                  aria-label={`Select project ${p.name}`}
+                  className={cn(
+                    "w-full text-left px-3 py-2.5 rounded-lg transition-colors",
+                    isActive
+                      ? "bg-primary/10 text-primary"
+                      : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                  )}
+                >
+                  <div className="flex items-center gap-2.5 mb-1.5">
+                    <div className={cn("w-2 h-2 rounded-full shrink-0", PROJECT_COLORS[p.id] ?? "bg-zinc-500")} />
+                    <span className="text-[13px] font-medium truncate">{p.name}</span>
+                  </div>
+                  <div className="flex items-center gap-2 pl-4">
+                    <div className="flex-1 h-1 bg-muted rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-green-500/70 rounded-full transition-all"
+                        style={{ width: `${donePct}%` }}
+                      />
+                    </div>
+                    <span className="text-[10px] text-muted-foreground/60 tabular-nums shrink-0">{donePct}%</span>
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </ScrollArea>
+
+        <div className="p-3 border-t min-w-[224px]">
+          <div className="text-[11px] text-muted-foreground/60 text-center">
+            {projects.length} projects · {allTasks.length} tasks total
+          </div>
+        </div>
       </div>
 
       {/* ── Task detail modal ── */}

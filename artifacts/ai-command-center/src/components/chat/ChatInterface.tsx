@@ -6,7 +6,7 @@ import { ChatInput } from "./ChatInput";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CheckpointBanner } from "./CheckpointBanner";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare, Plus, Loader2 } from "lucide-react";
+import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -58,6 +58,7 @@ export function ChatInterface() {
     queryFn: getThreads,
   });
 
+  const [threadsPanelOpen, setThreadsPanelOpen] = useState(true);
   const [activeThreadId, setActiveThreadId] = useState<string | null>(null);
   const activeThread = threads.find(t => t.id === activeThreadId) || threads[0];
 
@@ -152,62 +153,30 @@ export function ChatInterface() {
 
   return (
     <div className="flex h-full bg-background overflow-hidden" data-testid="chat-interface">
-      {/* Thread list */}
-      <div className="w-64 border-r bg-card flex flex-col shrink-0">
-        <div className="p-4 border-b flex items-center justify-between">
-          <h2 className="font-semibold text-sm flex items-center gap-2">
-            <MessageSquare className="w-4 h-4" />
-            Threads
-          </h2>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-7 w-7"
-            aria-label="New thread"
-            data-testid="button-new-thread"
-          >
-            <Plus className="w-3.5 h-3.5" />
-          </Button>
-        </div>
-        <ScrollArea className="flex-1">
-          <div className="p-2 space-y-0.5">
-            {threads.map(t => (
-              <button
-                key={t.id}
-                onClick={() => setActiveThreadId(t.id)}
-                data-testid={`thread-item-${t.id}`}
-                className={cn(
-                  "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors",
-                  t.id === activeThread?.id
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "hover:bg-muted text-muted-foreground"
-                )}
-              >
-                <div className="truncate text-[13px]">{t.title}</div>
-                <div className="text-[10px] mt-0.5 opacity-60">
-                  {formatDistanceToNow(new Date(t.updatedAt))} ago
-                </div>
-              </button>
-            ))}
-          </div>
-        </ScrollArea>
-      </div>
-
       {/* Chat area */}
       <div className="flex-1 flex flex-col min-w-0 relative">
         {activeThread ? (
           <>
-            <div className="px-6 py-3.5 border-b bg-card/60 backdrop-blur-sm sticky top-0 z-10">
-              <h3 className="font-semibold text-sm">{activeThread.title}</h3>
-              <p className="text-[11px] text-muted-foreground mt-0.5">
-                Project: {activeThread.projectId}
-                {isBusy && (
-                  <span className="ml-3 text-primary inline-flex items-center gap-1">
-                    <Loader2 className="w-3 h-3 animate-spin" />
-                    {isThinking ? 'Thinking...' : 'Generating...'}
-                  </span>
-                )}
-              </p>
+            <div className="px-6 py-3.5 border-b bg-card/60 backdrop-blur-sm sticky top-0 z-10 flex items-center justify-between gap-4">
+              <div className="min-w-0">
+                <h3 className="font-semibold text-sm">{activeThread.title}</h3>
+                <p className="text-[11px] text-muted-foreground mt-0.5">
+                  Project: {activeThread.projectId}
+                  {isBusy && (
+                    <span className="ml-3 text-primary inline-flex items-center gap-1">
+                      <Loader2 className="w-3 h-3 animate-spin" />
+                      {isThinking ? 'Thinking...' : 'Generating...'}
+                    </span>
+                  )}
+                </p>
+              </div>
+              <button
+                onClick={() => setThreadsPanelOpen(p => !p)}
+                aria-label={threadsPanelOpen ? "Collapse threads panel" : "Expand threads panel"}
+                className="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-foreground hover:bg-muted transition-colors shrink-0"
+              >
+                {threadsPanelOpen ? <PanelRightClose className="w-4 h-4" /> : <PanelRightOpen className="w-4 h-4" />}
+              </button>
             </div>
 
             <ScrollArea className="flex-1 p-6">
@@ -277,10 +246,62 @@ export function ChatInterface() {
             />
           </>
         ) : (
-          <div className="flex-1 flex items-center justify-center text-muted-foreground text-sm">
-            Select a thread to begin
+          <div className="flex-1 flex items-center justify-center flex-col gap-3 text-muted-foreground text-sm">
+            <p>Select a thread to begin</p>
+            {!threadsPanelOpen && (
+              <button
+                onClick={() => setThreadsPanelOpen(true)}
+                className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-muted hover:bg-muted/80 text-xs transition-colors"
+              >
+                <PanelRightOpen className="w-3.5 h-3.5" /> Show threads
+              </button>
+            )}
           </div>
         )}
+      </div>
+
+      {/* ── Thread list (right panel) ── */}
+      <div className={cn(
+        "border-l bg-card flex flex-col shrink-0 transition-all duration-300 overflow-hidden",
+        threadsPanelOpen ? "w-64" : "w-0"
+      )}>
+        <div className="p-4 border-b flex items-center justify-between min-w-[256px]">
+          <h2 className="font-semibold text-sm flex items-center gap-2">
+            <MessageSquare className="w-4 h-4" />
+            Threads
+          </h2>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-7 w-7"
+            aria-label="New thread"
+            data-testid="button-new-thread"
+          >
+            <Plus className="w-3.5 h-3.5" />
+          </Button>
+        </div>
+        <ScrollArea className="flex-1 min-w-[256px]">
+          <div className="p-2 space-y-0.5">
+            {threads.map(t => (
+              <button
+                key={t.id}
+                onClick={() => setActiveThreadId(t.id)}
+                data-testid={`thread-item-${t.id}`}
+                className={cn(
+                  "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors",
+                  t.id === activeThread?.id
+                    ? "bg-primary/10 text-primary font-medium"
+                    : "hover:bg-muted text-muted-foreground"
+                )}
+              >
+                <div className="truncate text-[13px]">{t.title}</div>
+                <div className="text-[10px] mt-0.5 opacity-60">
+                  {formatDistanceToNow(new Date(t.updatedAt))} ago
+                </div>
+              </button>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
