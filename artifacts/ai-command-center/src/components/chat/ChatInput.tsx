@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SendHorizontal, Paperclip } from "lucide-react";
+import { SendHorizontal, Paperclip, Square } from "lucide-react";
 
-export function ChatInput({ onSend, isLoading }: { onSend: (text: string) => void; isLoading?: boolean }) {
+export function ChatInput({ onSend, onStop, isLoading, isStreaming }: { 
+  onSend: (text: string) => void; 
+  onStop?: () => void;
+  isLoading?: boolean;
+  isStreaming?: boolean;
+}) {
   const [text, setText] = useState("");
 
   const handleSubmit = (e?: React.FormEvent) => {
@@ -36,14 +41,26 @@ export function ChatInput({ onSend, isLoading }: { onSend: (text: string) => voi
           rows={1}
           disabled={isLoading}
         />
-        <Button 
-          type="submit" 
-          size="icon" 
-          disabled={!text.trim() || isLoading}
-          className="shrink-0 h-9 w-9 bg-primary text-primary-foreground"
-        >
-          <SendHorizontal className="w-4 h-4" />
-        </Button>
+        {isStreaming && onStop ? (
+          <Button 
+            type="button"
+            size="icon" 
+            onClick={onStop}
+            className="shrink-0 h-9 w-9 bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            title="Stop generation"
+          >
+            <Square className="w-4 h-4" />
+          </Button>
+        ) : (
+          <Button 
+            type="submit" 
+            size="icon" 
+            disabled={!text.trim() || isLoading}
+            className="shrink-0 h-9 w-9 bg-primary text-primary-foreground"
+          >
+            <SendHorizontal className="w-4 h-4" />
+          </Button>
+        )}
       </div>
     </form>
   );

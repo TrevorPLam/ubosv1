@@ -70,6 +70,7 @@ export function ChatInterface() {
   const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
   const [streamingText, setStreamingText] = useState('');
   const [isThinking, setIsThinking] = useState(false);
+  const [isCancelling, setIsCancelling] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   const scrollToBottom = useCallback(() => {
@@ -79,6 +80,19 @@ export function ChatInterface() {
   useEffect(() => {
     scrollToBottom();
   }, [activeThread?.messages, streamingText, scrollToBottom]);
+
+  const handleStop = useCallback(() => {
+    setIsCancelling(true);
+    abortRef.current?.abort();
+    
+    // Add a small delay for visual feedback before cleanup
+    setTimeout(() => {
+      setStreamingMsgId(null);
+      setStreamingText('');
+      setIsThinking(false);
+      setIsCancelling(false);
+    }, 200);
+  }, []);
 
   const handleSend = (content: string) => {
     if (!activeThread || isThinking || streamingMsgId) return;
@@ -216,7 +230,9 @@ export function ChatInterface() {
                     <motion.div
                       key="streaming"
                       initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
+                      animate={{ opacity: isCancelling ? 0 : 1, y: isCancelling ? -8 : 0 }}
+                      exit={{ opacity: 0, y: -8 }}
+                      transition={{ duration: 0.2 }}
                       className="flex gap-4"
                     >
                       <div className="w-8 h-8 rounded-md bg-secondary flex items-center justify-center shrink-0 mt-1">
@@ -229,7 +245,11 @@ export function ChatInterface() {
                         </div>
                         <div className="bg-card border rounded-lg px-4 py-3 text-sm max-w-prose whitespace-pre-wrap break-words shadow-sm">
                           {streamingText}
-                          <span className="inline-block w-0.5 h-3.5 bg-primary ml-0.5 animate-pulse align-text-bottom" />
+                          {isCancelling ? (
+                            <span className="text-muted-foreground text-xs ml-2">Cancelling...</span>
+                          ) : (
+                            <span className="inline-block w-0.5 h-3.5 bg-primary ml-0.5 animate-pulse align-text-bottom" />
+                          )}
                         </div>
                       </div>
                     </motion.div>
@@ -242,7 +262,9 @@ export function ChatInterface() {
 
             <ChatInput
               onSend={handleSend}
+              onStop={handleStop}
               isLoading={isBusy}
+              isStreaming={!!streamingMsgId}
             />
           </>
         ) : (
