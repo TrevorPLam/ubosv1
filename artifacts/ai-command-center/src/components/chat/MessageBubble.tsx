@@ -1,7 +1,9 @@
-import { Message, FileAttachment } from "@/api/chat";
+import { Message, FileAttachment, submitFeedback } from "@/api/chat";
 import { cn } from "@/lib/utils";
 import { Bot, User, Copy, Download, FileText, Image } from "lucide-react";
 import { ToolCallDisclosure } from "./ToolCallDisclosure";
+import { FeedbackControls } from "./FeedbackControls";
+import { FeedbackModal } from "./FeedbackModal";
 import { format } from "date-fns";
 import { useState } from "react";
 import { useClipboard } from "@/hooks/useClipboard";
@@ -17,6 +19,8 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
   const isUser = message.role === "user";
   const isSystem = message.role === "system";
   const [isHovered, setIsHovered] = useState(false);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [isSubmittingFeedback, setIsSubmittingFeedback] = useState(false);
   const { copy, isLoading, isCopied, isSupported } = useClipboard();
 
   const HighlightedText = ({ text, term }: { text: string; term?: string }) => {
@@ -120,6 +124,49 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
     }
   };
 
+  const handleThumbsUp = async () => {
+    if (isSubmittingFeedback) return;
+    
+    setIsSubmittingFeedback(true);
+    try {
+      await submitFeedback(message.id, 'positive');
+      toast.success("Thanks for your feedback", {
+        description: "Your response helps us improve",
+        duration: 2000,
+      });
+    } catch (error) {
+      toast.error("Failed to submit feedback", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  };
+
+  const handleThumbsDown = () => {
+    if (isSubmittingFeedback) return;
+    setShowFeedbackModal(true);
+  };
+
+  const handleFeedbackSubmit = async (category: 'inaccurate' | 'not_relevant' | 'incomplete' | 'harmful', comment?: string) => {
+    setIsSubmittingFeedback(true);
+    try {
+      await submitFeedback(message.id, 'negative', category, comment);
+      toast.success("Thanks for your feedback", {
+        description: "Your response helps us improve",
+        duration: 2000,
+      });
+    } catch (error) {
+      toast.error("Failed to submit feedback", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    } finally {
+      setIsSubmittingFeedback(false);
+    }
+  };
+
   if (isSystem) {
     return (
       <div className="flex justify-center my-4">
@@ -168,28 +215,45 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
           >
             <HighlightedText text={message.content} term={searchTerm} />
             
-            {/* Copy button - appears on hover */}
-            {isSupported && message.content && (
-              <button
-                onClick={handleCopy}
-                disabled={isLoading}
-                className={cn(
-                  "absolute top-2 right-2 p-1.5 rounded-md transition-all duration-200",
-                  "opacity-0 group-hover:opacity-100",
-                  "bg-background/80 hover:bg-background border border-border/50",
-                  "focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
-                  isHovered ? "opacity-100" : "opacity-0",
-                  isLoading && "opacity-50 cursor-not-allowed"
-                )}
-                aria-label="Copy message"
-                title="Copy message (Ctrl+C)"
-              >
-                <Copy className={cn(
-                  "w-3.5 h-3.5 transition-transform",
-                  isCopied ? "text-green-600 scale-110" : "text-muted-foreground"
-                )} />
-              </button>
-            )}
+            {/* Action buttons - appear on hover */}
+            <div className={cn(
+              "absolute top-2 right-2 flex items-center gap-1 transition-all duration-200",
+              "opacity-0 group-hover:opacity-100",
+              "focus:opacity-100",
+              isHovered ? "opacity-100" : "opacity-0"
+            )}>
+              {/* Feedback controls - only for assistant messages */}
+              {!isUser && (
+                <FeedbackControls
+                  messageId={message.id}
+                  feedback={message.feedback}
+                  onThumbsUp={handleThumbsUp}
+                  onThumbsDown={handleThumbsDown}
+                  isLoading={isSubmittingFeedback}
+                />
+              )}
+              
+              {/* Copy button */}
+              {isSupported && message.content && (
+                <button
+                  onClick={handleCopy}
+                  disabled={isLoading}
+                  className={cn(
+                    "p-1.5 rounded-md transition-all duration-200",
+                    "bg-background/80 hover:bg-background border border-border/50",
+                    "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                    isLoading && "opacity-50 cursor-not-allowed"
+                  )}
+                  aria-label="Copy message"
+                  title="Copy message (Ctrl+C)"
+                >
+                  <Copy className={cn(
+                    "w-3.5 h-3.5 transition-transform",
+                    isCopied ? "text-green-600 scale-110" : "text-muted-foreground"
+                  )} />
+                </button>
+              )}
+            </div>
           </div>
         )}
 
@@ -218,20 +282,30 @@ export function MessageBubble({ message, searchTerm }: { message: Message; searc
 
   // Wrap with context menu for right-click copy functionality
   return (
-    <ContextMenu>
-      <ContextMenuTrigger asChild>
-        {messageContent}
-      </ContextMenuTrigger>
-      <ContextMenuContent>
-        <ContextMenuItem 
-          onClick={handleCopy}
-          disabled={!isSupported || !message.content || isLoading}
-          className="flex items-center gap-2"
-        >
-          <Copy className="w-4 h-4" />
-          Copy message
-        </ContextMenuItem>
-      </ContextMenuContent>
-    </ContextMenu>
+    <>
+      <ContextMenu>
+        <ContextMenuTrigger asChild>
+          {messageContent}
+        </ContextMenuTrigger>
+        <ContextMenuContent>
+          <ContextMenuItem 
+            onClick={handleCopy}
+            disabled={!isSupported || !message.content || isLoading}
+            className="flex items-center gap-2"
+          >
+            <Copy className="w-4 h-4" />
+            Copy message
+          </ContextMenuItem>
+        </ContextMenuContent>
+      </ContextMenu>
+
+      {/* Feedback Modal */}
+      <FeedbackModal
+        isOpen={showFeedbackModal}
+        onClose={() => setShowFeedbackModal(false)}
+        onSubmit={handleFeedbackSubmit}
+        isLoading={isSubmittingFeedback}
+      />
+    </>
   );
 }

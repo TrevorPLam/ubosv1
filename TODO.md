@@ -512,12 +512,515 @@ This document outlines the missing capabilities and improvement tasks for the UB
 **Description**: Create live waveform visualization using Web Audio API and AnalyserNode.
 
 #### [x] SUBTASK-008-4: Add Voice Feedback
-**File**: `src/components/chat/ChatInput.tsx`  
 **Description**: Provide visual feedback for listening state (pulsing icon, listening placeholder).
 
 #### [x] SUBTASK-008-5: Handle Voice Errors
 **File**: `src/components/chat/ChatInput.tsx`  
 **Description**: Implement error toasts for browser support and permission issues.
+
+---
+
+## 🗳️ TASK-009: Implement Message Feedback System
+
+**Status**: ❌ Not Started  
+**Priority**: Critical  
+**Estimated Effort**: Medium
+
+### Definition of Done
+- [ ] Thumbs-up / thumbs-down buttons on each assistant message
+- [ ] Optional text comment for negative feedback
+- [ ] Persist feedback alongside messages in local state/API
+- [ ] Visual highlight on the selected rating
+- [ ] Accessible buttons with proper aria-labels
+
+### Out of Scope
+- Integration with external analytics platforms
+- Complex feedback reporting dashboards
+- Real-time model retraining based on feedback
+
+### Advanced Coding Patterns
+- Optimistic UI updates for instant feedback
+- Conditional rendering for feedback states
+- Accessible modal for feedback comments
+
+### Anti-Patterns
+- Don't clutter the message bubble with too many controls
+- Avoid blocking the UI during feedback submission
+- Never force feedback upon the user
+
+### Related Files
+- `src/components/chat/MessageBubble.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 🌿 TASK-010: Implement Conversation Branching
+
+**Status**: ❌ Not Started  
+**Priority**: Critical  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] "Branch from here" option on every message
+- [ ] New thread created with full history up to that point
+- [ ] Original conversation preserved intact
+- [ ] Clear visual distinction between branches in the sidebar
+- [ ] Smooth transition to the new branched thread
+
+### Out of Scope
+- Multi-way merging of branches
+- Visualizing the branching tree as a graph
+- Branching from tool call results specifically
+
+### Advanced Coding Patterns
+- Immutable data structures for thread forking
+- React Query optimistic updates for new thread creation
+- Context menu integration for branching actions
+
+### Anti-Patterns
+- Don't duplicate message IDs across threads
+- Avoid creating circular thread references
+- Never delete the parent thread when branching
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/api/chat.ts`
+- `src/components/chat/MessageBubble.tsx`
+
+---
+
+## ✏️ TASK-011: Implement Message Editing & Regeneration
+
+**Status**: ❌ Not Started  
+**Priority**: Critical  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] Edit button on user messages (hover-triggered)
+- [ ] Automatic AI response regeneration after edit
+- [ ] Regenerate button on the most recent AI response
+- [ ] Version history for edited messages
+- [ ] Proper state management to invalidate post-edit history
+
+### Out of Scope
+- Editing messages from previous sessions
+- Collaborative multi-user editing
+- Partial regeneration of tool calls
+
+### Advanced Coding Patterns
+- Optimistic updates for message content
+- State invalidation patterns for conversation timelines
+- Versioning logic for message content
+
+### Anti-Patterns
+- Don't leave orphaned responses after a message edit
+- Avoid complex nested versioning UI
+- Never allow editing while a response is streaming
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/components/chat/MessageBubble.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 📝 TASK-012: AI-Powered Conversation Summarization
+
+**Status**: ❌ Not Started  
+**Priority**: High  
+**Estimated Effort**: Medium
+
+### Definition of Done
+- [ ] "Summarize conversation" button in thread header
+- [ ] AI-generated summary with key points and action items
+- [ ] Summary appears as a collapsible panel at the top
+- [ ] Auto-summarize trigger when thread exceeds message count
+- [ ] Summaries persist and update as the conversation grows
+
+### Out of Scope
+- Summarizing multiple threads at once
+- Exporting summaries to external document tools
+- Summarizing tool call logs in extreme detail
+
+### Advanced Coding Patterns
+- Progressive summarization algorithms
+- Collapsible UI with Framal Motion transitions
+- Background task execution for summary generation
+
+### Anti-Patterns
+- Don't block the main chat flow for summarization
+- Avoid redundant summary generations
+- Never replace the original messages with the summary
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 📍 TASK-013: Response Grounding with Citations
+
+**Status**: ❌ Not Started  
+**Priority**: High  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] Inline citations (e.g., [1]) in assistant messages
+- [ ] Hover previews for cited sources
+- [ ] Grounding toggle (Web Search / Knowledge Base)
+- [ ] Confidence indicator for responses
+- [ ] Visual distinction between grounded and ungrounded content
+
+### Out of Scope
+- Full PDF rendering within the chat
+- Deep linking into video timestamps
+- Real-time web crawling infrastructure
+
+### Advanced Coding Patterns
+- Rich text parsing for citation markers
+- Portal-based hover cards for previews
+- Semantic grounding validation logic
+
+### Anti-Patterns
+- Don't obscure the main text with citations
+- Avoid broken links in citations
+- Never hallucinate citations for ungrounded claims
+
+### Related Files
+- `src/components/chat/MessageBubble.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 🛠️ TASK-014: Consolidate Message Actions Menu
+
+**Status**: ❌ Not Started  
+**Priority**: High  
+**Estimated Effort**: Medium
+
+### Definition of Done
+- [ ] Three-dot menu on each message
+- [ ] Centralized actions: Copy, Edit, Regenerate, Branch, Share
+- [ ] Keyboard shortcuts for common actions
+- [ ] Accessible ARIA labels and focus management
+
+### Out of Scope
+- Custom user-defined actions
+- Drag-and-drop actions
+- External app integrations via menu
+
+### Advanced Coding Patterns
+- Radix UI Dropdown Menu for accessibility
+- Command pattern for action execution
+- Keyboard event registry for shortcuts
+
+### Anti-Patterns
+- Don't make the menu hard to find
+- Avoid inconsistent menu items between roles
+- Never overlap the menu with message content
+
+### Related Files
+- `src/components/chat/MessageBubble.tsx`
+- `src/components/ui/dropdown-menu.tsx`
+
+---
+
+## 🌙 TASK-015: Implement Dark Mode & Theme System
+
+**Status**: ❌ Not Started  
+**Priority**: High  
+**Estimated Effort**: Medium
+
+### Definition of Done
+- [ ] System / Light / Dark theme toggle
+- [ ] Persisted preference in localStorage
+- [ ] WCAG AA compliant color contrast (4.5:1)
+- [ ] Consistent application across all chat components
+
+### Out of Scope
+- Per-thread custom themes
+- Dynamic color extraction from user avatars
+- High contrast "extreme" mode
+
+### Advanced Coding Patterns
+- CSS variables / Custom properties for theming
+- `next-themes` integration for standard React patterns
+- Media query listeners for system theme changes
+
+### Anti-Patterns
+- Don't cause "Flicker of Unstyled Content" (FOUC)
+- Avoid hardcoded hex colors in components
+- Never sacrifice contrast for aesthetics
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/TECHNICAL.md`
+
+---
+
+## 🤖 TASK-016: Model Selection & Switching
+
+**Status**: ❌ Not Started  
+**Priority**: Medium  
+**Estimated Effort**: Medium
+
+### Definition of Done
+- [ ] Model selector dropdown near chat input
+- [ ] Options for Fast vs. Reasoning models
+- [ ] Per-thread model memory
+- [ ] Clear visual indicator of the active model
+
+### Out of Scope
+- Changing models mid-response streaming
+- Comparing outputs from two models side-by-side
+- User-uploaded custom model configurations
+
+### Advanced Coding Patterns
+- Context-based model state management
+- Dynamic prompt adjustment based on model
+- Feature flag patterns for model availability
+
+### Anti-Patterns
+- Don't make the selector intrusive
+- Avoid model switching during active tool calls
+- Never hide the current model identity
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/components/chat/ChatInput.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 👤 TASK-017: Custom System Prompts / Personalities
+
+**Status**: ❌ Not Started  
+**Priority**: Medium  
+**Estimated Effort**: Low
+
+### Definition of Done
+- [ ] Settings panel for system instructions
+- [ ] User-level global defaults
+- [ ] Per-thread override option
+- [ ] Templates for common use cases (e.g., "Coding Assistant")
+
+### Out of Scope
+- Multi-agent personality collaboration in one thread
+- Sharing personalities with other users
+- AI personality fine-tuning
+
+### Advanced Coding Patterns
+- Template pattern for system instructions
+- Default/Override merge logic
+- Form state management for large prompts
+
+### Anti-Patterns
+- Don't allow empty system prompts to break the AI
+- Avoid confusing prompt inheritance logic
+- Never expose the raw system prompt in the chat history
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 📊 TASK-018: Implement Usage Analytics Dashboard
+
+**Status**: ❌ Not Started  
+**Priority**: Medium  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] Dashboard showing message/conversation trends
+- [ ] Metrics for response latency and length
+- [ ] Topic/Intent frequency visualization
+- [ ] Knowledge gap detection (unanswered questions)
+- [ ] Export analytics data as CSV
+
+### Out of Scope
+- Real-time user session recording
+- Direct integration with Google Analytics
+- Predictive cost forecasting
+
+### Advanced Coding Patterns
+- Recharts integration for data visualization
+- Data aggregation and memoization
+- Dynamic filtering for analytics views
+
+### Anti-Patterns
+- Don't track sensitive user PII in analytics
+- Avoid complex, overwhelming data views
+- Never slow down the chat for telemetry collection
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx` (new dashboard view)
+- `src/api/chat.ts`
+
+---
+
+## ♿ TASK-019: Accessibility Hardening
+
+**Status**: ❌ Not Started  
+**Priority**: Medium  
+**Estimated Effort**: Medium
+
+### Definition of Done
+- [ ] Full keyboard navigation (Tab/Enter)
+- [ ] ARIA live regions for new messages
+- [ ] Proper focus management during transitions
+- [ ] WCAG 2.2 contrast and sizing compliance
+
+### Out of Scope
+- Braille display support
+- Eye-tracking interface integration
+- Voice-only navigation (Task-008 handles voice input only)
+
+### Advanced Coding Patterns
+- Radix UI primitives for accessible components
+- Focus-trap patterns for modals
+- Screen reader testing protocols
+
+### Anti-Patterns
+- Don't use non-semantic HTML for buttons/links
+- Avoid trapping focus in loops
+- Never rely solely on color for meaning
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/components/chat/MessageBubble.tsx`
+
+---
+
+## 👨‍💼 TASK-020: Human-in-the-Loop Escalation
+
+**Status**: ❌ Not Started  
+**Priority**: Medium  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] Confidence threshold logic for AI responses
+- [ ] Manual "Talk to a person" trigger
+- [ ] Context preservation during handoff
+- [ ] Status indicator for "Human Agent Connected"
+
+### Out of Scope
+- Live human agent chat UI (internal agent view)
+- Automated ticketing system integration
+- Sentiment analysis for auto-escalation
+
+### Advanced Coding Patterns
+- State machine for conversation status (AI vs. Human)
+- Confidence scoring algorithms
+- Handoff event patterns
+
+### Anti-Patterns
+- Don't escalate without notifying the user
+- Avoid losing chat history during handoff
+- Never block the user if no human is available
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/api/chat.ts`
+
+---
+
+## ⏳ TASK-021: Token / Context Window Visualization
+
+**Status**: ❌ Not Started  
+**Priority**: Low  
+**Estimated Effort**: Low
+
+### Definition of Done
+- [ ] Progress bar for context window usage
+- [ ] Warning indicators when approaching limits
+- [ ] Suggestions to summarize or branch when full
+- [ ] Model-specific limit markers
+
+### Out of Scope
+- Visualizing token attention weights
+- Per-message token breakdown
+- Editing tokens directly
+
+### Advanced Coding Patterns
+- Token counting utilities (e.g., tiktoken logic)
+- Real-time usage calculation
+- Visual feedback thresholds
+
+### Anti-Patterns
+- Don't make the visualization distracting
+- Avoid inaccurate token estimations
+- Never prevent messaging based on estimated limits alone
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/api/chat.ts`
+
+---
+
+## 🤖 TASK-022: Agentic Tool Execution Enhancements
+
+**Status**: ❌ Not Started  
+**Priority**: Low  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] Tool execution confirmation dialogs
+- [ ] Proactive tool suggestions from AI
+- [ ] Multi-step tool execution sequences
+- [ ] Audit log of tool results
+
+### Out of Scope
+- Building the actual tool backends (CRM, Calendar, etc.)
+- Autonomous financial transactions
+- AI-initiated code deployments
+
+### Advanced Coding Patterns
+- Promise-based tool confirmation patterns
+- Sequential execution state management
+- Secure tool registry architecture
+
+### Anti-Patterns
+- Don't execute dangerous tools without confirmation
+- Avoid "Tool Loop" hallucinations
+- Never hide tool failure reasons from the user
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/components/chat/ToolCallDisclosure.tsx`
+
+---
+
+## 👥 TASK-023: Multi-User Collaboration Features
+
+**Status**: ❌ Not Started  
+**Priority**: Low  
+**Estimated Effort**: High
+
+### Definition of Done
+- [ ] Shared threads with multiple participants
+- [ ] Real-time presence indicators
+- [ ] Message attribution (who said what)
+- [ ] Thread-level permission system
+
+### Out of Scope
+- Shared document editing (Google Docs style)
+- Real-time audio/video calls in chat
+- Public thread publishing
+
+### Advanced Coding Patterns
+- WebSockets for real-time collaboration
+- Conflict resolution strategies (CRDTs)
+- Presence management patterns
+
+### Anti-Patterns
+- Don't mix up message order for different users
+- Avoid permission leaks between threads
+- Never assume a single user context in shared threads
+
+### Related Files
+- `src/components/chat/ChatInterface.tsx`
+- `src/api/chat.ts`
 
 ---
 
@@ -533,8 +1036,23 @@ This document outlines the missing capabilities and improvement tasks for the UB
 | TASK-006 | Message Search | ✅ Complete | Medium | 6/6 |
 | TASK-007 | Conversation Export | ✅ Complete | Medium | 6/6 |
 | TASK-008 | Voice Input | ✅ Complete | Low | 5/5 |
+| TASK-009 | Message Feedback System | ❌ Not Started | Critical | 0/5 |
+| TASK-010 | Conversation Branching | ❌ Not Started | Critical | 0/5 |
+| TASK-011 | Editing & Regeneration | ❌ Not Started | Critical | 0/5 |
+| TASK-012 | AI Summarization | ❌ Not Started | High | 0/5 |
+| TASK-013 | Grounding with Citations | ❌ Not Started | High | 0/5 |
+| TASK-014 | Consolidate Actions Menu | ❌ Not Started | High | 0/5 |
+| TASK-015 | Dark Mode & Theme System | ❌ Not Started | High | 0/4 |
+| TASK-016 | Model Selection & Switching | ❌ Not Started | Medium | 0/4 |
+| TASK-017 | Custom System Prompts | ❌ Not Started | Medium | 0/5 |
+| TASK-018 | Usage Analytics Dashboard | ❌ Not Started | Medium | 0/5 |
+| TASK-019 | Accessibility Hardening | ❌ Not Started | Medium | 0/4 |
+| TASK-020 | Human-in-the-Loop | ❌ Not Started | Medium | 0/4 |
+| TASK-021 | Context Visualization | ❌ Not Started | Low | 0/4 |
+| TASK-022 | Agentic Tool Enhancements | ❌ Not Started | Low | 0/4 |
+| TASK-023 | Multi-User Collaboration | ❌ Not Started | Low | 0/4 |
 
-**Overall Progress**: 100% complete (40/40 subtasks)
+**Overall Progress**: 36.4% complete (40/110 subtasks)
 
 ---
 

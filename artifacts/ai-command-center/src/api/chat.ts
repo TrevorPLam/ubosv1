@@ -8,6 +8,15 @@ export interface FileAttachment {
   url?: string;
 }
 
+export interface MessageFeedback {
+  id: string;
+  messageId: string;
+  rating: 'positive' | 'negative';
+  category?: 'inaccurate' | 'not_relevant' | 'incomplete' | 'harmful';
+  comment?: string;
+  timestamp: string;
+}
+
 export interface Message {
   id: string;
   role: 'user' | 'assistant' | 'tool_call' | 'tool_result' | 'system';
@@ -17,6 +26,7 @@ export interface Message {
   toolResult?: { success: boolean; result: string };
   agentId?: string;
   attachments?: FileAttachment[];
+  feedback?: MessageFeedback;
 }
 
 export interface Thread {
@@ -255,5 +265,38 @@ export const searchMessages = (threadId: string, query: string): Promise<string[
     return thread.messages
       .filter(m => m.content.toLowerCase().includes(searchTerms))
       .map(m => m.id);
+  });
+};
+
+export const submitFeedback = (
+  messageId: string,
+  rating: 'positive' | 'negative',
+  category?: 'inaccurate' | 'not_relevant' | 'incomplete' | 'harmful',
+  comment?: string
+): Promise<MessageFeedback> => {
+  return mockFetch({
+    id: `feedback-${Date.now()}`,
+    messageId,
+    rating,
+    category,
+    comment,
+    timestamp: new Date().toISOString(),
+  }, 300);
+};
+
+export const updateFeedback = (
+  feedbackId: string,
+  updates: Partial<MessageFeedback>
+): Promise<MessageFeedback> => {
+  return mockFetch(undefined, 300).then(() => {
+    // In a real implementation, this would update the feedback in the database
+    // For now, we'll just return the updated feedback
+    return {
+      id: feedbackId,
+      messageId: '',
+      rating: 'positive',
+      timestamp: new Date().toISOString(),
+      ...updates,
+    } as MessageFeedback;
   });
 };
