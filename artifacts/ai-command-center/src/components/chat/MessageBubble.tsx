@@ -1,6 +1,6 @@
-import { Message } from "@/api/chat";
+import { Message, FileAttachment } from "@/api/chat";
 import { cn } from "@/lib/utils";
-import { Bot, User, Copy } from "lucide-react";
+import { Bot, User, Copy, Download, FileText, Image } from "lucide-react";
 import { ToolCallDisclosure } from "./ToolCallDisclosure";
 import { format } from "date-fns";
 import { useState } from "react";
@@ -18,6 +18,73 @@ export function MessageBubble({ message }: { message: Message }) {
   const isSystem = message.role === "system";
   const [isHovered, setIsHovered] = useState(false);
   const { copy, isLoading, isCopied, isSupported } = useClipboard();
+
+  const handleDownload = (attachment: FileAttachment) => {
+    if (attachment.url) {
+      const link = document.createElement('a');
+      link.href = attachment.url;
+      link.download = attachment.name;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  };
+
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  };
+
+  const FileAttachmentComponent = ({ attachment }: { attachment: FileAttachment }) => {
+    const isImage = attachment.type.startsWith('image/');
+    const isPDF = attachment.type === 'application/pdf';
+    
+    return (
+      <div className="flex items-center gap-3 p-3 bg-muted/50 border rounded-lg mt-2">
+        {/* File icon/preview */}
+        <div className="flex-shrink-0">
+          {isImage && attachment.url ? (
+            <img
+              src={attachment.url}
+              alt={attachment.name}
+              className="w-16 h-16 object-cover rounded-md"
+            />
+          ) : (
+            <div className="w-16 h-16 flex items-center justify-center bg-primary/10 rounded-md">
+              {isPDF ? (
+                <FileText className="w-8 h-8 text-primary" />
+              ) : (
+                <FileText className="w-8 h-8 text-primary" />
+              )}
+            </div>
+          )}
+        </div>
+        
+        {/* File info */}
+        <div className="flex-1 min-w-0">
+          <p className="font-medium text-sm truncate">{attachment.name}</p>
+          <p className="text-xs text-muted-foreground">
+            {formatFileSize(attachment.size)} • {attachment.type}
+          </p>
+        </div>
+        
+        {/* Download button */}
+        {attachment.url && (
+          <button
+            onClick={() => handleDownload(attachment)}
+            className="flex-shrink-0 p-2 hover:bg-primary/10 rounded-md transition-colors"
+            title={`Download ${attachment.name}`}
+          >
+            <Download className="w-4 h-4 text-primary" />
+          </button>
+        )}
+      </div>
+    );
+  };
 
   const handleCopy = async () => {
     if (!message.content) return;
@@ -106,6 +173,18 @@ export function MessageBubble({ message }: { message: Message }) {
                 )} />
               </button>
             )}
+          </div>
+        )}
+
+        {/* File attachments */}
+        {message.attachments && message.attachments.length > 0 && (
+          <div className="mt-2 space-y-2">
+            {message.attachments.map((attachment) => (
+              <FileAttachmentComponent 
+                key={attachment.id} 
+                attachment={attachment} 
+              />
+            ))}
           </div>
         )}
 

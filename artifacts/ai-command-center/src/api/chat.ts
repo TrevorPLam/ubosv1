@@ -1,5 +1,13 @@
 import { mockFetch } from "./client";
 
+export interface FileAttachment {
+  id: string;
+  name: string;
+  type: string;
+  size: number;
+  url?: string;
+}
+
 export interface Message {
   id: string;
   role: 'user' | 'assistant' | 'tool_call' | 'tool_result' | 'system';
@@ -8,6 +16,7 @@ export interface Message {
   toolCalls?: { name: string; args: string }[];
   toolResult?: { success: boolean; result: string };
   agentId?: string;
+  attachments?: FileAttachment[];
 }
 
 export interface Thread {
@@ -107,11 +116,85 @@ export const getThread = (id: string) => {
   return mockFetch(t, 200);
 };
 
-export const sendMessage = (threadId: string, content: string) => {
+export const sendMessage = (threadId: string, content: string, attachments?: FileAttachment[]) => {
   return mockFetch({
     id: `m-new-${Date.now()}`,
     role: 'user',
     content,
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
+    attachments: attachments || []
   } as Message, 500);
+};
+
+export const uploadFile = (file: File, onProgress?: (progress: number) => void): Promise<{ url: string }> => {
+  return new Promise((resolve, reject) => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const xhr = new XMLHttpRequest();
+
+    if (onProgress) {
+      xhr.upload.addEventListener('progress', (e) => {
+        if (e.lengthComputable) {
+          const progress = (e.loaded / e.total) * 100;
+          onProgress(Math.round(progress));
+        }
+      });
+    }
+
+    xhr.addEventListener('load', () => {
+      if (xhr.status === 200) {
+        try {
+          const response = JSON.parse(xhr.responseText);
+          resolve({
+            url: response.url || `/uploads/${file.name}`
+          });
+        } catch (error) {
+          reject(new Error('Invalid server response'));
+        }
+      } else {
+        reject(new Error(`Upload failed: ${xhr.statusText}`));
+      }
+    });
+
+    xhr.addEventListener('error', () => {
+      reject(new Error('Network error during upload'));
+    });
+
+    xhr.open('POST', '/api/upload');
+    xhr.send(formData);
+  });
+};
+
+export const sendMessageWithFiles = async (
+  threadId: string, 
+  content: string, 
+  files: File[],
+  onProgress?: (fileId: string, progress: number) => void
+): Promise<Message> => {
+  // Upload files first
+  const uploadPromises = files.map(async (file, index) => {
+    const fileId = `file-${index}-${Date.now()}`;
+    
+    const uploadResult = await uploadFile(file, (progress) => {
+      onProgress?.(fileId, progress);
+    });
+
+    return {
+      id: fileId,
+      name: file.name,
+      type: file.type,
+      size: file.size,
+      url: uploadResult.url
+    } as FileAttachment;
+  });
+
+  try {
+    const attachments = await Promise.all(uploadPromises);
+    
+    // Send message with attachments
+    return await sendMessage(threadId, content, attachments);
+  } catch (error) {
+    throw new Error(`Failed to upload files: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
 };
