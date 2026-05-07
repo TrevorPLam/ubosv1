@@ -30,6 +30,11 @@ import { SEOPage } from "@/components/marketing/SEOPage";
 import { SocialsPage } from "@/components/marketing/SocialsPage";
 import { MarketingAnalyticsPage } from "@/components/marketing/MarketingAnalyticsPage";
 import { ContentManagementPage } from "@/components/marketing/ContentManagementPage";
+import { VendorsPage } from "@/components/vendors/VendorsPage";
+import { VendorRecordsPage } from "@/components/vendors/VendorRecordsPage";
+import { ContractAwarenessPage } from "@/components/vendors/ContractAwarenessPage";
+import { PurchaseApprovalsPage } from "@/components/vendors/PurchaseApprovalsPage";
+import { SpendVisibilityPage } from "@/components/vendors/SpendVisibilityPage";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +72,11 @@ function Router() {
         <Route path="/marketing/analytics" component={MarketingAnalyticsPage} />
         <Route path="/marketing/content-management" component={ContentManagementPage} />
         <Route path="/finance" component={FinancePage} />
+        <Route path="/vendors" component={VendorsPage} />
+        <Route path="/vendors/vendor-records" component={VendorRecordsPage} />
+        <Route path="/vendors/contract-awareness" component={ContractAwarenessPage} />
+        <Route path="/vendors/purchase-approvals" component={PurchaseApprovalsPage} />
+        <Route path="/vendors/spend-visibility" component={SpendVisibilityPage} />
         <Route path="/assets" component={AssetsPage} />
         <Route path="/settings" component={SettingsPage} />
         <Route path="/settings/cost-analytics" component={CostAnalyticsPage} />
