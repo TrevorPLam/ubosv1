@@ -1,12 +1,12 @@
 import { useLocation, Link } from "wouter";
-import { LayoutDashboard, MessageSquare, KanbanSquare, LineChart, FileText, Database, Blocks, Settings, Activity } from "lucide-react";
+import { LayoutDashboard, MessageSquare, KanbanSquare, LineChart, FileText, Database, Blocks, Settings, Activity, PanelLeftClose, PanelLeftOpen } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/uiStore";
 import { useAttentionQueue } from "@/hooks/useAttentionQueue";
 
 export function Sidebar() {
   const [location] = useLocation();
-  const { sidebarCollapsed } = useUIStore();
+  const { sidebarCollapsed, toggleSidebar } = useUIStore();
   const { count } = useAttentionQueue();
 
   const navItems = [
@@ -27,11 +27,29 @@ export function Sidebar() {
         sidebarCollapsed ? "w-16" : "w-64"
       )}
     >
-      <div className="h-14 flex items-center justify-between px-4 border-b border-sidebar-border">
-        {!sidebarCollapsed && <span className="font-semibold text-sidebar-foreground truncate">Command Center</span>}
-        <div className="w-6 h-6 rounded bg-primary flex items-center justify-center text-primary-foreground mx-auto">
+      <div className="h-14 flex items-center border-b border-sidebar-border px-3 gap-2">
+        <div className="w-6 h-6 rounded bg-primary flex items-center justify-center text-primary-foreground shrink-0">
           <Activity className="w-4 h-4" />
         </div>
+        {!sidebarCollapsed && (
+          <span className="font-semibold text-sidebar-foreground truncate flex-1 text-sm">
+            Command Center
+          </span>
+        )}
+        <button
+          onClick={toggleSidebar}
+          aria-label={sidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+          data-testid="button-toggle-sidebar"
+          className={cn(
+            "flex items-center justify-center w-7 h-7 rounded-md text-sidebar-foreground/50 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors shrink-0",
+            sidebarCollapsed && "mx-auto"
+          )}
+        >
+          {sidebarCollapsed
+            ? <PanelLeftOpen className="w-4 h-4" />
+            : <PanelLeftClose className="w-4 h-4" />
+          }
+        </button>
       </div>
 
       <nav className="flex-1 py-4 flex flex-col gap-1 px-2">
