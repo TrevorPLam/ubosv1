@@ -11,6 +11,7 @@ import { CommandPalette } from "@/components/layout/CommandPalette";
 import { Dashboard } from "@/pages/Dashboard";
 import { AgentsPage } from "@/pages/AgentsPage";
 import { ChatInterface } from "@/components/chat/ChatInterface";
+import { EmailInboxPage } from "@/pages/EmailInboxPage";
 import { CRMPage } from "@/components/crm/CRMPage";
 import { ContactsPage } from "@/components/crm/ContactsPage";
 import { PipelinePage } from "@/components/crm/PipelinePage";
@@ -75,6 +76,7 @@ function Router() {
         <Route path="/" component={Dashboard} />
         <Route path="/agents" component={AgentsPage} />
         <Route path="/chat" component={ChatInterface} />
+        <Route path="/email" component={EmailInboxPage} />
         <Route path="/crm" component={CRMPage} />
         <Route path="/crm/contacts" component={ContactsPage} />
         <Route path="/crm/pipeline" component={PipelinePage} />
