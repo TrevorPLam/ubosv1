@@ -13,11 +13,28 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 
-export function MessageBubble({ message }: { message: Message }) {
+export function MessageBubble({ message, searchTerm }: { message: Message; searchTerm?: string }) {
   const isUser = message.role === "user";
   const isSystem = message.role === "system";
   const [isHovered, setIsHovered] = useState(false);
   const { copy, isLoading, isCopied, isSupported } = useClipboard();
+
+  const HighlightedText = ({ text, term }: { text: string; term?: string }) => {
+    if (!term || !term.trim()) return <>{text}</>;
+    
+    const parts = text.split(new RegExp(`(${term})`, 'gi'));
+    return (
+      <>
+        {parts.map((part, i) => 
+          part.toLowerCase() === term.toLowerCase() ? (
+            <mark key={i} className="bg-yellow-200 dark:bg-yellow-800 text-black dark:text-white rounded-sm px-0.5">
+              {part}
+            </mark>
+          ) : part
+        )}
+      </>
+    );
+  };
 
   const handleDownload = (attachment: FileAttachment) => {
     if (attachment.url) {
@@ -149,7 +166,7 @@ export function MessageBubble({ message }: { message: Message }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            {message.content}
+            <HighlightedText text={message.content} term={searchTerm} />
             
             {/* Copy button - appears on hover */}
             {isSupported && message.content && (

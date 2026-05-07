@@ -1,14 +1,14 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getThreads, deleteThread, renameThread, Message } from "@/api/chat";
+import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, Message, Thread } from "@/api/chat";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CheckpointBanner } from "./CheckpointBanner";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit } from "lucide-react";
+import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit, Search, X, ChevronUp, ChevronDown, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { cn, formatToJSON, formatToMarkdown, formatToText } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useClipboard } from "@/hooks/useClipboard";
 import { toast } from "sonner";
@@ -27,6 +27,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // Simulated streaming responses keyed by rough topic
 const STREAM_RESPONSES = [
@@ -100,6 +106,114 @@ export function ChatInterface() {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [threadToDelete, setThreadToDelete] = useState<string | null>(null);
   const editInputRef = useRef<HTMLInputElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  // Search state
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<string[]>([]);
+  const [currentSearchIndex, setCurrentSearchIndex] = useState(-1);
+  const [isSearching, setIsSearching] = useState(false);
+
+  // Debounced search logic
+  useEffect(() => {
+    if (!activeThreadId || !searchQuery.trim()) {
+      setSearchResults([]);
+      setCurrentSearchIndex(-1);
+      return;
+    }
+
+    const timer = setTimeout(async () => {
+      setIsSearching(true);
+      try {
+        const results = await searchMessages(activeThreadId, searchQuery);
+        setSearchResults(results);
+        setCurrentSearchIndex(results.length > 0 ? 0 : -1);
+      } catch (error) {
+        console.error("Search failed:", error);
+      } finally {
+        setIsSearching(false);
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [searchQuery, activeThreadId]);
+
+  // Navigate to search result
+  useEffect(() => {
+    if (currentSearchIndex >= 0 && searchResults[currentSearchIndex]) {
+      const messageId = searchResults[currentSearchIndex];
+      const element = messageRefs.current[messageId];
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        // Add a temporary highlight effect
+        element.classList.add('ring-2', 'ring-primary', 'ring-offset-2');
+        setTimeout(() => {
+          element.classList.remove('ring-2', 'ring-primary', 'ring-offset-2');
+        }, 2000);
+      }
+    }
+  }, [currentSearchIndex, searchResults]);
+
+  const handleNextSearchResult = useCallback(() => {
+    if (searchResults.length === 0) return;
+    setCurrentSearchIndex((prev) => (prev + 1) % searchResults.length);
+  }, [searchResults]);
+
+  const handlePrevSearchResult = useCallback(() => {
+    if (searchResults.length === 0) return;
+    setCurrentSearchIndex((prev) => (prev - 1 + searchResults.length) % searchResults.length);
+  }, [searchResults]);
+
+  const toggleSearch = useCallback(() => {
+    setIsSearchOpen(prev => {
+      if (!prev) {
+        // Focus input when opening
+        setTimeout(() => searchInputRef.current?.focus(), 100);
+      } else {
+        setSearchQuery("");
+      }
+      return !prev;
+    });
+  }, []);
+
+  const handleExport = useCallback((format: 'json' | 'markdown' | 'text') => {
+    if (!activeThread) return;
+
+    let content = "";
+    let extension = "";
+    let mimeType = "";
+
+    switch (format) {
+      case 'json':
+        content = formatToJSON(activeThread);
+        extension = "json";
+        mimeType = "application/json";
+        break;
+      case 'markdown':
+        content = formatToMarkdown(activeThread);
+        extension = "md";
+        mimeType = "text/markdown";
+        break;
+      case 'text':
+        content = formatToText(activeThread);
+        extension = "txt";
+        mimeType = "text/plain";
+        break;
+    }
+
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${activeThread.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_export.${extension}`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+
+    toast.success(`Conversation exported as ${format.toUpperCase()}`);
+  }, [activeThread]);
 
   // Handle keyboard copy functionality
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
@@ -290,8 +404,49 @@ export function ChatInterface() {
     }, 200);
   }, []);
 
+  const handleNewThread = useCallback(async () => {
+    console.log('[ChatInterface] handleNewThread called');
+    const projectId = activeThread?.projectId || 'proj-1';
+    
+    try {
+      const newThread = await createThread(projectId);
+      console.log('[ChatInterface] New thread created:', newThread);
+      
+      // Update cache
+      queryClient.setQueryData(['chat-threads'], (old: any) => {
+        if (!old) return [newThread];
+        return [newThread, ...old];
+      });
+      
+      setActiveThreadId(newThread.id);
+      setThreadsPanelOpen(true);
+      
+      toast.success("New thread created");
+    } catch (error) {
+      console.error('[ChatInterface] Error creating new thread:', error);
+      toast.error("Failed to create new thread");
+    }
+  }, [activeThread?.projectId, queryClient]);
+
   const handleSend = (content: string) => {
     if (!activeThread || isThinking || streamingMsgId) return;
+
+    // Auto-generate title for new threads
+    if (activeThread.messages.length === 0) {
+      const newTitle = generateThreadTitle(content);
+      handleStartEdit(activeThread.id, newTitle);
+      handleSaveEdit(); // This is a bit hacky but works with the current setup
+      
+      // Better: Update the thread title in the API and cache directly
+      renameThread(activeThread.id, newTitle).then(() => {
+        queryClient.setQueryData(['chat-threads'], (old: any) => {
+          if (!old) return old;
+          return old.map((t: any) => 
+            t.id === activeThread.id ? { ...t, title: newTitle } : t
+          );
+        });
+      });
+    }
 
     // Abort any in-progress stream
     abortRef.current?.abort();
@@ -368,17 +523,89 @@ export function ChatInterface() {
         {activeThread ? (
           <>
             <div className="px-6 py-3.5 border-b bg-card/60 backdrop-blur-sm sticky top-0 z-10 flex items-center justify-between gap-4">
-              <div className="min-w-0">
-                <h3 className="font-semibold text-sm">{activeThread.title}</h3>
-                <p className="text-[11px] text-muted-foreground mt-0.5">
-                  Project: {activeThread.projectId}
-                  {isBusy && (
-                    <span className="ml-3 text-primary inline-flex items-center gap-1">
-                      <Loader2 className="w-3 h-3 animate-spin" />
-                      {isThinking ? 'Thinking...' : 'Generating...'}
-                    </span>
+              <div className="min-w-0 flex-1 flex items-center gap-4">
+                <div className="min-w-0">
+                  <h3 className="font-semibold text-sm">{activeThread.title}</h3>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">
+                    Project: {activeThread.projectId}
+                    {isBusy && (
+                      <span className="ml-3 text-primary inline-flex items-center gap-1">
+                        <Loader2 className="w-3 h-3 animate-spin" />
+                        {isThinking ? 'Thinking...' : 'Generating...'}
+                      </span>
+                    )}
+                  </p>
+                </div>
+
+                {/* Search Bar */}
+                <div className={cn(
+                  "flex items-center gap-2 px-3 py-1.5 bg-muted/50 rounded-lg border transition-all duration-300 overflow-hidden",
+                  isSearchOpen ? "max-w-md flex-1" : "max-w-[40px] border-transparent bg-transparent"
+                )}>
+                  <button 
+                    onClick={toggleSearch}
+                    className="shrink-0 text-muted-foreground hover:text-foreground"
+                    aria-label={isSearchOpen ? "Close search" : "Open search"}
+                  >
+                    {isSearchOpen ? <X className="w-4 h-4" /> : <Search className="w-4 h-4" />}
+                  </button>
+                  
+                  {isSearchOpen && (
+                    <>
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        placeholder="Search messages..."
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="flex-1 bg-transparent border-none outline-none text-sm placeholder:text-muted-foreground/60"
+                      />
+                      
+                      {searchResults.length > 0 && (
+                        <div className="flex items-center gap-1 border-l pl-2 shrink-0">
+                          <span className="text-[10px] text-muted-foreground font-medium mr-1">
+                            {currentSearchIndex + 1}/{searchResults.length}
+                          </span>
+                          <button 
+                            onClick={handlePrevSearchResult}
+                            className="p-0.5 hover:bg-muted rounded transition-colors"
+                            aria-label="Previous result"
+                          >
+                            <ChevronUp className="w-3.5 h-3.5" />
+                          </button>
+                          <button 
+                            onClick={handleNextSearchResult}
+                            className="p-0.5 hover:bg-muted rounded transition-colors"
+                            aria-label="Next result"
+                          >
+                            <ChevronDown className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
+                      
+                      {isSearching && <Loader2 className="w-3.5 h-3.5 animate-spin text-primary" />}
+                    </>
                   )}
-                </p>
+                </div>
+
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8 text-muted-foreground hover:text-foreground">
+                      <Download className="w-4 h-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleExport('json')}>
+                      Export as JSON
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleExport('markdown')}>
+                      Export as Markdown
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleExport('text')}>
+                      Export as Plain Text
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               </div>
               <button
                 onClick={() => setThreadsPanelOpen(p => !p)}
@@ -392,9 +619,9 @@ export function ChatInterface() {
             <ScrollArea className="flex-1 p-6">
               <div className="max-w-3xl mx-auto space-y-6 pb-4">
                 {activeThread.messages.map((msg, i) => (
-                  <div key={msg.id}>
+                  <div key={msg.id} ref={el => messageRefs.current[msg.id] = el}>
                     {i === 2 && <CheckpointBanner title="Initial context gathered" time="10:45 AM" />}
-                    <MessageBubble message={msg} />
+                    <MessageBubble message={msg} searchTerm={isSearchOpen ? searchQuery : undefined} />
                   </div>
                 ))}
 
@@ -494,6 +721,7 @@ export function ChatInterface() {
             className="h-7 w-7"
             aria-label="New thread"
             data-testid="button-new-thread"
+            onClick={handleNewThread}
           >
             <Plus className="w-3.5 h-3.5" />
           </Button>

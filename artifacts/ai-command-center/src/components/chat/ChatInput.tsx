@@ -1,11 +1,14 @@
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { SendHorizontal, Paperclip, Square, X } from "lucide-react";
+import { SendHorizontal, Paperclip, Square, X, Mic, MicOff } from "lucide-react";
 import { useFileUpload } from "@/hooks/useFileUpload";
+import { useVoiceInput } from "@/hooks/useVoiceInput";
+import { VoiceWaveform } from "./VoiceWaveform";
 import { Progress } from "@/components/ui/progress";
 import { FileAttachment } from "@/api/chat";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export function ChatInput({ onSend, onStop, isLoading, isStreaming }: { 
   onSend: (text: string, attachments?: FileAttachment[]) => void; 
@@ -15,6 +18,34 @@ export function ChatInput({ onSend, onStop, isLoading, isStreaming }: {
 }) {
   const [text, setText] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Voice input handling
+  const handleVoiceTranscript = useCallback((interim: string) => {
+    // Optional: show interim transcript somewhere or do nothing
+  }, []);
+
+  const handleVoiceFinal = useCallback((final: string) => {
+    setText(prev => prev + (prev.endsWith(" ") || !prev ? "" : " ") + final);
+  }, []);
+
+  const { isListening, error: voiceError, startListening, stopListening } = useVoiceInput({
+    onTranscript: handleVoiceTranscript,
+    onFinalTranscript: handleVoiceFinal
+  });
+
+  const toggleVoiceInput = () => {
+    if (isListening) {
+      stopListening();
+    } else {
+      startListening();
+    }
+  };
+
+  useEffect(() => {
+    if (voiceError) {
+      toast.error("Voice input error", { description: voiceError });
+    }
+  }, [voiceError]);
   
   const {
     files,
@@ -177,16 +208,33 @@ export function ChatInput({ onSend, onStop, isLoading, isStreaming }: {
           >
             <Paperclip className="w-4 h-4" />
           </Button>
+
+          <Button 
+            type="button" 
+            variant="ghost" 
+            size="icon" 
+            className={cn(
+              "shrink-0 h-9 w-9 transition-colors",
+              isListening ? "text-primary animate-pulse bg-primary/10" : "text-muted-foreground hover:text-foreground"
+            )}
+            onClick={toggleVoiceInput}
+            title={isListening ? "Stop listening" : "Start voice input"}
+          >
+            {isListening ? <Mic className="w-4 h-4" /> : <MicOff className="w-4 h-4" />}
+          </Button>
           
-          <Textarea
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder="Send a command to the fleet..."
-            className="min-h-[40px] max-h-64 resize-none border-0 focus-visible:ring-0 shadow-none px-2 py-2 text-sm bg-transparent"
-            rows={1}
-            disabled={isLoading || isUploading}
-          />
+          <div className="flex-1 flex flex-col min-h-[40px] justify-center">
+            <Textarea
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={isListening ? "Listening..." : "Send a command to the fleet..."}
+              className="min-h-[40px] max-h-64 resize-none border-0 focus-visible:ring-0 shadow-none px-2 py-2 text-sm bg-transparent"
+              rows={1}
+              disabled={isLoading || isUploading}
+            />
+            {isListening && <VoiceWaveform isListening={isListening} className="ml-2 mb-1" />}
+          </div>
           
           {isStreaming && onStop ? (
             <Button 

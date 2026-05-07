@@ -210,6 +210,20 @@ export const deleteThread = (threadId: string): Promise<void> => {
   });
 };
 
+export const createThread = (projectId: string, initialTitle: string = "New Thread"): Promise<Thread> => {
+  return mockFetch(undefined, 300).then(() => {
+    const newThread: Thread = {
+      id: `thread-${Date.now()}`,
+      title: initialTitle,
+      projectId,
+      messages: [],
+      updatedAt: new Date().toISOString(),
+    };
+    mockThreads.unshift(newThread);
+    return { ...newThread };
+  });
+};
+
 export const renameThread = (threadId: string, newTitle: string): Promise<Thread> => {
   return mockFetch(undefined, 300).then(() => {
     // In a real implementation, this would make a PATCH request to the server
@@ -222,5 +236,24 @@ export const renameThread = (threadId: string, newTitle: string): Promise<Thread
     thread.updatedAt = new Date().toISOString();
     
     return { ...thread };
+  });
+};
+
+export const generateThreadTitle = (messageContent: string): string => {
+  if (!messageContent) return "New Thread";
+  const cleanContent = messageContent.trim();
+  if (cleanContent.length <= 40) return cleanContent;
+  return cleanContent.substring(0, 37) + "...";
+};
+
+export const searchMessages = (threadId: string, query: string): Promise<string[]> => {
+  return mockFetch(undefined, 200).then(() => {
+    const thread = mockThreads.find(t => t.id === threadId);
+    if (!thread || !query.trim()) return [];
+    
+    const searchTerms = query.toLowerCase().trim();
+    return thread.messages
+      .filter(m => m.content.toLowerCase().includes(searchTerms))
+      .map(m => m.id);
   });
 };

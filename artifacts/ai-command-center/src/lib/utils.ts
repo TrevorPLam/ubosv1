@@ -1,8 +1,74 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Message, Thread } from "@/api/chat"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
+}
+
+/**
+ * Format conversation to JSON string
+ */
+export function formatToJSON(thread: Thread): string {
+  return JSON.stringify(thread, null, 2)
+}
+
+/**
+ * Format conversation to Markdown string
+ */
+export function formatToMarkdown(thread: Thread): string {
+  const header = `# Conversation: ${thread.title}\nProject: ${thread.projectId}\nDate: ${new Date().toLocaleDateString()}\n\n---\n\n`
+  
+  const content = thread.messages.map(msg => {
+    const role = msg.role.charAt(0).toUpperCase() + msg.role.slice(1)
+    const agent = msg.agentId ? ` (${msg.agentId})` : ""
+    const timestamp = new Date(msg.timestamp).toLocaleString()
+    
+    let message = `### ${role}${agent} - ${timestamp}\n\n${msg.content}\n\n`
+    
+    if (msg.attachments && msg.attachments.length > 0) {
+      message += `**Attachments:**\n`
+      msg.attachments.forEach(att => {
+        message += `- ${att.name} (${att.type})\n`
+      })
+      message += `\n`
+    }
+    
+    if (msg.toolCalls) {
+      message += `**Tool Calls:**\n`
+      msg.toolCalls.forEach(tc => {
+        message += `> **${tc.name}**: \`${tc.args}\`\n`
+      })
+      message += `\n`
+    }
+    
+    return message
+  }).join("---\n\n")
+  
+  return header + content
+}
+
+/**
+ * Format conversation to Plain Text string
+ */
+export function formatToText(thread: Thread): string {
+  const header = `Conversation: ${thread.title}\nProject: ${thread.projectId}\nDate: ${new Date().toLocaleDateString()}\n${"=".repeat(50)}\n\n`
+  
+  const content = thread.messages.map(msg => {
+    const role = msg.role.charAt(0).toUpperCase() + msg.role.slice(1)
+    const agent = msg.agentId ? ` (${msg.agentId})` : ""
+    const timestamp = new Date(msg.timestamp).toLocaleString()
+    
+    let message = `[${timestamp}] ${role}${agent}:\n${msg.content}\n`
+    
+    if (msg.attachments && msg.attachments.length > 0) {
+      message += `Attachments: ${msg.attachments.map(a => a.name).join(", ")}\n`
+    }
+    
+    return message
+  }).join("\n" + "-".repeat(30) + "\n\n")
+  
+  return header + content
 }
 
 /**
