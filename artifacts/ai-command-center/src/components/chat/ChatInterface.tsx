@@ -10,6 +10,8 @@ import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen } from "l
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { useClipboard } from "@/hooks/useClipboard";
+import { toast } from "sonner";
 
 // Simulated streaming responses keyed by rough topic
 const STREAM_RESPONSES = [
@@ -65,6 +67,7 @@ export function ChatInterface() {
   const queryClient = useQueryClient();
   const scrollRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const messageRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
   // Streaming state
   const [streamingMsgId, setStreamingMsgId] = useState<string | null>(null);
@@ -72,6 +75,50 @@ export function ChatInterface() {
   const [isThinking, setIsThinking] = useState(false);
   const [isCancelling, setIsCancelling] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
+
+  // Clipboard functionality
+  const { copy, isLoading, isSupported } = useClipboard();
+
+  // Handle keyboard copy functionality
+  const handleKeyDown = useCallback((event: KeyboardEvent) => {
+    // Check if Ctrl/Cmd+C is pressed
+    if ((event.ctrlKey || event.metaKey) && event.key === 'c') {
+      // Get the currently focused element
+      const focusedElement = document.activeElement;
+      
+      // Check if a message bubble or its content is focused
+      const messageElement = focusedElement?.closest('[data-message-id]');
+      if (messageElement) {
+        const messageId = messageElement.getAttribute('data-message-id');
+        const message = activeThread?.messages.find(m => m.id === messageId);
+        
+        if (message?.content && isSupported) {
+          event.preventDefault();
+          copy(message.content)
+            .then(() => {
+              toast.success("Copied to clipboard", {
+                description: "Message content has been copied successfully",
+                duration: 2000,
+              });
+            })
+            .catch((error) => {
+              toast.error("Failed to copy", {
+                description: error instanceof Error ? error.message : "Unknown error occurred",
+                duration: 3000,
+              });
+            });
+        }
+      }
+    }
+  }, [activeThread?.messages, copy, isSupported]);
+
+  // Add keyboard event listener
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown]);
 
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });

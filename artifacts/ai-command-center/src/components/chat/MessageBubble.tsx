@@ -1,12 +1,40 @@
 import { Message } from "@/api/chat";
 import { cn } from "@/lib/utils";
-import { Bot, User } from "lucide-react";
+import { Bot, User, Copy } from "lucide-react";
 import { ToolCallDisclosure } from "./ToolCallDisclosure";
 import { format } from "date-fns";
+import { useState } from "react";
+import { useClipboard } from "@/hooks/useClipboard";
+import { toast } from "sonner";
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu";
 
 export function MessageBubble({ message }: { message: Message }) {
   const isUser = message.role === "user";
   const isSystem = message.role === "system";
+  const [isHovered, setIsHovered] = useState(false);
+  const { copy, isLoading, isCopied, isSupported } = useClipboard();
+
+  const handleCopy = async () => {
+    if (!message.content) return;
+    
+    try {
+      await copy(message.content);
+      toast.success("Copied to clipboard", {
+        description: "Message content has been copied successfully",
+        duration: 2000,
+      });
+    } catch (error) {
+      toast.error("Failed to copy", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    }
+  };
 
   if (isSystem) {
     return (
@@ -24,8 +52,14 @@ export function MessageBubble({ message }: { message: Message }) {
   
   const hasTools = message.toolCalls && message.toolCalls.length > 0;
 
-  return (
-    <div className={cn("flex gap-4 max-w-4xl", isUser ? "ml-auto flex-row-reverse" : "")}>
+  const messageContent = (
+    <div 
+      className={cn("flex gap-4 max-w-4xl group", isUser ? "ml-auto flex-row-reverse" : "")}
+      data-message-id={message.id}
+      tabIndex={0} // Make message focusable for keyboard navigation
+      role="article"
+      aria-label={`${isUser ? "You" : message.agentId || "Assistant"} message`}
+    >
       <div className={cn(
         "w-8 h-8 rounded-md flex items-center justify-center shrink-0 mt-1",
         isUser ? "bg-primary text-primary-foreground" : "bg-secondary text-secondary-foreground"
@@ -40,11 +74,38 @@ export function MessageBubble({ message }: { message: Message }) {
         </div>
         
         {message.content && (
-          <div className={cn(
-            "rounded-lg px-4 py-2 text-sm max-w-prose whitespace-pre-wrap break-words",
-            isUser ? "bg-primary text-primary-foreground" : "bg-card border shadow-sm"
-          )}>
+          <div 
+            className={cn(
+              "relative rounded-lg px-4 py-2 text-sm max-w-prose whitespace-pre-wrap break-words transition-all duration-200",
+              isUser ? "bg-primary text-primary-foreground" : "bg-card border shadow-sm"
+            )}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
             {message.content}
+            
+            {/* Copy button - appears on hover */}
+            {isSupported && message.content && (
+              <button
+                onClick={handleCopy}
+                disabled={isLoading}
+                className={cn(
+                  "absolute top-2 right-2 p-1.5 rounded-md transition-all duration-200",
+                  "opacity-0 group-hover:opacity-100",
+                  "bg-background/80 hover:bg-background border border-border/50",
+                  "focus:opacity-100 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2",
+                  isHovered ? "opacity-100" : "opacity-0",
+                  isLoading && "opacity-50 cursor-not-allowed"
+                )}
+                aria-label="Copy message"
+                title="Copy message (Ctrl+C)"
+              >
+                <Copy className={cn(
+                  "w-3.5 h-3.5 transition-transform",
+                  isCopied ? "text-green-600 scale-110" : "text-muted-foreground"
+                )} />
+              </button>
+            )}
           </div>
         )}
 
@@ -57,5 +118,24 @@ export function MessageBubble({ message }: { message: Message }) {
         )}
       </div>
     </div>
+  );
+
+  // Wrap with context menu for right-click copy functionality
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger asChild>
+        {messageContent}
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuItem 
+          onClick={handleCopy}
+          disabled={!isSupported || !message.content || isLoading}
+          className="flex items-center gap-2"
+        >
+          <Copy className="w-4 h-4" />
+          Copy message
+        </ContextMenuItem>
+      </ContextMenuContent>
+    </ContextMenu>
   );
 }

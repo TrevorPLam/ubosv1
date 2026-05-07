@@ -8,16 +8,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 🛑 TASK-001: Implement Stop/Cancel AI Response
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: Critical  
 **Estimated Effort**: Medium
 
 ### Definition of Done
-- [ ] Users can stop an AI response while it's streaming
-- [ ] Stop button appears only during active streaming
-- [ ] Clean cancellation with proper cleanup
-- [ ] Visual feedback when stopping
-- [ ] No broken state after cancellation
+- [x] Users can stop an AI response while it's streaming
+- [x] Stop button appears only during active streaming
+- [x] Clean cancellation with proper cleanup
+- [x] Visual feedback when stopping
+- [x] No broken state after cancellation
 
 ### Out of Scope
 - Stopping tool calls that have already been executed
@@ -45,19 +45,19 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ### Subtasks
 
-#### [ ] SUBTASK-001-1: Add Stop Button UI
+#### [x] SUBTASK-001-1: Add Stop Button UI
 **File**: `src/components/chat/ChatInput.tsx`  
 **Description**: Add a stop button that appears during streaming, replacing the send button when `isLoading` is true and streaming is active.
 
-#### [ ] SUBTASK-001-2: Implement Stop Handler
+#### [x] SUBTASK-001-2: Implement Stop Handler
 **File**: `src/components/chat/ChatInterface.tsx`  
 **Description**: Create a `handleStop` function that calls `abortRef.current?.abort()` and cleans up streaming state.
 
-#### [ ] SUBTASK-001-3: Update Button State Logic
+#### [x] SUBTASK-001-3: Update Button State Logic
 **File**: `src/components/chat/ChatInput.tsx`  
 **Description**: Modify button rendering logic to show stop button during streaming and send button otherwise.
 
-#### [ ] SUBTASK-001-4: Add Visual Feedback
+#### [x] SUBTASK-001-4: Add Visual Feedback
 **File**: `src/components/chat/ChatInterface.tsx`  
 **Description**: Add visual indication (fade out, loading state change) when stopping a response.
 
@@ -65,16 +65,16 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ## 📋 TASK-002: Implement Message Copy Functionality
 
-**Status**: ❌ Not Started  
+**Status**: ✅ Complete  
 **Priority**: Critical  
 **Estimated Effort**: Medium
 
 ### Definition of Done
-- [ ] Users can copy any message content
-- [ ] Copy button appears on hover for each message
-- [ ] Right-click context menu for copy
-- [ ] Keyboard shortcut (Ctrl/Cmd+C) support
-- [ ] Visual confirmation when copied
+- [x] Users can copy any message content
+- [x] Copy button appears on hover for each message
+- [x] Right-click context menu for copy
+- [x] Keyboard shortcut (Ctrl/Cmd+C) support
+- [x] Visual confirmation when copied
 
 ### Out of Scope
 - Copying tool call results separately
@@ -103,23 +103,23 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 ### Subtasks
 
-#### [ ] SUBTASK-002-1: Add Copy Button to MessageBubble
+#### [x] SUBTASK-002-1: Add Copy Button to MessageBubble
 **File**: `src/components/chat/MessageBubble.tsx`  
 **Description**: Add a copy button that appears on hover next to each message with proper positioning and styling.
 
-#### [ ] SUBTASK-002-2: Implement Copy Handler
+#### [x] SUBTASK-002-2: Implement Copy Handler
 **File**: `src/components/chat/MessageBubble.tsx`  
 **Description**: Create a copy function using Clipboard API with fallback to document.execCommand.
 
-#### [ ] SUBTASK-002-3: Add Right-Click Context Menu
+#### [x] SUBTASK-002-3: Add Right-Click Context Menu
 **File**: `src/components/chat/MessageBubble.tsx`  
 **Description**: Implement context menu with copy option that appears on right-click.
 
-#### [ ] SUBTASK-002-4: Add Keyboard Support
+#### [x] SUBTASK-002-4: Add Keyboard Support
 **File**: `src/components/chat/ChatInterface.tsx`  
 **Description**: Add global keyboard listener for Ctrl/Cmd+C when message is focused.
 
-#### [ ] SUBTASK-002-5: Add Copy Confirmation
+#### [x] SUBTASK-002-5: Add Copy Confirmation
 **File**: `src/components/ui/sonner.tsx` (or create toast)  
 **Description**: Show toast notification when message is successfully copied.
 
@@ -525,8 +525,8 @@ This document outlines the missing capabilities and improvement tasks for the UB
 
 | Task ID | Task Name | Status | Priority | Subtasks Complete |
 |---------|-----------|--------|----------|-------------------|
-| TASK-001 | Stop/Cancel AI Response | ❌ Not Started | Critical | 0/4 |
-| TASK-002 | Message Copy Functionality | ❌ Not Started | Critical | 0/5 |
+| TASK-001 | Stop/Cancel AI Response | ✅ Complete | Critical | 4/4 |
+| TASK-002 | Message Copy Functionality | ✅ Complete | Critical | 5/5 |
 | TASK-003 | File Upload Functionality | ❌ Not Started | Critical | 0/7 |
 | TASK-004 | Thread Management | ❌ Not Started | Critical | 0/6 |
 | TASK-005 | New Thread Creation | ❌ Not Started | High | 0/5 |
@@ -534,7 +534,7 @@ This document outlines the missing capabilities and improvement tasks for the UB
 | TASK-007 | Conversation Export | ❌ Not Started | Medium | 0/6 |
 | TASK-008 | Voice Input | ❌ Not Started | Low | 0/5 |
 
-**Overall Progress**: 0% complete (0/40 subtasks)
+**Overall Progress**: 22.5% complete (9/40 subtasks)
 
 ---
 
