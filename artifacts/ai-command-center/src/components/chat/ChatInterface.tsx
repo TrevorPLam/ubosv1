@@ -144,18 +144,21 @@ export function ChatInterface() {
 
   // Thread management handlers
   const handleStartEdit = useCallback((threadId: string, currentTitle: string) => {
+    console.log('[ChatInterface] handleStartEdit called', { threadId, currentTitle });
     setEditingThreadId(threadId);
     setEditingTitle(currentTitle);
     setDeleteDialogOpen(false);
   }, []);
 
   const handleSaveEdit = useCallback(async () => {
+    console.log('[ChatInterface] handleSaveEdit called', { editingThreadId, editingTitle });
     if (!editingThreadId || !editingTitle.trim()) return;
 
     // Optimistic update
     const previousThreads = queryClient.getQueryData(['chat-threads']);
     
     try {
+      console.log('[ChatInterface] Performing optimistic update for rename');
       queryClient.setQueryData(['chat-threads'], (old: any) => {
         if (!old) return old;
         return old.map((t: any) => 
@@ -166,6 +169,7 @@ export function ChatInterface() {
       });
 
       await renameThread(editingThreadId, editingTitle.trim());
+      console.log('[ChatInterface] Rename success');
       
       toast.success("Thread renamed", {
         description: "Thread title has been updated successfully",
@@ -175,6 +179,7 @@ export function ChatInterface() {
       setEditingThreadId(null);
       setEditingTitle('');
     } catch (error) {
+      console.error('[ChatInterface] Rename error:', error);
       // Rollback on error
       queryClient.setQueryData(['chat-threads'], previousThreads);
       
@@ -186,29 +191,34 @@ export function ChatInterface() {
   }, [editingThreadId, editingTitle, queryClient]);
 
   const handleCancelEdit = useCallback(() => {
+    console.log('[ChatInterface] handleCancelEdit called');
     setEditingThreadId(null);
     setEditingTitle('');
   }, []);
 
   const handleDeleteClick = useCallback((threadId: string) => {
+    console.log('[ChatInterface] handleDeleteClick called', { threadId });
     setThreadToDelete(threadId);
     setDeleteDialogOpen(true);
     setEditingThreadId(null);
   }, []);
 
   const handleConfirmDelete = useCallback(async () => {
+    console.log('[ChatInterface] handleConfirmDelete called', { threadToDelete });
     if (!threadToDelete) return;
 
     // Optimistic update
     const previousThreads = queryClient.getQueryData(['chat-threads']);
     
     try {
+      console.log('[ChatInterface] Performing optimistic update for delete');
       queryClient.setQueryData(['chat-threads'], (old: any) => {
         if (!old) return old;
         return old.filter((t: any) => t.id !== threadToDelete);
       });
 
       await deleteThread(threadToDelete);
+      console.log('[ChatInterface] Delete success');
       
       // Handle active thread deletion
       if (activeThreadId === threadToDelete) {
@@ -224,6 +234,7 @@ export function ChatInterface() {
       setDeleteDialogOpen(false);
       setThreadToDelete(null);
     } catch (error) {
+      console.error('[ChatInterface] Delete error:', error);
       // Rollback on error
       queryClient.setQueryData(['chat-threads'], previousThreads);
       
@@ -503,25 +514,49 @@ export function ChatInterface() {
                     )}
                   >
                     {editingThreadId === t.id ? (
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 w-full" onClick={(e) => e.stopPropagation()}>
                         <input
                           ref={editInputRef}
                           type="text"
                           value={editingTitle}
                           onChange={(e) => setEditingTitle(e.target.value)}
                           onKeyDown={handleEditKeyDown}
-                          onBlur={handleCancelEdit}
-                          className="flex-1 bg-transparent border-none outline-none text-[13px] font-medium"
+                          onBlur={handleSaveEdit}
+                          className="flex-1 bg-background/50 border border-primary/20 rounded px-1.5 py-0.5 outline-none text-[13px] font-medium"
                           placeholder="Thread title..."
                         />
                       </div>
                     ) : (
-                      <>
-                        <div className="truncate text-[13px]">{t.title}</div>
-                        <div className="text-[10px] mt-0.5 opacity-60">
-                          {formatDistanceToNow(new Date(t.updatedAt))} ago
+                      <div className="flex items-center justify-between group/item w-full">
+                        <div className="min-w-0">
+                          <div className="truncate text-[13px]">{t.title}</div>
+                          <div className="text-[10px] mt-0.5 opacity-60">
+                            {formatDistanceToNow(new Date(t.updatedAt))} ago
+                          </div>
                         </div>
-                      </>
+                        <div className="flex items-center gap-1 opacity-0 group-hover/item:opacity-100 transition-opacity">
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleStartEdit(t.id, t.title);
+                            }}
+                            className="p-1 hover:bg-primary/20 rounded text-primary transition-colors"
+                            title="Rename"
+                          >
+                            <Edit className="w-3 h-3" />
+                          </button>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleDeleteClick(t.id);
+                            }}
+                            className="p-1 hover:bg-destructive/20 rounded text-destructive transition-colors"
+                            title="Delete"
+                          >
+                            <Trash2 className="w-3 h-3" />
+                          </button>
+                        </div>
+                      </div>
                     )}
                   </button>
                 </ContextMenuTrigger>
