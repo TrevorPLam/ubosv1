@@ -1,17 +1,32 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { getThreads, Message } from "@/api/chat";
+import { getThreads, deleteThread, renameThread, Message } from "@/api/chat";
 import { MessageBubble } from "./MessageBubble";
 import { ChatInput } from "./ChatInput";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { CheckpointBanner } from "./CheckpointBanner";
 import { formatDistanceToNow } from "date-fns";
-import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen } from "lucide-react";
+import { MessageSquare, Plus, Loader2, PanelRightClose, PanelRightOpen, Trash2, Edit } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useClipboard } from "@/hooks/useClipboard";
 import { toast } from "sonner";
+import { 
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger
+} from "@/components/ui/context-menu";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 
 // Simulated streaming responses keyed by rough topic
 const STREAM_RESPONSES = [
@@ -79,6 +94,13 @@ export function ChatInterface() {
   // Clipboard functionality
   const { copy, isLoading, isSupported } = useClipboard();
 
+  // Thread management state
+  const [editingThreadId, setEditingThreadId] = useState<string | null>(null);
+  const [editingTitle, setEditingTitle] = useState('');
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [threadToDelete, setThreadToDelete] = useState<string | null>(null);
+  const editInputRef = useRef<HTMLInputElement>(null);
+
   // Handle keyboard copy functionality
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     // Check if Ctrl/Cmd+C is pressed
@@ -119,6 +141,122 @@ export function ChatInterface() {
       document.removeEventListener('keydown', handleKeyDown);
     };
   }, [handleKeyDown]);
+
+  // Thread management handlers
+  const handleStartEdit = useCallback((threadId: string, currentTitle: string) => {
+    setEditingThreadId(threadId);
+    setEditingTitle(currentTitle);
+    setDeleteDialogOpen(false);
+  }, []);
+
+  const handleSaveEdit = useCallback(async () => {
+    if (!editingThreadId || !editingTitle.trim()) return;
+
+    // Optimistic update
+    const previousThreads = queryClient.getQueryData(['chat-threads']);
+    
+    try {
+      queryClient.setQueryData(['chat-threads'], (old: typeof threads) => {
+        if (!old) return old;
+        return old.map(t => 
+          t.id === editingThreadId 
+            ? { ...t, title: editingTitle.trim(), updatedAt: new Date().toISOString() }
+            : t
+        );
+      });
+
+      await renameThread(editingThreadId, editingTitle.trim());
+      
+      toast.success("Thread renamed", {
+        description: "Thread title has been updated successfully",
+        duration: 2000,
+      });
+      
+      setEditingThreadId(null);
+      setEditingTitle('');
+    } catch (error) {
+      // Rollback on error
+      queryClient.setQueryData(['chat-threads'], previousThreads);
+      
+      toast.error("Failed to rename thread", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    }
+  }, [editingThreadId, editingTitle, queryClient]);
+
+  const handleCancelEdit = useCallback(() => {
+    setEditingThreadId(null);
+    setEditingTitle('');
+  }, []);
+
+  const handleDeleteClick = useCallback((threadId: string) => {
+    setThreadToDelete(threadId);
+    setDeleteDialogOpen(true);
+    setEditingThreadId(null);
+  }, []);
+
+  const handleConfirmDelete = useCallback(async () => {
+    if (!threadToDelete) return;
+
+    // Optimistic update
+    const previousThreads = queryClient.getQueryData(['chat-threads']);
+    
+    try {
+      queryClient.setQueryData(['chat-threads'], (old: typeof threads) => {
+        if (!old) return old;
+        return old.filter(t => t.id !== threadToDelete);
+      });
+
+      await deleteThread(threadToDelete);
+      
+      // Handle active thread deletion
+      if (activeThreadId === threadToDelete) {
+        const remainingThreads = threads.filter(t => t.id !== threadToDelete);
+        setActiveThreadId(remainingThreads.length > 0 ? remainingThreads[0].id : null);
+      }
+      
+      toast.success("Thread deleted", {
+        description: "Thread has been deleted successfully",
+        duration: 2000,
+      });
+      
+      setDeleteDialogOpen(false);
+      setThreadToDelete(null);
+    } catch (error) {
+      // Rollback on error
+      queryClient.setQueryData(['chat-threads'], previousThreads);
+      
+      toast.error("Failed to delete thread", {
+        description: error instanceof Error ? error.message : "Unknown error occurred",
+        duration: 3000,
+      });
+    }
+  }, [threadToDelete, activeThreadId, threads, queryClient]);
+
+  const handleCancelDelete = useCallback(() => {
+    setDeleteDialogOpen(false);
+    setThreadToDelete(null);
+  }, []);
+
+  // Auto-focus edit input
+  useEffect(() => {
+    if (editingThreadId && editInputRef.current) {
+      editInputRef.current.focus();
+      editInputRef.current.select();
+    }
+  }, [editingThreadId]);
+
+  // Handle keyboard events for editing
+  const handleEditKeyDown = useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleSaveEdit();
+    } else if (e.key === 'Escape') {
+      e.preventDefault();
+      handleCancelEdit();
+    }
+  }, [handleSaveEdit, handleCancelEdit]);
 
   const scrollToBottom = useCallback(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
@@ -352,26 +490,83 @@ export function ChatInterface() {
         <ScrollArea className="flex-1 min-w-[256px]">
           <div className="p-2 space-y-0.5">
             {threads.map(t => (
-              <button
-                key={t.id}
-                onClick={() => setActiveThreadId(t.id)}
-                data-testid={`thread-item-${t.id}`}
-                className={cn(
-                  "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors",
-                  t.id === activeThread?.id
-                    ? "bg-primary/10 text-primary font-medium"
-                    : "hover:bg-muted text-muted-foreground"
-                )}
-              >
-                <div className="truncate text-[13px]">{t.title}</div>
-                <div className="text-[10px] mt-0.5 opacity-60">
-                  {formatDistanceToNow(new Date(t.updatedAt))} ago
-                </div>
-              </button>
+              <ContextMenu key={t.id}>
+                <ContextMenuTrigger asChild>
+                  <button
+                    onClick={() => setActiveThreadId(t.id)}
+                    data-testid={`thread-item-${t.id}`}
+                    className={cn(
+                      "w-full text-left px-3 py-3 rounded-lg text-sm transition-colors",
+                      t.id === activeThread?.id
+                        ? "bg-primary/10 text-primary font-medium"
+                        : "hover:bg-muted text-muted-foreground"
+                    )}
+                  >
+                    {editingThreadId === t.id ? (
+                      <div className="flex items-center gap-2">
+                        <input
+                          ref={editInputRef}
+                          type="text"
+                          value={editingTitle}
+                          onChange={(e) => setEditingTitle(e.target.value)}
+                          onKeyDown={handleEditKeyDown}
+                          onBlur={handleCancelEdit}
+                          className="flex-1 bg-transparent border-none outline-none text-[13px] font-medium"
+                          placeholder="Thread title..."
+                        />
+                      </div>
+                    ) : (
+                      <>
+                        <div className="truncate text-[13px]">{t.title}</div>
+                        <div className="text-[10px] mt-0.5 opacity-60">
+                          {formatDistanceToNow(new Date(t.updatedAt))} ago
+                        </div>
+                      </>
+                    )}
+                  </button>
+                </ContextMenuTrigger>
+                <ContextMenuContent>
+                  <ContextMenuItem
+                    onClick={() => handleStartEdit(t.id, t.title)}
+                    className="flex items-center gap-2"
+                  >
+                    <Edit className="w-4 h-4" />
+                    Rename
+                  </ContextMenuItem>
+                  <ContextMenuSeparator />
+                  <ContextMenuItem
+                    onClick={() => handleDeleteClick(t.id)}
+                    className="flex items-center gap-2 text-destructive"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                    Delete
+                  </ContextMenuItem>
+                </ContextMenuContent>
+              </ContextMenu>
             ))}
           </div>
         </ScrollArea>
       </div>
     </div>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Delete Thread</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to delete this thread? This action cannot be undone and all messages in this thread will be permanently deleted.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={handleCancelDelete}>
+              Cancel
+            </Button>
+            <Button variant="destructive" onClick={handleConfirmDelete}>
+              Delete Thread
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
   );
 }

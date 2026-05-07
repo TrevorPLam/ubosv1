@@ -198,3 +198,29 @@ export const sendMessageWithFiles = async (
     throw new Error(`Failed to upload files: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 };
+
+export const deleteThread = (threadId: string): Promise<void> => {
+  return mockFetch(undefined, 500).then(() => {
+    // In a real implementation, this would make a DELETE request to the server
+    // For now, we'll simulate the deletion
+    const index = mockThreads.findIndex(t => t.id === threadId);
+    if (index > -1) {
+      mockThreads.splice(index, 1);
+    }
+  });
+};
+
+export const renameThread = (threadId: string, newTitle: string): Promise<Thread> => {
+  return mockFetch(undefined, 300).then(() => {
+    // In a real implementation, this would make a PATCH request to the server
+    const thread = mockThreads.find(t => t.id === threadId);
+    if (!thread) {
+      throw new Error('Thread not found');
+    }
+    
+    thread.title = newTitle;
+    thread.updatedAt = new Date().toISOString();
+    
+    return { ...thread };
+  });
+};
