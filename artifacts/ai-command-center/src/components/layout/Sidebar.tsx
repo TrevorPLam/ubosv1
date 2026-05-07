@@ -1,5 +1,5 @@
 import { useLocation, Link } from "wouter";
-import { LayoutDashboard, MessageSquare, LineChart, FileText, Database, Blocks, Settings, Activity } from "lucide-react";
+import { LayoutDashboard, MessageSquare, KanbanSquare, LineChart, FileText, Database, Blocks, Settings, Activity } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/uiStore";
 import { useAttentionQueue } from "@/hooks/useAttentionQueue";
@@ -12,6 +12,7 @@ export function Sidebar() {
   const navItems = [
     { href: "/", icon: LayoutDashboard, label: "Dashboard" },
     { href: "/chat", icon: MessageSquare, label: "Chat" },
+    { href: "/work", icon: KanbanSquare, label: "Work" },
     { href: "/analytics/cost", icon: LineChart, label: "Cost Analytics" },
     { href: "/analytics/audit", icon: Activity, label: "Audit Log" },
     { href: "/memory", icon: Database, label: "Memory" },
