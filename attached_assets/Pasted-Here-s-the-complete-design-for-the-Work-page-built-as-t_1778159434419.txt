@@ -1,0 +1,123 @@
+Here’s the complete design for the **Work** page, built as the central project and task hub that connects deeply to every other module in UBOS. All features described are part of a modular, turn-on/turn-off system so each business gets exactly what it needs.
+
+---
+
+## Design Philosophy
+
+Work is the command center where **projects and tasks** live, but its real power is that every other piece of UBOS—Clients, Documents, Calendar, Finance, Email—is directly accessible from inside a project or task. There are no silos. You can attach a signed agreement from the Agreements page, pull in a client record, link a vendor invoice, or drop a document from the central DMS without ever leaving the task you’re working on. The system is built around rapid keyboard interaction (like Linear) and the practical, client-service depth of Karbon, with the flexibility to enable only the views and features a team needs.
+
+---
+
+## Core Pages Within Work
+
+| Page | Purpose |
+|------|---------|
+| **My Work** | Personal daily command center aggregating all assigned tasks, overdue items, and priorities from every project. You can drag tasks into “Today”, “Next”, or “Cleared” lists for intuitive personal planning. |
+| **Triage / Inbox** | Central intake for incoming work. Captures emails forwarded to the system, internal requests, and client-submitted items. Everything can be converted into a task, assigned, and slotted into a project with one action. |
+| **All Projects** | Master list of every project with filters by client, status, owner, and date range. Each row shows progress, next milestone, and budget health. Click through to a project’s full dashboard. |
+| **Project Detail** | The workspace for a single project. This is where tasks, files, discussions, and linked resources live, with views that put everything at your fingertips. |
+| **Templates** | Library of reusable project and task templates, organized by type (onboarding, tax prep, content launch, etc.). Templates can contain full task hierarchies, assignees, due dates, budgets, and automations. |
+| **Work Calendar** | A calendar view that pulls tasks, milestones, and external events together. Integrates bidirectionally with the Calendar module so deadlines appear everywhere they’re needed. |
+
+---
+
+## Project & Task Hierarchy
+
+Projects and tasks form a flexible structure that can be as simple or as detailed as the team needs:
+
+- **Portfolio / Workspace** (optional) – Groups related projects together for high‑level reporting.
+- **Project** – A container with a goal, client association, start/end dates, budget, and custom statuses.
+- **Task** – The core unit of work. Tasks belong to a project, have an assignee, due date, priority, status, and can contain subtasks, checklists, dependencies, and attachments.
+- **Subtask** – Break a task into smaller steps, each with its own assignee and due date if needed.
+- **Dependencies** – Tasks can be blocked by other tasks. Gantt/Timeline views auto‑adjust dates when dependencies shift. Critical path highlighting is built in.
+
+---
+
+## Views – See Work the Way You Think
+
+Every project can be displayed in multiple views, all working on the same data. Users switch between them instantly.
+
+- **Kanban Board** – Columns represent workflow stages (e.g. To Do, In Progress, In Review, Done). Cards are drag‑and‑droppable. The board can be grouped by assignee, priority, or custom field. Keyboard‑first: press `Space` to open a task, `N` to create a new one, `F` to filter.
+- **List View** – A sortable, filterable spreadsheet‑style list with inline editing. Columns are configurable (status, owner, due date, custom fields, time estimate, etc.). Bulk actions available.
+- **Timeline / Gantt View** – Visual project timeline with dependency lines, milestones, and progress bars. Drag to reschedule tasks or extend durations. Automatically recalculates the critical path.
+- **Calendar View** – Tasks appear on a calendar based on their due date (or start–end range). Milestones are marked. Drag a task to reschedule it. Integrates with the main Calendar module so personal and work events coexist.
+- **Workload View** – Shows assigned tasks and hours per person across a time period. Color‑coded to highlight over‑allocation, giving managers a quick way to rebalance without guesswork.
+- **Table View** – A full data table with advanced grouping and aggregation, handy for reporting or exporting.
+
+---
+
+## Triage & Inbox – The Capture Engine
+
+Inspired by Karbon’s Triage, this is where unstructured work enters the system.
+
+- **Shared Team Inbox** – Each project or department gets an email address. Emails sent there land in the Triage inbox, visible to the whole team. No more forwarding chains.
+- **Email‑to‑Task** – Any email can be converted into a task with one click. The email body becomes the task description, attachments carry over, and the sender is linked as a client if they exist in the CRM.
+- **Internal Requests** – Team members can create quick requests that land in Triage for a manager to review and convert.
+- **Auto‑Categorization** – AI suggests the correct project and task type, speeding up processing when volumes are high.
+
+---
+
+## Templates & Recurring Work
+
+- **Project Templates** – Save a whole project structure (tasks, checklists, dependencies, built‑in views, and client roles) as a template. When applied, it generates everything ready to go. Ideal for repeating workflows like client onboarding, monthly close, or content launches.
+- **Task Templates** – Save individual tasks with predefined descriptions, subtasks, and custom fields. Quickly insert into any project.
+- **Recurring Tasks** – Any task can be set to repeat (daily, weekly, monthly, custom). The system auto‑generates the next instance when the current one is completed. Useful for monthly reporting, periodic maintenance, or quarterly reviews.
+- **Bulk Apply** – Push a template update to multiple existing projects at once, or reschedule a set of tasks in a single action.
+
+---
+
+## Task Management – The Complete Toolkit
+
+Every task card or detail pane gives immediate access to a rich set of capabilities, almost all of which can be linked to other UBOS modules:
+
+- **Basic Attributes**: Title, description (rich text with @mentions, checklist, code blocks, embedded images), assignee, due date (with start date optional), time estimate, priority (Urgent, High, Medium, Low), status (fully customizable per project), and tags.
+- **Subtasks & Checklists**: Nested subtasks or simple checklists. Subtasks can have their own assignees and dates. A progress bar shows real completion.
+- **Dependencies**: “Blocked by” / “blocks” relationships. The Timeline view updates automatically, and blocked tasks are visually flagged.
+- **Time Tracking** (optional): Start/pause a timer or log manual hours. Billable vs. non‑billable flag. Time entries are linked to the project, client, and, if connected to Finance, can flow directly into an invoice.
+- **Custom Fields**: Extend tasks with text, number, date, dropdown, currency, person, or formula fields. These can be used in filters, views, and automations.
+- **Automations**: “When status changes to Done, assign to reviewer” or “When task is overdue, send a notification to the project lead.” Built with a visual rule builder; natural language creation is available.
+- **Collaboration Tools**: Comments on tasks with full threading, @mentions, reactions, and file attachments. A real‑time presence indicator shows who is viewing the task.
+
+---
+
+## Cross‑Module Integration – Everything Talks
+
+This is the defining advantage of building Work inside UBOS. The following connections are native, not third‑party glue:
+
+| Integration | How It Works |
+|-------------|--------------|
+| **Clients (CRM)** | Every project can be linked to a Client/Contact record. From the project, you see key client info, open deals, active agreements, and recent support tickets. From the client record, you see all related projects and their status. |
+| **Documents** | When adding an attachment to a task, the file picker opens the central Documents module. You can choose an existing file or upload a new one, which is automatically stored in the right client/project folder. No duplicate copies. |
+| **Calendar** | Tasks with dates sync bidirectionally with the UBOS Calendar module. Block time for a task, see project milestones alongside your personal appointments, and use the Calendar to reschedule tasks. |
+| **Finance** | Assign a project budget (hours or currency). Track actual time and expenses against it. Mark a task or project as billable, and with one click generate an invoice that pulls line items, time logs, and client billing details from the CRM and Finance modules. |
+| **Agreements** | Attach a signed contract or SOW to a project. The project can automatically reference the services, deliverables, and rates defined in the agreement, ensuring the team always works within scope. |
+| **Email** | Connect your email account. Send and receive client emails directly from within a task or project. Each email thread is logged and attached to the relevant client record, keeping a complete communication history. Convert any email into a task. |
+| **Support Tickets** | Link a support ticket to a project or task. If a ticket requires engineering work, turn it into a task without leaving the Support module, and the task retains the ticket’s context. |
+| **Vendors** | For projects that involve external contractors or suppliers, link a vendor record to a task. View vendor contact info, contracts, and purchase orders right from the task pane. |
+
+---
+
+## AI Assistant in Work
+
+AI operates as a team member that can be assigned tasks, answer questions, and generate work products:
+
+- **Natural Language Project Setup**: “Create a client onboarding project for Acme Co with the standard 7‑step workflow and assign the design review to Alex.” The system generates the project, tasks, and assignments.
+- **Smart Summaries**: On demand, summarize all comments and activity on a task or project into a concise status update.
+- **Risk Detection**: AI analyzes project activity and flags tasks at risk of delay, or highlight potential scope creep based on time logged vs. original estimates.
+- **Work Generation**: Given a meeting note or a client email, AI can draft a structured project plan with tasks, milestones, and suggested owners.
+- **Search**: Ask “What are all the overdue tasks for the website redesign project?” and get an instant answer instead of building filters.
+
+---
+
+## Customization & Scalability
+
+Because the entire platform is modular:
+
+- **Enable/Disable Features**: A business can turn off Time Tracking, Gantt View, or Client Linking if those aren’t needed, keeping the interface lean.
+- **Custom Statuses & Workflows**: Each project type can have its own statuses and rules. A “Content Calendar” project might flow `Idea → Draft → Review → Scheduled → Published`, while a “Tax Return” project uses `Preparing → In Review → Client Sign‑Off → Filed`.
+- **Permissions**: Control who can create projects, view budgets, see client rates, or delete tasks.
+- **Keyboard‑First & Fast**: Inspired by Linear, the entire Work module is built for speed. Common actions are accessible with single keystrokes, and views load instantly.
+
+---
+
+This Work module takes the deepest client‑service workflow patterns from Karbon (Triage, recurring work, My Week, email integration), blends the speed and clean interaction of Linear, and layers on the visual customization and broad integration of the best horizontal tools — all while sitting on top of the same data graph that powers the rest of UBOS. That means a task about a client is never separated from that client’s contract, invoices, documents, or past support history. Everything is one click away.
