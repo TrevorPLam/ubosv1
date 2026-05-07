@@ -1,5 +1,5 @@
 import { useLocation, Link } from "wouter";
-import { LayoutDashboard, MessageSquare, KanbanSquare, CalendarDays, FolderOpen, Banknote, Package, LineChart, FileText, Database, Blocks, Settings, Activity, PanelLeftClose, PanelLeftOpen, Users, Building2 } from "lucide-react";
+import { LayoutDashboard, Bot, MessageSquare, KanbanSquare, CalendarDays, FolderOpen, Banknote, Package, LineChart, FileText, Database, Blocks, Settings, Activity, PanelLeftClose, PanelLeftOpen, Users, Building2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useUIStore } from "@/stores/uiStore";
 import { useAttentionQueue } from "@/hooks/useAttentionQueue";
@@ -11,6 +11,7 @@ export function Sidebar() {
 
   const navItems = [
     { href: "/", icon: LayoutDashboard, label: "Dashboard" },
+    { href: "/agents", icon: Bot, label: "Agents" },
     { href: "/chat", icon: MessageSquare, label: "Chat" },
     { href: "/crm", icon: Users, label: "CRM" },
     { href: "/clients", icon: Building2, label: "Clients" },
@@ -76,7 +77,7 @@ export function Sidebar() {
               )}
               
               {/* Attention Queue Badge */}
-              {item.href === "/" && count > 0 && (
+              {item.href === "/agents" && count > 0 && (
                 <div className={cn(
                   "absolute flex items-center justify-center bg-amber-500 text-amber-950 font-bold rounded-full text-[10px]",
                   sidebarCollapsed ? "top-1 right-1 w-3.5 h-3.5" : "right-3 w-5 h-5"

@@ -9,6 +9,7 @@ import { StatusBar } from "@/components/layout/StatusBar";
 import { CommandPalette } from "@/components/layout/CommandPalette";
 
 import { Dashboard } from "@/pages/Dashboard";
+import { AgentsPage } from "@/pages/AgentsPage";
 import { ChatInterface } from "@/components/chat/ChatInterface";
 import { CRMPage } from "@/components/crm/CRMPage";
 import { ClientsPage } from "@/components/clients/ClientsPage";
@@ -46,6 +47,7 @@ function Router() {
     <Layout>
       <Switch>
         <Route path="/" component={Dashboard} />
+        <Route path="/agents" component={AgentsPage} />
         <Route path="/chat" component={ChatInterface} />
         <Route path="/crm" component={CRMPage} />
         <Route path="/clients" component={ClientsPage} />

@@ -42,6 +42,10 @@ export function CommandPalette() {
                 <LayoutDashboard className="mr-2 h-4 w-4" />
                 <span>Dashboard</span>
               </CommandItem>
+              <CommandItem onSelect={() => runCommand(() => setLocation("/agents"))} data-testid="cmd-page-agents">
+                <Bot className="mr-2 h-4 w-4" />
+                <span>Agents</span>
+              </CommandItem>
               <CommandItem onSelect={() => runCommand(() => setLocation("/chat"))} data-testid="cmd-page-chat">
                 <MessageSquare className="mr-2 h-4 w-4" />
                 <span>Chat</span>
@@ -53,7 +57,7 @@ export function CommandPalette() {
             </CommandGroup>
             <CommandGroup heading="Agents">
               {mockAgents.map((agent) => (
-                <CommandItem key={agent.id} onSelect={() => runCommand(() => setLocation("/"))} data-testid={`cmd-agent-${agent.id}`}>
+                <CommandItem key={agent.id} onSelect={() => runCommand(() => setLocation("/agents"))} data-testid={`cmd-agent-${agent.id}`}>
                   <Bot className="mr-2 h-4 w-4" />
                   <span>{agent.name}</span>
                   <span className="ml-auto text-xs text-muted-foreground">{agent.model}</span>
