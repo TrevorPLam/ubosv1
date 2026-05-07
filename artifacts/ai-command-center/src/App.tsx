@@ -11,6 +11,7 @@ import { CommandPalette } from "@/components/layout/CommandPalette";
 import { Dashboard } from "@/pages/Dashboard";
 import { ChatInterface } from "@/components/chat/ChatInterface";
 import { WorkPage } from "@/components/work/WorkPage";
+import { CalendarPage } from "@/components/calendar/CalendarPage";
 import { CostAnalyticsPage } from "@/components/analytics/CostAnalyticsPage";
 import { AuditLogPage } from "@/components/analytics/AuditLogPage";
 import { KnowledgeBasePage } from "@/components/memory/KnowledgeBasePage";
@@ -42,6 +43,7 @@ function Router() {
         <Route path="/" component={Dashboard} />
         <Route path="/chat" component={ChatInterface} />
         <Route path="/work" component={WorkPage} />
+        <Route path="/calendar" component={CalendarPage} />
         <Route path="/analytics/cost" component={CostAnalyticsPage} />
         <Route path="/analytics/audit" component={AuditLogPage} />
         <Route path="/memory" component={KnowledgeBasePage} />
