@@ -1,29 +1,25 @@
 import { useState } from "react";
 import { useLocation } from "wouter";
 import {
-  Building2, DollarSign, FolderKanban, CalendarDays, Search,
-  Plus, MoreHorizontal, ArrowUpRight, Clock, Phone, Mail,
-  UserPlus, Flame,
+  Building2, CalendarDays, Search, Plus, MoreHorizontal,
+  ArrowUpRight, Clock, Phone, Mail, UserPlus, Flame,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
-  DropdownMenuSeparator, DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import {
+  DropdownMenu, DropdownMenuContent, DropdownMenuItem,
+  DropdownMenuSeparator, DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { useCalendarStore } from "@/stores/calendarStore";
-import { mockProjects } from "@/api/projects";
-import { mockClients, STATUS_CONFIG, TIER_CONFIG, Client, ClientStatus } from "./clientsData";
+import { mockAgreements } from "@/api/agreements";
+import { mockClients, STATUS_CONFIG, Client, ClientStatus, clientDisplayName } from "./clientsData";
 
 export type { ClientStatus, Client };
-
-// ── CRM Contact data ──────────────────────────────────────────────────────────
 
 const CRM_CONTACTS = [
   { id: 1, name: "Sarah Chen", email: "sarah.chen@acme.com", company: "Acme Corp", score: 92, status: "hot", phone: "+1 415 555 0101" },
@@ -36,22 +32,6 @@ const CRM_CONTACTS = [
   { id: 8, name: "Ava Thompson", email: "ava.t@vertexops.com", company: "VertexOps", score: 95, status: "hot", phone: "+1 415 555 0176" },
 ];
 
-// ── Helpers ───────────────────────────────────────────────────────────────────
-
-function HealthBar({ value }: { value: number }) {
-  const color = value >= 75 ? "bg-emerald-400" : value >= 50 ? "bg-amber-400" : "bg-red-400";
-  return (
-    <div className="flex items-center gap-2">
-      <div className="h-1.5 w-16 rounded-full bg-muted overflow-hidden">
-        <div className={cn("h-full rounded-full transition-all", color)} style={{ width: `${value}%` }} />
-      </div>
-      <span className={cn("text-xs font-semibold",
-        value >= 75 ? "text-emerald-400" : value >= 50 ? "text-amber-400" : "text-red-400"
-      )}>{value}</span>
-    </div>
-  );
-}
-
 function StatusBadge({ status }: { status: ClientStatus }) {
   const cfg = STATUS_CONFIG[status];
   return (
@@ -62,14 +42,10 @@ function StatusBadge({ status }: { status: ClientStatus }) {
   );
 }
 
-// ── Convert from CRM Dialog ───────────────────────────────────────────────────
-
 function ConvertFromCRMDialog({
   open, onClose, existingClientIds, onConvert,
 }: {
-  open: boolean;
-  onClose: () => void;
-  existingClientIds: number[];
+  open: boolean; onClose: () => void; existingClientIds: number[];
   onConvert: (contact: typeof CRM_CONTACTS[0]) => void;
 }) {
   const available = CRM_CONTACTS.filter((c) => !existingClientIds.includes(c.id));
@@ -78,26 +54,18 @@ function ConvertFromCRMDialog({
       <DialogContent className="max-w-lg">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
-            <UserPlus className="w-4 h-4 text-primary" />
-            Convert CRM Contact to Client
+            <UserPlus className="w-4 h-4 text-primary" />Convert CRM Contact to Client
           </DialogTitle>
         </DialogHeader>
-        <p className="text-sm text-muted-foreground -mt-1">
-          Select a contact from your CRM to add as a client.
-        </p>
+        <p className="text-sm text-muted-foreground -mt-1">Select a contact from your CRM to add as a client.</p>
         <ScrollArea className="max-h-80">
           <div className="flex flex-col gap-2 pr-2">
             {available.length === 0 && (
-              <div className="text-sm text-muted-foreground text-center py-8">
-                All CRM contacts have already been converted.
-              </div>
+              <div className="text-sm text-muted-foreground text-center py-8">All CRM contacts have already been converted.</div>
             )}
             {available.map((c) => (
-              <div
-                key={c.id}
-                className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/40 hover:bg-muted/20 transition-colors cursor-pointer group"
-                onClick={() => { onConvert(c); onClose(); }}
-              >
+              <div key={c.id} className="flex items-center gap-3 p-3 rounded-lg border border-border hover:border-primary/40 hover:bg-muted/20 transition-colors cursor-pointer group"
+                onClick={() => { onConvert(c); onClose(); }}>
                 <Avatar className="w-9 h-9 shrink-0">
                   <AvatarFallback className="text-xs bg-primary/10 text-primary font-semibold">
                     {c.name.split(" ").map((n) => n[0]).join("")}
@@ -125,8 +93,6 @@ function ConvertFromCRMDialog({
   );
 }
 
-// ── Main Page ─────────────────────────────────────────────────────────────────
-
 export function ClientsPage() {
   const [, navigate] = useLocation();
   const [clients, setClients] = useState<Client[]>(mockClients);
@@ -137,51 +103,52 @@ export function ClientsPage() {
 
   const existingCrmIds = clients.filter((c) => c.crmContactId != null).map((c) => c.crmContactId!);
 
-  const totalMrr = clients.reduce((s, c) => s + (c.status !== "inactive" ? c.mrr : 0), 0);
+  const totalClients = clients.length;
   const activeClients = clients.filter((c) => c.status === "active").length;
   const atRiskClients = clients.filter((c) => c.status === "at-risk").length;
+  const totalAgreements = mockAgreements.filter((a) => clients.some((c) => c.linkedAgreementIds.includes(a.id))).length;
   const clientApts = appointments.filter((apt) =>
     clients.some((c) =>
-      apt.attendees.some((att) => att.toLowerCase().includes(c.name.toLowerCase()))
+      apt.attendees.some((att) =>
+        att.toLowerCase().includes(c.firstName.toLowerCase()) ||
+        att.toLowerCase().includes(c.lastName.toLowerCase())
+      )
     )
   ).length;
 
   const statCards = [
-    { label: "Total Clients", value: clients.length.toString(), sub: `${activeClients} active`, icon: Building2, color: "text-blue-400", bg: "bg-blue-400/10" },
-    { label: "Monthly Revenue", value: `$${(totalMrr / 1000).toFixed(1)}K`, sub: "MRR across active", icon: DollarSign, color: "text-emerald-400", bg: "bg-emerald-400/10" },
-    { label: "Linked Projects", value: mockProjects.length.toString(), sub: "across all clients", icon: FolderKanban, color: "text-violet-400", bg: "bg-violet-400/10" },
-    { label: "Appointments", value: clientApts.toString(), sub: atRiskClients > 0 ? `${atRiskClients} at-risk clients` : "all healthy", icon: CalendarDays, color: atRiskClients > 0 ? "text-amber-400" : "text-teal-400", bg: atRiskClients > 0 ? "bg-amber-400/10" : "bg-teal-400/10" },
+    { label: "Total Clients", value: totalClients.toString(), sub: `${activeClients} active`, icon: Building2, color: "text-blue-400", bg: "bg-blue-400/10" },
+    { label: "At Risk", value: atRiskClients.toString(), sub: "Need attention", icon: Building2, color: "text-red-400", bg: "bg-red-400/10" },
+    { label: "Agreements", value: totalAgreements.toString(), sub: "across all clients", icon: Building2, color: "text-violet-400", bg: "bg-violet-400/10" },
+    { label: "Appointments", value: clientApts.toString(), sub: "scheduled", icon: CalendarDays, color: "text-teal-400", bg: "bg-teal-400/10" },
   ];
 
   const filtered = clients.filter((c) => {
-    const matchSearch =
-      c.name.toLowerCase().includes(search.toLowerCase()) ||
-      c.company.toLowerCase().includes(search.toLowerCase()) ||
-      c.email.toLowerCase().includes(search.toLowerCase());
+    const name = clientDisplayName(c).toLowerCase();
+    const q = search.toLowerCase();
+    const matchSearch = name.includes(q) || c.company.toLowerCase().includes(q) ||
+      c.emails.some((e) => e.email.toLowerCase().includes(q)) || c.jobTitle.toLowerCase().includes(q);
     const matchStatus = statusFilter === "all" || c.status === statusFilter;
     return matchSearch && matchStatus;
   });
 
   function handleConvert(contact: typeof CRM_CONTACTS[0]) {
+    const nameParts = contact.name.split(" ");
     const newClient: Client = {
       id: `client-${Date.now()}`,
-      name: contact.name,
-      company: contact.company,
-      email: contact.email,
-      phone: contact.phone,
-      website: "",
-      status: "new",
-      tier: "startup",
-      mrr: 0,
-      contractStart: new Date().toISOString().slice(0, 10),
-      contractEnd: "",
-      linkedProjectIds: [],
-      tags: [],
-      notes: `Converted from CRM. Lead score: ${contact.score}.`,
-      lastActivity: "just now",
-      health: contact.score,
-      source: "crm",
-      crmContactId: contact.id,
+      salutation: "", firstName: nameParts[0] ?? "", middleName: "",
+      lastName: nameParts.slice(1).join(" "), suffix: "", preferredName: "",
+      dateOfBirth: "", gender: "", preferredLanguage: "English",
+      company: contact.company, jobTitle: "",
+      status: "new", source: "crm", crmContactId: contact.id, lastActivity: "just now",
+      emails: [{ id: `e${Date.now()}`, type: "Work", email: contact.email, primary: true }],
+      phones: [{ id: `p${Date.now()}`, type: "Work", number: contact.phone, primary: true }],
+      websites: [], socialProfiles: [],
+      physicalAddress: { street: "", city: "", state: "", postalCode: "", country: "" },
+      mailingAddress: { street: "", city: "", state: "", postalCode: "", country: "" },
+      businessAddress: { street: "", city: "", state: "", postalCode: "", country: "" },
+      clientOwner: "", notes: `Converted from CRM. Lead score: ${contact.score}.`,
+      tags: [], linkedProjectIds: [], linkedDocumentIds: [], linkedAgreementIds: [],
     };
     setClients((prev) => [newClient, ...prev]);
     mockClients.unshift(newClient);
@@ -196,14 +163,12 @@ export function ClientsPage() {
 
   return (
     <div className="flex flex-col h-full overflow-hidden">
-      {/* Header */}
       <div className="flex items-center justify-between px-6 py-4 border-b border-border shrink-0">
         <div>
           <h1 className="text-xl font-semibold text-foreground flex items-center gap-2">
-            <Building2 className="w-5 h-5 text-primary" />
-            Clients
+            <Building2 className="w-5 h-5 text-primary" />Clients
           </h1>
-          <p className="text-xs text-muted-foreground mt-0.5">Manage your client relationships, projects, and appointments.</p>
+          <p className="text-xs text-muted-foreground mt-0.5">Manage client relationships, agreements, and appointments.</p>
         </div>
         <div className="flex items-center gap-2">
           <Button variant="outline" size="sm" className="gap-1.5 h-9" onClick={() => setShowConvertDialog(true)}>
@@ -215,7 +180,6 @@ export function ClientsPage() {
         </div>
       </div>
 
-      {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 px-6 py-4 shrink-0">
         {statCards.map((s) => (
           <div key={s.label} className="bg-card border border-border rounded-lg p-3 flex items-center gap-3">
@@ -231,11 +195,10 @@ export function ClientsPage() {
         ))}
       </div>
 
-      {/* Search & Filter */}
       <div className="flex items-center gap-2 px-6 pb-3 shrink-0">
         <div className="relative flex-1 min-w-40 max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input placeholder="Search clients…" className="pl-9 h-9" value={search} onChange={(e) => setSearch(e.target.value)} />
+          <Input placeholder="Search by name, company, email…" className="pl-9 h-9" value={search} onChange={(e) => setSearch(e.target.value)} />
         </div>
         <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v as typeof statusFilter)}>
           <SelectTrigger className="h-9 w-36">
@@ -251,19 +214,17 @@ export function ClientsPage() {
         </Select>
       </div>
 
-      {/* Client List */}
       <div className="flex-1 min-h-0 px-6 pb-4">
         <ScrollArea className="h-full">
           <div className="rounded-md border border-border overflow-hidden">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-muted/30">
-                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">Client</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">Name</th>
                   <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden md:table-cell">Status</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden lg:table-cell">Tier</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground">MRR</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden xl:table-cell">Health</th>
-                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden lg:table-cell">Projects</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden lg:table-cell">Company</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden xl:table-cell">Job Title</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden lg:table-cell">Email</th>
                   <th className="text-left px-4 py-2.5 text-xs font-medium text-muted-foreground hidden xl:table-cell">Last Active</th>
                   <th className="px-4 py-2.5" />
                 </tr>
@@ -271,46 +232,37 @@ export function ClientsPage() {
               <tbody>
                 {filtered.map((c, i) => {
                   const statusCfg = STATUS_CONFIG[c.status];
-                  const tierCfg = TIER_CONFIG[c.tier];
+                  const primaryEmail = c.emails.find((e) => e.primary)?.email ?? c.emails[0]?.email ?? "";
+                  const name = clientDisplayName(c);
+                  const initials = [c.firstName[0], c.lastName[0]].filter(Boolean).join("").toUpperCase() || c.firstName.slice(0, 2).toUpperCase();
                   return (
-                    <tr
-                      key={c.id}
-                      onClick={() => navigate(`/clients/${c.id}`)}
-                      className={cn(
-                        "border-b border-border/50 hover:bg-muted/20 transition-colors cursor-pointer",
-                        i % 2 === 0 ? "" : "bg-muted/5",
-                      )}
-                    >
+                    <tr key={c.id} onClick={() => navigate(`/clients/${c.id}`)}
+                      className={cn("border-b border-border/50 hover:bg-muted/20 transition-colors cursor-pointer", i % 2 === 0 ? "" : "bg-muted/5")}>
                       <td className="px-4 py-3">
                         <div className="flex items-center gap-3">
                           <span className={cn("w-2 h-2 rounded-full shrink-0", statusCfg.dot)} />
-                          <Avatar className="w-8 h-8">
-                            <AvatarFallback className="text-xs bg-primary/10 text-primary font-semibold">
-                              {c.name.split(" ").map((n) => n[0]).join("")}
-                            </AvatarFallback>
+                          <Avatar className="w-8 h-8 shrink-0">
+                            <AvatarFallback className="text-xs bg-primary/10 text-primary font-semibold">{initials}</AvatarFallback>
                           </Avatar>
-                          <div>
-                            <div className="font-medium text-foreground">{c.name}</div>
-                            <div className="text-xs text-muted-foreground">{c.company}</div>
+                          <div className="min-w-0">
+                            <div className="font-medium text-foreground truncate">{name}</div>
+                            {c.preferredName && c.preferredName !== c.firstName && (
+                              <div className="text-xs text-muted-foreground">goes by {c.preferredName}</div>
+                            )}
                           </div>
                         </div>
                       </td>
-                      <td className="px-4 py-3 hidden md:table-cell">
-                        <StatusBadge status={c.status} />
-                      </td>
+                      <td className="px-4 py-3 hidden md:table-cell"><StatusBadge status={c.status} /></td>
                       <td className="px-4 py-3 hidden lg:table-cell">
-                        <span className={cn("text-xs font-medium px-1.5 py-0.5 rounded-full", tierCfg.color)}>
-                          {tierCfg.label}
-                        </span>
-                      </td>
-                      <td className="px-4 py-3">
-                        <span className="text-sm font-bold text-emerald-400">${c.mrr.toLocaleString()}</span>
+                        <span className="text-sm text-foreground">{c.company || <span className="text-muted-foreground">—</span>}</span>
                       </td>
                       <td className="px-4 py-3 hidden xl:table-cell">
-                        <HealthBar value={c.health} />
+                        <span className="text-sm text-muted-foreground">{c.jobTitle || "—"}</span>
                       </td>
                       <td className="px-4 py-3 hidden lg:table-cell">
-                        <span className="text-xs font-semibold text-foreground">{c.linkedProjectIds.length}</span>
+                        <span className="text-xs text-muted-foreground flex items-center gap-1 truncate max-w-40">
+                          <Mail className="w-3 h-3 shrink-0" />{primaryEmail || "—"}
+                        </span>
                       </td>
                       <td className="px-4 py-3 hidden xl:table-cell">
                         <span className="text-xs text-muted-foreground flex items-center gap-1">
@@ -335,12 +287,7 @@ export function ClientsPage() {
                               <Phone className="w-3.5 h-3.5 mr-2" />Log Call
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
-                            <DropdownMenuItem
-                              className="text-destructive"
-                              onClick={() => handleRemove(c.id)}
-                            >
-                              Remove Client
-                            </DropdownMenuItem>
+                            <DropdownMenuItem className="text-destructive" onClick={() => handleRemove(c.id)}>Remove Client</DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </td>
@@ -349,9 +296,7 @@ export function ClientsPage() {
                 })}
                 {filtered.length === 0 && (
                   <tr>
-                    <td colSpan={8} className="px-4 py-12 text-center text-sm text-muted-foreground">
-                      No clients match your search.
-                    </td>
+                    <td colSpan={7} className="px-4 py-12 text-center text-sm text-muted-foreground">No clients match your search.</td>
                   </tr>
                 )}
               </tbody>
@@ -361,7 +306,6 @@ export function ClientsPage() {
         </ScrollArea>
       </div>
 
-      {/* Dialogs */}
       <ConvertFromCRMDialog
         open={showConvertDialog}
         onClose={() => setShowConvertDialog(false)}
