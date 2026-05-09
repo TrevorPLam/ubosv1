@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/popover.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Popover component with trigger, anchor, and content using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Popover components must use Radix UI primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Should support proper positioning and alignment configurations.
+ *   - DO NOT modify popover behavior without updating accessibility features.
+ *
+ * @exports     Popover, PopoverTrigger, PopoverAnchor, PopoverContent
+ * @imports     @radix-ui/react-popover, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 

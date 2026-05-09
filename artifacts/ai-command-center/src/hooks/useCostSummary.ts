@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useCostSummary.ts
+ * @module      Analytics / Cost
+ * @purpose     React hook to fetch and manage cost summary data for agents
+ *
+ * @ai_instructions
+ *   - Must use @tanstack/react-query for data fetching
+ *   - Must provide mock cost data with realistic values
+ *   - Must include total cost, by-agent breakdown, and daily history
+ *   - DO NOT modify mock data structure without updating UI components
+ *
+ * @exports     useCostSummary, CostData
+ * @imports     @tanstack/react-query
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useQuery } from '@tanstack/react-query';
 
 export interface CostData {

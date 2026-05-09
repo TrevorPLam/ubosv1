@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        artifacts/ai-command-center/package.json\n@module      AI Command Center\n@purpose     Package configuration for the AI command center React application\n\n@ai_instructions\n   - All dependencies must use catalog: for workspace-managed versions.\n   - Scripts must use the vite.config.ts configuration file.\n   - DO NOT add dependencies without updating the component library.\n   - React and related packages must remain compatible with the workspace.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
   "name": "@workspace/ai-command-center",
   "version": "0.0.0",
   "private": true,

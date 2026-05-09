@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/input-otp.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     OTP input component for one-time password entry built on input-otp
+ *
+ * @ai_instructions
+ *   - Input OTP must use forwardRef for proper ref forwarding.
+ *   - Component should extend input-otp props for full API compatibility.
+ *   - OTP input should have proper validation and formatting.
+ *   - DO NOT modify OTP behavior without updating accessibility guidelines.
+ *
+ * @exports     InputOTP, InputOTPGroup, InputOTPSlot
+ * @imports     react, input-otp, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { OTPInput, OTPInputContext } from "input-otp"
 import { Minus } from "lucide-react"

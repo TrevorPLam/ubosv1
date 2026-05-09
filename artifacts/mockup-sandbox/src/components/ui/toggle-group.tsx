@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/toggle-group.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Toggle group component for grouped toggle controls built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Toggle group must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Toggle group should inherit toggle variants for consistency.
+ *   - DO NOT modify toggle group behavior without updating accessibility guidelines.
+ *
+ * @exports     ToggleGroup, ToggleGroupItem
+ * @imports     react, @radix-ui/react-toggle-group, class-variance-authority, @/lib/utils, @/components/ui/toggle
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

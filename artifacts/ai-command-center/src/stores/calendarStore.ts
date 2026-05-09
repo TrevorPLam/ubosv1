@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/stores/calendarStore.ts
+ * @module      Stores / Calendar
+ * @purpose     Zustand store for calendar appointments and scheduling management
+ *
+ * @ai_instructions
+ *   - Must use Zustand for state management
+ *   - Must provide CRUD operations for appointments
+ *   - Must include realistic seed data for demonstration
+ *   - DO NOT modify appointment structure without updating calendar components
+ *
+ * @exports     useCalendarStore, Appointment, AppointmentType
+ * @imports     zustand
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { create } from 'zustand';
 
 export type AppointmentType = 'meeting' | 'call' | 'demo' | 'interview' | 'reminder';

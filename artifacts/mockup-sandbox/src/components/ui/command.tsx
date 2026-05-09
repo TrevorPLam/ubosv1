@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/command.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Command palette component for search and command selection built on cmdk
+ *
+ * @ai_instructions
+ *   - Command must use forwardRef for proper ref forwarding.
+ *   - Component should support all cmdk features and props.
+ *   - Command should use dialog components for modal behavior.
+ *   - DO NOT modify command behavior without updating accessibility guidelines.
+ *
+ * @exports     Command, CommandDialog, CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator
+ * @imports     react, @radix-ui/react-dialog, cmdk, lucide-react, @/lib/utils, @/components/ui/dialog
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

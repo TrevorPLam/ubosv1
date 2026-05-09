@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/agents/AgentDetailDrawer.tsx
+ * @module      AI Command Center / Agents
+ * @purpose     Drawer component displaying detailed agent information and metrics
+ *
+ * @ai_instructions
+ *   - Agent data must be found from the provided agents array.
+ *   - Metrics should use proper formatting functions for readability.
+ *   - Drawer must handle null agentId gracefully.
+ *   - DO NOT modify the status indicator implementation without updating Agent type.
+ *
+ * @exports     AgentDetailDrawer
+ * @imports     @/components/ui/sheet, @/api/agents, @/components/ui/StatusIndicator, @/lib/formatters, lucide-react, @/components/ui/scroll-area
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Agent } from "@/api/agents";
 import { StatusIndicator } from "@/components/ui/StatusIndicator";

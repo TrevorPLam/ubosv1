@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/lib/eventBus.ts
+ * @module      Events / Simulation
+ * @purpose     Event bus system and agent simulator for real-time agent activity
+ *
+ * @ai_instructions
+ *   - Must maintain proper event listener cleanup for subscriptions
+ *   - Must follow valid state machine transitions for agent statuses
+ *   - Must emit realistic log events with proper timestamps
+ *   - DO NOT modify simulator timing without considering UX impact
+ *
+ * @exports     eventBus, startSimulator, stopSimulator, getInitialAgentStatuses
+ *          AgentStatus, SSELogEvent, AgentStatusChangeEvent, ApprovalRequestedEvent
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 export type AgentStatus = 'idle' | 'thinking' | 'running-tool' | 'awaiting-approval' | 'error';
 
 export interface SSELogEvent {

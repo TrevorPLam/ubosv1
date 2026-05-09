@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/settings/SettingsPage.tsx
+ * @module      AI Command Center / Settings
+ * @purpose     Settings dashboard hub with navigation to cost analytics, audit log, and data management
+ *
+ * @ai_instructions
+ *   - Navigation cards should maintain consistent layout and hover states.
+ *   - Icons must accurately represent their respective settings areas.
+ *   - Descriptions should be concise yet informative for each sub-module.
+ *   - DO NOT modify navigation structure without updating routing configuration.
+ *
+ * @exports     SettingsPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/TransactionsPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Transaction management and categorization with account reconciliation and filtering
+ *
+ * @ai_instructions
+ *   - Transactions should use realistic merchant data and proper categorization.
+ *   - Currency formatting should use USD with 2 decimal places for precision.
+ *   - Category icons must accurately represent spending types.
+ *   - DO NOT modify transaction categorization without updating reconciliation logic.
+ *
+ * @exports     TransactionsPage
+ * @imports     wouter, @/components/ui/*, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import {
   ShoppingCart, Car, Utensils, Home, Tv, Heart, Plane, DollarSign, ChevronRight, Filter, Upload, MoreHorizontal,

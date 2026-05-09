@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/sonner.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Toast notification component built on sonner with theme support
+ *
+ * @ai_instructions
+ *   - Toaster must extend sonner props for full API compatibility.
+ *   - Component should support both light and dark themes.
+ *   - Toast positioning and behavior should be consistent.
+ *   - DO NOT modify toast behavior without updating user experience guidelines.
+ *
+ * @exports     Toaster
+ * @imports     next-themes, sonner
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import { useTheme } from "next-themes"

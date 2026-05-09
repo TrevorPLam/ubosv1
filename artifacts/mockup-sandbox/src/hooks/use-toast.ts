@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/hooks/use-toast.ts
+ * @module      Mockup Sandbox / UI Hooks
+ * @purpose     React hook for managing toast notifications with state management
+ *
+ * @ai_instructions
+ *   - Toast limit must be enforced to prevent UI overflow.
+ *   - Toast removal delay should be configurable via TOAST_REMOVE_DELAY.
+ *   - State management must handle concurrent updates safely.
+ *   - DO NOT modify toast timeout logic without testing cleanup.
+ *
+ * @exports     useToast, toast, reducer
+ * @imports     react, @/components/ui/toast
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import type {
@@ -5,7 +23,9 @@ import type {
   ToastProps,
 } from "@/components/ui/toast"
 
+// AI-NOTE: TOAST_LIMIT prevents UI overflow by restricting concurrent toasts
 const TOAST_LIMIT = 1
+// AI-WARN: TOAST_REMOVE_DELAY is set very high (1M ms) - adjust based on UX requirements
 const TOAST_REMOVE_DELAY = 1000000
 
 type ToasterToast = ToastProps & {

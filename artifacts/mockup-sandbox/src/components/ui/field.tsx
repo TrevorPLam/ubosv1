@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/field.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Field components for form layouts with fieldsets, legends, and descriptions
+ *
+ * @ai_instructions
+ *   - Field components must use forwardRef for proper ref forwarding.
+ *   - Components should support variants using class-variance-authority.
+ *   - Field layout should be consistent with other form components.
+ *   - DO NOT modify field structure without updating accessibility guidelines.
+ *
+ * @exports     FieldSet, FieldLegend, FieldDescription, Field, fieldVariants, FieldProps
+ * @imports     react, class-variance-authority, @/lib/utils, @/components/ui/label, @/components/ui/separator
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import { useMemo } from "react"

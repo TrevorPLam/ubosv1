@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/App.tsx
+ * @module      AI Command Center / Core
+ * @purpose     Main React application component with routing and layout structure
+ *
+ * @ai_instructions
+ *   - All route paths must be unique and follow RESTful conventions.
+ *   - Layout components must wrap all page components.
+ *   - QueryClient provider must be at the root level.
+ *   - DO NOT add routes without updating the Sidebar component.
+ *
+ * @exports     App component
+ * @imports     wouter, @tanstack/react-query, @/components/ui/toaster, @/components/ui/tooltip, @/components/layout/*, @/pages/*, @/components/*
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/CRMAnalyticsPage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     Comprehensive CRM analytics dashboard with campaign performance, deal reports, and AI insights
+ *
+ * @ai_instructions
+ *   - Campaign metrics should be ranked by performance indicators.
+ *   - AI insights should provide actionable business intelligence.
+ *   - Progress bars must accurately reflect completion rates and trends.
+ *   - DO NOT modify analytics structure without updating CRM API types.
+ *
+ * @exports     CRMAnalyticsPage
+ * @imports     wouter, @/components/ui/card, @/components/ui/badge, lucide-react, @/lib/utils, @/components/ui/progress
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

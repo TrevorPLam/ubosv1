@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/checkbox.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Checkbox form component with checked/unchecked states using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Checkbox component must use Radix UI primitives for accessibility.
+ *   - Should forward ref for proper DOM manipulation and form integration.
+ *   - Must support proper keyboard navigation and focus management.
+ *   - DO NOT modify checkbox behavior without updating form validation logic.
+ *
+ * @exports     Checkbox
+ * @imports     @radix-ui/react-checkbox, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { Check } from "lucide-react"

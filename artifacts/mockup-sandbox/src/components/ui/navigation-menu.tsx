@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/navigation-menu.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Navigation menu component for site navigation built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Navigation menu should have proper keyboard navigation support.
+ *   - DO NOT modify navigation structure without updating accessibility guidelines.
+ *
+ * @exports     NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuContent, NavigationMenuTrigger, NavigationMenuLink, NavigationMenuIndicator, NavigationMenuViewport
+ * @imports     react, @radix-ui/react-navigation-menu, class-variance-authority, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as NavigationMenuPrimitive from "@radix-ui/react-navigation-menu"
 import { cva } from "class-variance-authority"

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/tabs.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Tabs component for tabbed content navigation built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Tabs should have proper keyboard navigation and ARIA attributes.
+ *   - DO NOT modify tabs behavior without updating accessibility guidelines.
+ *
+ * @exports     Tabs, TabsList, TabsTrigger, TabsContent
+ * @imports     react, @radix-ui/react-tabs, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/VoiceWaveform.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Audio waveform visualization component for voice input using Web Audio API
+ *
+ * @ai_instructions
+ *   - Waveform should only render when actively listening.
+ *   - Must properly clean up audio resources to prevent memory leaks.
+ *   - Canvas rendering should use requestAnimationFrame for smooth animation.
+ *   - DO NOT modify audio context handling without updating voice input hooks.
+ *
+ * @exports     VoiceWaveform
+ * @imports     react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useEffect, useRef } from 'react';
 
 interface VoiceWaveformProps {
@@ -6,12 +24,14 @@ interface VoiceWaveformProps {
 }
 
 export function VoiceWaveform({ isListening, className }: VoiceWaveformProps) {
+  // AI-NOTE: All refs must be properly cleaned up to prevent memory leaks
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
 
+  // AI-WARN: Cleanup function must be called on unmount to release audio resources
   useEffect(() => {
     if (isListening) {
       startAudio();

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/work/WorkPage.tsx
+ * @module      AI Command Center / Work Management
+ * @purpose     Comprehensive work management interface with task boards, project views, and calendar integration
+ *
+ * @ai_instructions
+ *   - Task data must use the provided Project and Task types from @/api/projects.
+ *   - Board view should support drag-and-drop reordering between status columns.
+ *   - All date operations must use date-fns for consistency.
+ *   - DO NOT modify the task status flow without updating the COLUMNS configuration.
+ *
+ * @exports     WorkPage
+ * @imports     @tanstack/react-query, @/api/projects, @/components/ui/*, framer-motion, lucide-react, date-fns
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useMemo } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getProjects, getTasks, createTask, type Project, type Task, type TaskStatus, type TaskPriority } from "@/api/projects";

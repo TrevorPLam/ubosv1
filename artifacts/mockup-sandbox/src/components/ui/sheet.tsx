@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/sheet.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Sheet component for slide-out panels built on Radix UI dialog primitives
+ *
+ * @ai_instructions
+ *   - Sheet must extend Radix UI dialog primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Sheet should support variants using class-variance-authority.
+ *   - DO NOT modify sheet behavior without updating accessibility guidelines.
+ *
+ * @exports     Sheet, SheetTrigger, SheetClose, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription
+ * @imports     react, @radix-ui/react-dialog, class-variance-authority, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

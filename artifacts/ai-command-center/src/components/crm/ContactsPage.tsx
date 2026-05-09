@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/ContactsPage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     Contacts management page with lead scoring, search, and automation tracking
+ *
+ * @ai_instructions
+ *   - Lead scores must be categorized as hot (≥85), warm (≥60), or cold.
+ *   - Search should filter across name, company, and email fields.
+ *   - Contact status should be visually indicated with colored dots.
+ *   - DO NOT modify contact structure without updating CRM API types.
+ *
+ * @exports     ContactsPage, ScoreBadge, StatusDot
+ * @imports     react, wouter, lucide-react, @/lib/utils, @/components/ui/badge, @/components/ui/button, @/components/ui/input, @/components/ui/card, @/components/ui/dropdown-menu, @/components/ui/avatar, @/components/ui/scroll-area
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { Link } from "wouter";
 import {

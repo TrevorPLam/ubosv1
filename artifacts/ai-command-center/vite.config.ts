@@ -1,3 +1,20 @@
+/**
+ * @file        artifacts/ai-command-center/vite.config.ts
+ * @module      AI Command Center
+ * @purpose     Vite configuration for the AI command center React application
+ *
+ * @ai_instructions
+ *   - PORT environment variable must be set before running dev server.
+ *   - Path aliases must match the @/* convention used in tsconfig.json.
+ *   - All plugins must be compatible with the React and Tailwind setup.
+ *   - DO NOT modify plugin configuration without updating dependencies.
+ *
+ * @imports     vite, @vitejs/plugin-react, @tailwindcss/vite, path, @replit/vite-plugin-runtime-error-modal
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";

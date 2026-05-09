@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/avatar.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Avatar component for displaying user images and fallbacks built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Avatar should handle image loading states gracefully.
+ *   - DO NOT modify fallback behavior without updating accessibility guidelines.
+ *
+ * @exports     Avatar, AvatarImage, AvatarFallback
+ * @imports     react, @radix-ui/react-avatar, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

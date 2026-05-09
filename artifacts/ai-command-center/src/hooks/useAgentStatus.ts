@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useAgentStatus.ts
+ * @module      Agent Management / Status
+ * @purpose     React hook to manage and track agent statuses with real-time updates
+ *
+ * @ai_instructions
+ *   - Must subscribe to eventBus for status changes and logs
+ *   - Must properly cleanup event subscriptions on unmount
+ *   - Must update memory usage and token counts for active agents
+ *   - DO NOT modify the recent actions slice limit without updating UI
+ *
+ * @exports     useAgentStatus
+ * @imports     @/api/agents, @/lib/eventBus
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useEffect, useState } from 'react';
 import { mockAgents } from '@/api/agents';
 import { startSimulator, eventBus, getInitialAgentStatuses, AgentStatus } from '@/lib/eventBus';

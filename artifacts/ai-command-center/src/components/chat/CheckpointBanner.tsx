@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/CheckpointBanner.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Banner component displaying conversation checkpoints with title and timestamp
+ *
+ * @ai_instructions
+ *   - Banner should be centered with proper visual hierarchy.
+ *   - Checkpoint icon should use primary color for emphasis.
+ *   - Timestamp should be displayed with reduced opacity.
+ *   - DO NOT modify banner styling without updating chat layout.
+ *
+ * @exports     CheckpointBanner
+ * @imports     lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Save } from "lucide-react";
 
 export function CheckpointBanner({ title, time }: { title: string; time: string }) {

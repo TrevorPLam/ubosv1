@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/BudgetPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Budget tracking and visualization component with spending analysis by category
+ *
+ * @ai_instructions
+ *   - Budget categories should use consistent color coding with chart variables.
+ *   - Currency formatting must use consistent USD format with no decimals.
+ *   - Progress indicators should accurately reflect budget vs actual spending.
+ *   - DO NOT modify budget calculation logic without updating spending analysis.
+ *
+ * @exports     BudgetPage
+ * @imports     wouter, @/components/ui/*, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Home, Utensils, Car, ShoppingCart, Heart, Tv, Plane, AlertTriangle, ChevronRight, Plus } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";

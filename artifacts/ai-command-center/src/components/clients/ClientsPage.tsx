@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/clients/ClientsPage.tsx
+ * @module      AI Command Center / Clients
+ * @purpose     Client management page with search, filtering, and CRM integration
+ *
+ * @ai_instructions
+ *   - Client page must support search, filtering, and status management
+ *   - Must integrate with calendar store for appointment scheduling
+ *   - Should provide CRM contact integration and scoring
+ *   - DO NOT modify client data structure without updating clients API types
+ *
+ * @exports     ClientsPage, Client, ClientStatus
+ * @imports     react, wouter, lucide-react, @/lib/utils, @/components/ui/*, @/stores/calendarStore, @/api/agreements, ./clientsData
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { useLocation } from "wouter";
 import {

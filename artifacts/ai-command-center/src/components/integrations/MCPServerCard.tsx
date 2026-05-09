@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/integrations/MCPServerCard.tsx
+ * @module      AI Command Center / Integrations
+ * @purpose     Card component displaying MCP server connection status and tool information
+ *
+ * @ai_instructions
+ *   - Server status must accurately reflect connection states with appropriate icons.
+ *   - Trust tier badges should use consistent color coding for security levels.
+ *   - Tool list should display available server tools in a readable format.
+ *   - DO NOT modify status indicators without updating connection logic.
+ *
+ * @exports     MCPServerCard, MCPServer
+ * @imports     lucide-react, @/components/ui/badge
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { CheckCircle2, XCircle, ShieldAlert, ShieldCheck, Box } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 

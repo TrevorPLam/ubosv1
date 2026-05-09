@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/api/projects.ts
+ * @module      AI Command Center / API
+ * @purpose     Project and task management API with types, mock data, and CRUD operations
+ *
+ * @ai_instructions
+ *   - All task statuses must be from the TaskStatus union type.
+ *   - Task priorities should follow standard project management conventions.
+ *   - Mock data must include realistic project workflows and agent assignments.
+ *   - DO NOT modify status or priority values without updating project management UI.
+ *
+ * @exports     TaskStatus, TaskPriority, Task, Project, mockProjects, mockTasks, getProjects, getTasks, createTask
+ * @imports     ./client
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { mockFetch } from "./client";
 
 export type TaskStatus = 'backlog' | 'in-progress' | 'in-review' | 'done';

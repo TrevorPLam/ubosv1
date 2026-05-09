@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/pages/EmailInboxPage.tsx
+ * @module      Pages / Email
+ * @purpose     Email inbox page with multi-account support, compose, and email management
+ *
+ * @ai_instructions
+ *   - Must support multiple email providers (Gmail, Outlook, etc.)
+ *   - Must provide compose, reply, and email management functionality
+ *   - Must maintain folder navigation and email state properly
+ *   - DO NOT modify the email data structure without updating all email components
+ *
+ * @exports     EmailInboxPage
+ * @imports     @/lib/utils, @/components/ui, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";

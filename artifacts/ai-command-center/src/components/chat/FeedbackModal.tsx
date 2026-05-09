@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/FeedbackModal.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Modal component for collecting detailed feedback with categories and comments
+ *
+ * @ai_instructions
+ *   - Feedback categories should cover common response issues.
+ *   - Modal should reset form state on close and submit.
+ *   - Character limit should be enforced for comments.
+ *   - DO NOT modify feedback categories without updating chat API types.
+ *
+ * @exports     FeedbackModal
+ * @imports     react, @/components/ui/dialog, @/components/ui/button, @/components/ui/textarea, @/components/ui/radio-group, @/components/ui/label, @/lib/utils, @/api/chat
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import {
   Dialog,

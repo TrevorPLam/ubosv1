@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/badge.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Badge component with variants for status indicators and labels
+ *
+ * @ai_instructions
+ *   - Badge variants must use class-variance-authority for consistent styling.
+ *   - All variants should maintain proper hover and focus states.
+ *   - Badges should never wrap text (whitespace-nowrap).
+ *   - DO NOT modify variant definitions without updating design system tokens.
+ *
+ * @exports     Badge
+ * @imports     class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

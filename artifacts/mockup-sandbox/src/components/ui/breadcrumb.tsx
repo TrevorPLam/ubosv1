@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/breadcrumb.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Breadcrumb navigation component with separators and collapsible items
+ *
+ * @ai_instructions
+ *   - All components must use forwardRef for proper ref forwarding.
+ *   - Breadcrumb must support custom separators via props.
+ *   - Components should have proper navigation semantics.
+ *   - DO NOT modify breadcrumb structure without updating accessibility guidelines.
+ *
+ * @exports     Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbPage, BreadcrumbSeparator, BreadcrumbEllipsis
+ * @imports     react, @radix-ui/react-slot, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { ChevronRight, MoreHorizontal } from "lucide-react"

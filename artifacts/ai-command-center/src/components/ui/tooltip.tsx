@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/tooltip.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Tooltip component with provider, trigger, and content using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Tooltip components must use Radix UI primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Should support proper positioning and delay configurations.
+ *   - DO NOT modify tooltip behavior without updating accessibility features.
+ *
+ * @exports     TooltipProvider, Tooltip, TooltipTrigger, TooltipContent
+ * @imports     @radix-ui/react-tooltip, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

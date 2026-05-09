@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/App.tsx
+ * @module      Mockup Sandbox / Core
+ * @purpose     Main React application for component preview rendering and gallery
+ *
+ * @ai_instructions
+ *   - Component resolution must handle default, Preview, and named exports.
+ *   - Error states must provide clear guidance for component structure.
+ *   - Preview path parsing must match Vite routing configuration.
+ *   - DO NOT modify component resolution logic without updating plugin.
+ *
+ * @exports     App component
+ * @imports     react, ./.generated/mockup-components
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useEffect, useState, type ComponentType } from "react";
 
 import { modules as discoveredModules } from "./.generated/mockup-components";

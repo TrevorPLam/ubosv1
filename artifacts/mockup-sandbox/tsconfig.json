@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        artifacts/mockup-sandbox/tsconfig.json\n@module      Mockup Sandbox\n@purpose     TypeScript configuration for the mockup sandbox development environment\n\n@ai_instructions\n   - Must extend the base tsconfig from workspace root.\n   - JSX preserve required for Vite processing.\n   - DOM libraries required for React compatibility.\n   - Path aliases must match the @/* convention.\n   - Include plugin files for mockup functionality.\n   - DO NOT modify compiler options without updating build scripts.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
   "extends": "../../tsconfig.base.json",
   "include": ["src/**/*", "mockupPreviewPlugin.ts", "vite.config.ts"],
   "exclude": ["node_modules", "build", "dist", "**/*.test.ts"],

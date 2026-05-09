@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/item.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Item components for list items, groups, and separators
+ *
+ * @ai_instructions
+ *   - Item components must use forwardRef for proper ref forwarding.
+ *   - Components should support variants using class-variance-authority.
+ *   - Item layout should be consistent with other UI components.
+ *   - DO NOT modify item structure without updating the design system.
+ *
+ * @exports     ItemGroup, Item, itemVariants, ItemProps, ItemTitle, ItemDescription, ItemIndicator, ItemSeparator
+ * @imports     react, @radix-ui/react-slot, class-variance-authority, @/lib/utils, @/components/ui/separator
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"

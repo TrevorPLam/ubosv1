@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/toggle.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Toggle component for binary state controls built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Toggle must extend Radix UI primitive props for full API compatibility.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Toggle should support variants using class-variance-authority.
+ *   - DO NOT modify toggle behavior without updating accessibility guidelines.
+ *
+ * @exports     Toggle, toggleVariants, ToggleProps
+ * @imports     react, @radix-ui/react-toggle, class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as TogglePrimitive from "@radix-ui/react-toggle"
 import { cva, type VariantProps } from "class-variance-authority"

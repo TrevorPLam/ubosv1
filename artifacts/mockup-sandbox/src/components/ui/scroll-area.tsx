@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/scroll-area.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Scroll area component for scrollable content built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Scroll area must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Scroll area should have proper scrollbar styling and behavior.
+ *   - DO NOT modify scroll behavior without updating accessibility guidelines.
+ *
+ * @exports     ScrollArea, ScrollBar
+ * @imports     react, @radix-ui/react-scroll-area, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 

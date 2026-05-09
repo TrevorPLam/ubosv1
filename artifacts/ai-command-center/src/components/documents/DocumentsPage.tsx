@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/documents/DocumentsPage.tsx
+ * @module      AI Command Center / Document Management
+ * @purpose     Document management interface with file organization, search, and sharing capabilities
+ *
+ * @ai_instructions
+ *   - Document data should include realistic file information and metadata.
+ *   - File type icons must accurately represent document categories.
+ *   - Search and filter functionality should work across all document types.
+ *   - DO NOT modify document categorization without updating file handling logic.
+ *
+ * @exports     DocumentsPage
+ * @imports     @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import {
   FileText, FileSpreadsheet, FileImage, FileCode, File,

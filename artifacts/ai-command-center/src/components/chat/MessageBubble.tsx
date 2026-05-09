@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/MessageBubble.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Message bubble component with citations, feedback, editing, and file attachments
+ *
+ * @ai_instructions
+ *   - Message bubbles must support different roles (user, assistant, system).
+ *   - Citations should be rendered inline with hover cards for details.
+ *   - File attachments must handle images and documents appropriately.
+ *   - DO NOT modify message structure without updating chat API types.
+ *
+ * @exports     MessageBubble
+ * @imports     @/api/chat, @/lib/utils, lucide-react, ./ToolCallDisclosure, ./FeedbackControls, ./FeedbackModal, ./MessageEditor, ./CitationBadge, ./ConfidenceIndicator, date-fns, react, @/hooks/useClipboard, sonner, @/components/ui/context-menu, @/components/ui/dropdown-menu
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Message, FileAttachment, Citation, submitFeedback } from "@/api/chat";
 import { cn } from "@/lib/utils";
 import { Bot, User, Copy, Download, FileText, GitBranch, Edit, Globe, BookOpen, MoreHorizontal, RefreshCw, Share2 } from "lucide-react";

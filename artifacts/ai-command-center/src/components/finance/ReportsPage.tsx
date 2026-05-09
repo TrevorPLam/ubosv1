@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/ReportsPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Financial reports generation with profit/loss analysis and trend visualization
+ *
+ * @ai_instructions
+ *   - Reports should use consistent chart types and color schemes.
+ *   - Currency formatting must support both full and compact display modes.
+ *   - Trend indicators should accurately reflect period-over-period changes.
+ *   - DO NOT modify report calculations without updating financial analysis logic.
+ *
+ * @exports     ReportsPage
+ * @imports     wouter, recharts, @/components/ui/*, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";

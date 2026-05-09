@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/button-group.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Button group component for grouping related buttons with proper styling
+ *
+ * @ai_instructions
+ *   - Button group must support variants using class-variance-authority.
+ *   - Components should handle focus states properly for keyboard navigation.
+ *   - Group styling should be consistent with other UI components.
+ *   - DO NOT modify group layout without updating the design system.
+ *
+ * @exports     ButtonGroup, buttonGroupVariants, ButtonGroupProps
+ * @imports     @radix-ui/react-slot, class-variance-authority, @/lib/utils, @/components/ui/separator
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
 

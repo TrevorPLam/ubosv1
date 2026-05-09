@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/layout/StatusBar.tsx
+ * @module      AI Command Center / Layout
+ * @purpose     Status bar displaying system status, active agents, and pending approvals
+ *
+ * @ai_instructions
+ *   - Status bar must accurately reflect real-time agent activity counts.
+ *   - Pending approvals should use the attention queue hook for accuracy.
+ *   - System status indicator should reflect overall application health.
+ *   - DO NOT modify status calculation logic without updating agent monitoring.
+ *
+ * @exports     StatusBar
+ * @imports     @/hooks/useAgentStatus, @/hooks/useAttentionQueue, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useAgentStatus } from "@/hooks/useAgentStatus";
 import { useAttentionQueue } from "@/hooks/useAttentionQueue";
 import { Activity } from "lucide-react";

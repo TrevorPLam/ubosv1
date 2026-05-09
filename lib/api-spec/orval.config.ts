@@ -1,3 +1,21 @@
+/**
+ * @file        lib/api-spec/orval.config.ts
+ * @module      API Specification
+ * @purpose     Orval configuration for generating API client and Zod schemas from OpenAPI spec
+ *
+ * @ai_instructions
+ *   - Path resolutions must use path.resolve() with absolute paths.
+ *   - The API title must remain "Api" for consistency with generated exports.
+ *   - DO NOT change the transformer function logic without updating all dependent code.
+ *   - Output targets must match the expected library structure.
+ *
+ * @exports     Default orval configuration object
+ * @imports     orval, path
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { defineConfig, InputTransformerFn } from "orval";
 import path from "path";
 

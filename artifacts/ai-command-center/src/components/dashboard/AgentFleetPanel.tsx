@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/dashboard/AgentFleetPanel.tsx
+ * @module      AI Command Center / Dashboard
+ * @purpose     Fleet management panel displaying all agents with loading states and selection
+ *
+ * @ai_instructions
+ *   - Fleet panel should support responsive grid layouts.
+ *   - Loading state should show skeleton cards matching agent count.
+ *   - Agent selection should trigger detailed view updates.
+ *   - DO NOT modify fleet structure without updating agent status hooks.
+ *
+ * @exports     AgentFleetPanel
+ * @imports     @/hooks/useAgentStatus, ./AgentCard
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useAgentStatus } from "@/hooks/useAgentStatus";
 import { AgentCard } from "./AgentCard";
 

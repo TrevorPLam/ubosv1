@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        lib/api-client-react/package.json\n@module      API Client / React\n@purpose     Package configuration for the React API client library\n\n@ai_instructions\n   - Dependencies must use catalog: for workspace-managed versions.\n   - React peer dependency must remain >=18 for modern React features.\n   - DO NOT add dependencies without updating the custom-fetch implementation.\n   - Exports must point to the src/index.ts entry point.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
   "name": "@workspace/api-client-react",
   "version": "0.0.0",
   "private": true,

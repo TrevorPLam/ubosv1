@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/FinancePage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Main finance dashboard hub with navigation to all financial sub-modules
+ *
+ * @ai_instructions
+ *   - Navigation cards should maintain consistent layout and hover states.
+ *   - Icons must accurately represent their respective financial functions.
+ *   - Descriptions should be concise yet informative for each sub-module.
+ *   - DO NOT modify navigation structure without updating routing configuration.
+ *
+ * @exports     FinancePage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { LayoutDashboard, List, ArrowLeftRight, FileText, Receipt, BookOpen, BarChart2, Target, PiggyBank, ChevronRight } from "lucide-react";

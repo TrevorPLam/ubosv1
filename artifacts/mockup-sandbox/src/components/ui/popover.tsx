@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/popover.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Popover component with trigger, content, and anchor positioning
+ *
+ * @ai_instructions
+ *   - Popover must use Radix UI primitives for accessibility and positioning.
+ *   - Content must use forwardRef for proper ref forwarding.
+ *   - Component should support configurable alignment and side offset.
+ *   - DO NOT modify animations or positioning without updating design tokens.
+ *
+ * @exports     Popover, PopoverTrigger, PopoverContent, PopoverAnchor
+ * @imports     react, @radix-ui/react-popover, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
 

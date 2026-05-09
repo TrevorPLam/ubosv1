@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/ConfidenceIndicator.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Indicator component displaying AI response confidence levels with visual feedback
+ *
+ * @ai_instructions
+ *   - Confidence levels must be categorized as high (≥0.8), medium (≥0.5), or low.
+ *   - Icons should reflect the confidence level appropriately.
+ *   - Component must be accessible with proper ARIA labels.
+ *   - DO NOT modify confidence thresholds without updating chat documentation.
+ *
+ * @exports     ConfidenceIndicator
+ * @imports     lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Shield, ShieldAlert, ShieldOff } from "lucide-react";
 import { cn } from "@/lib/utils";
 

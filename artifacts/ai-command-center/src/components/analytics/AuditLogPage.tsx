@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/analytics/AuditLogPage.tsx
+ * @module      AI Command Center / Analytics
+ * @purpose     Page component displaying immutable audit log of all agent actions and system events
+ *
+ * @ai_instructions
+ *   - Mock data should include realistic agent actions and timestamps.
+ *   - Table must be scrollable with sticky headers for large datasets.
+ *   - Status badges should use appropriate color coding.
+ *   - DO NOT modify log structure without updating audit logging system.
+ *
+ * @exports     AuditLogPage
+ * @imports     wouter, @/components/ui/table, @/components/ui/input, @/components/ui/badge, lucide-react, @/lib/formatters
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";

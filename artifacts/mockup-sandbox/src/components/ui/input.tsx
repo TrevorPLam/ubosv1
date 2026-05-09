@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/input.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Input component with styling and accessibility features
+ *
+ * @ai_instructions
+ *   - Input must support all standard HTML input attributes.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Styling should be consistent with other form components.
+ *   - DO NOT modify base styles without updating the design system.
+ *
+ * @exports     Input
+ * @imports     react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

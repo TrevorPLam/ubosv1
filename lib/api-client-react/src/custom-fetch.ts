@@ -1,3 +1,21 @@
+/**
+ * @file        lib/api-client-react/src/custom-fetch.ts
+ * @module      API Client / React
+ * @purpose     Custom fetch wrapper with auth, base URL, and error handling for API calls
+ *
+ * @ai_instructions
+ *   - All exported functions must have explicit return types.
+ *   - Error handling must use the ApiError and ResponseParseError classes.
+ *   - DO NOT add Node.js-only APIs; this file must be isomorphic.
+ *   - Auth token handling must remain secure and never log credentials.
+ *
+ * @exports     customFetch, setBaseUrl, setAuthTokenGetter, ApiError, ResponseParseError
+ *              CustomFetchOptions, ErrorType, BodyType, AuthTokenGetter
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 export type CustomFetchOptions = RequestInit & {
   responseType?: "json" | "text" | "blob" | "auto";
 };

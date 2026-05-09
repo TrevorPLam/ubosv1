@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/marketing/SEOPage.tsx
+ * @module      AI Command Center / Marketing
+ * @purpose     SEO management with keyword tracking, AI visibility monitoring, and site audits
+ *
+ * @ai_instructions
+ *   - SEO data should include realistic keyword rankings and SERP feature data.
+ *   - AI visibility tracking must monitor brand mentions across AI platforms.
+ *   - Site audit should integrate with external tools (Semrush/Ahrefs).
+ *   - DO NOT modify tracking logic without updating SEO monitoring system.
+ *
+ * @exports     SEOPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

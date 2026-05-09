@@ -1,19 +1,20 @@
 /**
- * Token estimation and model context-window registry.
+ * @file        artifacts/ai-command-center/src/lib/tokens.ts
+ * @module      AI / Tokens
+ * @purpose     Token estimation and model context-window registry for LLM usage tracking
  *
- * This module provides:
- *  - A registry of popular LLM models and their context-window sizes.
- *  - A fast, client-side token estimator (4 chars ≈ 1 token heuristic).
- *  - A thread-level estimator that includes a 10 % overhead for system
- *    prompts and message-framing tokens that are not visible in the UI.
+ * @ai_instructions
+ *   - Must use 4 chars ≈ 1 token heuristic for fast client-side estimation
+ *   - Must include 10% overhead for system prompts and message framing
+ *   - Must maintain up-to-date model registry with context windows
+ *   - DO NOT use estimates to gate actual API calls - only for UI feedback
  *
- * The estimator intentionally trades perfect accuracy for zero latency.
- * It is suitable for UI feedback only; never gate actual API calls on it.
+ * @exports     MODEL_LIMITS, estimateTokens, estimateThreadTokens, usageRatio, formatTokenCount
+ *          ModelKey, DEFAULT_MODEL, MODEL_OPTIONS, WARN_THRESHOLD, CRITICAL_THRESHOLD, DANGER_THRESHOLD
+ * @imports     @/api/chat
  *
- * Best-practice references
- * - OpenAI tokenisation docs: https://platform.openai.com/tokenizer
- * - Anthropic context-window guide: https://docs.anthropic.com/en/docs/about-claude/models/overview
- * - Anti-pattern: never block a user's send based solely on an estimated count.
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
  */
 
 import type { Message } from "@/api/chat";

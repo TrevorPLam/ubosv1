@@ -1,3 +1,20 @@
+/**
+ * @file        artifacts/mockup-sandbox/vite.config.ts
+ * @module      Mockup Sandbox
+ * @purpose     Vite configuration for the mockup sandbox development environment
+ *
+ * @ai_instructions
+ *   - PORT environment variable must be set before running dev server.
+ *   - Path aliases must match the @/* convention used in tsconfig.json.
+ *   - Mockup preview plugin must be included for hot reload functionality.
+ *   - All plugins must be compatible with the React and Tailwind setup.
+ *
+ * @imports     vite, @vitejs/plugin-react, @tailwindcss/vite, path, @replit/vite-plugin-runtime-error-modal, ./mockupPreviewPlugin
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";

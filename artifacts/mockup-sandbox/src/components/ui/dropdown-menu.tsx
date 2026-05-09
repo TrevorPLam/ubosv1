@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/dropdown-menu.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Dropdown menu component with trigger, content, items, and submenus
+ *
+ * @ai_instructions
+ *   - Dropdown menu must use Radix UI primitives for accessibility and keyboard navigation.
+ *   - All subcomponents must use forwardRef for proper ref forwarding.
+ *   - Component should support submenus, checkboxes, radio items, and separators.
+ *   - DO NOT modify styling without updating the design system tokens.
+ *
+ * @exports     DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuCheckboxItem, DropdownMenuRadioItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuShortcut, DropdownMenuGroup, DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger, DropdownMenuRadioGroup
+ * @imports     react, @radix-ui/react-dropdown-menu, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

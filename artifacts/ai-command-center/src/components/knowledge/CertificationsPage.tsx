@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/knowledge/CertificationsPage.tsx
+ * @module      AI Command Center / Knowledge Management
+ * @purpose     Certifications tracking and management with renewal alerts and employee integration
+ *
+ * @ai_instructions
+ *   - Certification data should include realistic credential information and expiry dates.
+ *   - Renewal alerts should trigger at appropriate intervals (90, 60, 30 days).
+ *   - Employee integration must link certifications to team directory profiles.
+ *   - DO NOT modify renewal logic without updating alert scheduling.
+ *
+ * @exports     CertificationsPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

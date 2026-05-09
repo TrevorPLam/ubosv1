@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/knowledge/SOPsPage.tsx
+ * @module      AI Command Center / Knowledge Management
+ * @purpose     Standard operating procedures management with templates, search, and categorization
+ *
+ * @ai_instructions
+ *   - SOP data should include realistic procedure information and revision logs.
+ *   - Search functionality should work across roles, departments, and keywords.
+ *   - Tagging system must support cross-functional procedure categorization.
+ *   - DO NOT modify SOP template structure without updating procedure generation.
+ *
+ * @exports     SOPsPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

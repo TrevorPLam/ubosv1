@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/InvoicesPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Invoice management and tracking component with client billing and payment status
+ *
+ * @ai_instructions
+ *   - Invoice data should include realistic client information and due dates.
+ *   - Currency formatting must use consistent USD format with no decimals.
+ *   - Status badges should use appropriate color coding for payment states.
+ *   - DO NOT modify invoice status workflow without updating billing logic.
+ *
+ * @exports     InvoicesPage
+ * @imports     wouter, @/components/ui/*, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

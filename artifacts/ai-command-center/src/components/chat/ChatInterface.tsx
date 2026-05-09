@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/ChatInterface.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Main chat interface with thread management, streaming, search, and conversation features
+ *
+ * @ai_instructions
+ *   - All thread operations must use optimistic updates for better UX.
+ *   - Streaming simulation should match real AI response patterns.
+ *   - Message editing should handle version history properly.
+ *   - DO NOT modify streaming logic without updating MessageBubble component.
+ *
+ * @exports     ChatInterface
+ * @imports     react, @tanstack/react-query, @/api/chat, @/hooks/useBackgroundTask, ./MessageBubble, ./ChatInput, ./SummaryPanel, ./ContextWindowBar, @/lib/tokens, @/components/ui/scroll-area, ./CheckpointBanner, date-fns, lucide-react, @/components/ui/button, @/lib/utils, framer-motion, @/hooks/useClipboard, sonner, @/components/ui/context-menu, @/components/ui/dialog, @/components/ui/dropdown-menu
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getThreads, deleteThread, renameThread, createThread, generateThreadTitle, searchMessages, updateMessage, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, setThreadGroundingMode, createBranchFromMessage, Message, Thread, GroundingMode } from "@/api/chat";

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/JournalEntriesPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Double-entry bookkeeping journal entries management with debit/credit tracking
+ *
+ * @ai_instructions
+ *   - Journal entries must maintain balanced debits and credits for each transaction.
+ *   - Currency formatting should use USD with 2 decimal places for accounting precision.
+ *   - Entry status should support both draft and posted states.
+ *   - DO NOT modify journal entry structure without updating accounting logic.
+ *
+ * @exports     JournalEntriesPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

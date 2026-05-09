@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/input.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Form input component with consistent styling and accessibility support
+ *
+ * @ai_instructions
+ *   - Input component must forward ref for proper DOM manipulation.
+ *   - Should support all standard HTML input attributes and types.
+ *   - Styling must be consistent with design system tokens.
+ *   - DO NOT modify input styling without updating form validation logic.
+ *
+ * @exports     Input
+ * @imports     @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

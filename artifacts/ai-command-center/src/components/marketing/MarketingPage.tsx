@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/marketing/MarketingPage.tsx
+ * @module      AI Command Center / Marketing
+ * @purpose     Marketing dashboard hub with navigation to brand kit, SEO, socials, and analytics
+ *
+ * @ai_instructions
+ *   - Navigation cards should maintain consistent layout and hover states.
+ *   - Icons must accurately represent their respective marketing areas.
+ *   - Descriptions should be concise yet informative for each sub-module.
+ *   - DO NOT modify navigation structure without updating routing configuration.
+ *
+ * @exports     MarketingPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Palette, Search, Share2, BarChart2, FileText, ChevronRight } from "lucide-react";

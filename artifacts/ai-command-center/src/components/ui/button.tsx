@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/button.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Core button component with variants, sizes, and accessibility support using Radix UI
+ *
+ * @ai_instructions
+ *   - Button variants must use class-variance-authority for consistent styling.
+ *   - All variants should maintain proper hover and focus states.
+ *   - Component must forward ref for proper DOM manipulation.
+ *   - DO NOT modify variant definitions without updating design system tokens.
+ *
+ * @exports     Button
+ * @imports     @radix-ui/react-slot, class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"

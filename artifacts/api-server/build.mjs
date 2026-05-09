@@ -1,3 +1,20 @@
+/**
+ * @file        artifacts/api-server/build.mjs
+ * @module      API Server / Build
+ * @purpose     ESBuild configuration for bundling the Node.js API server
+ *
+ * @ai_instructions
+ *   - External packages list must include all native Node.js modules.
+ *   - Build output must be ESM format with .mjs extension.
+ *   - Pino plugin configuration must match logging setup.
+ *   - DO NOT modify external dependencies without verifying compatibility.
+ *
+ * @imports     node:module, node:path, node:url, esbuild, esbuild-plugin-pino, node:fs/promises
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { createRequire } from "node:module";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

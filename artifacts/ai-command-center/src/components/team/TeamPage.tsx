@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/team/TeamPage.tsx
+ * @module      AI Command Center / Team Management
+ * @purpose     Team management hub with navigation to directory, onboarding, offboarding, and compliance
+ *
+ * @ai_instructions
+ *   - Navigation cards should maintain consistent layout and hover states.
+ *   - Icons must accurately represent their respective team management areas.
+ *   - Descriptions should be concise yet informative for each sub-module.
+ *   - DO NOT modify navigation structure without updating routing configuration.
+ *
+ * @exports     TeamPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, ClipboardList, LogOut, CalendarOff, FileText, ShieldCheck, ChevronRight } from "lucide-react";

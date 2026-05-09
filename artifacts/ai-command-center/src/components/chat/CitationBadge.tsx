@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/CitationBadge.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Badge component displaying citation numbers with hover card details for source attribution
+ *
+ * @ai_instructions
+ *   - Citation badges should be superscript with proper styling.
+ *   - Hover cards must display source type, title, and snippet.
+ *   - External links should open in new tabs with proper security attributes.
+ *   - DO NOT modify citation structure without updating chat API types.
+ *
+ * @exports     CitationBadge
+ * @imports     @/components/ui/hover-card, @/api/chat, @/lib/utils, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { Citation } from "@/api/chat";
 import { cn } from "@/lib/utils";

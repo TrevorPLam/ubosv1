@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/FeedbackControls.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Feedback controls component for thumbs up/down rating of AI responses
+ *
+ * @ai_instructions
+ *   - Controls should appear on hover with smooth transitions.
+ *   - Feedback state must be clearly indicated with color changes.
+ *   - Component should be accessible with proper ARIA attributes.
+ *   - DO NOT modify feedback structure without updating chat API types.
+ *
+ * @exports     FeedbackControls
+ * @imports     react, lucide-react, @/components/ui/button, @/lib/utils, @/api/chat
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { ThumbsUp, ThumbsDown } from "lucide-react";
 import { Button } from "@/components/ui/button";

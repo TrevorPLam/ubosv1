@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/textarea.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Textarea component with styling and accessibility features
+ *
+ * @ai_instructions
+ *   - Textarea must support all standard HTML textarea attributes.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Minimum height should be appropriate for multi-line input.
+ *   - DO NOT modify base styles without updating the design system.
+ *
+ * @exports     Textarea
+ * @imports     react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

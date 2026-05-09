@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/card.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Card container component with header, content, and footer subcomponents
+ *
+ * @ai_instructions
+ *   - Card components must forward ref for proper DOM manipulation.
+ *   - All subcomponents should use consistent border radius and shadow styles.
+ *   - Components should be composable and flexible for different layouts.
+ *   - DO NOT modify card styling without updating design system tokens.
+ *
+ * @exports     Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent
+ * @imports     @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

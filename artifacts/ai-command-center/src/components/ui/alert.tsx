@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/alert.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Alert component with variants for notifications and status messages
+ *
+ * @ai_instructions
+ *   - Alert variants must use class-variance-authority for consistent styling.
+ *   - All variants should maintain proper spacing and icon positioning.
+ *   - Should support both default and destructive states.
+ *   - DO NOT modify alert variants without updating design system tokens.
+ *
+ * @exports     Alert, AlertTitle, AlertDescription
+ * @imports     class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

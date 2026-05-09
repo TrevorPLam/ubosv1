@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/test-summary.ts
+ * @module      AI Command Center / Testing
+ * @purpose     Test utilities for verifying conversation summarization functionality
+ *
+ * @ai_instructions
+ *   - Test functions must be exported for manual testing.
+ *   - Mock data should reflect real conversation patterns.
+ *   - Error handling must include descriptive messages.
+ *   - DO NOT commit test files with hardcoded credentials.
+ *
+ * @exports     testSummarization
+ * @imports     ./api/chat
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 // Test file to verify summarization functionality
 import { generateSummary, updateSummary, shouldAutoSummarize } from './api/chat';
 

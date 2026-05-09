@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        artifacts/ai-command-center/components.json\n@module      AI Command Center\n@purpose     Shadcn UI component library configuration\n\n@ai_instructions\n   - Style must remain new-york for consistency with the design system.\n   - Aliases must match the @/* path convention.\n   - CSS variables must be enabled for theme support.\n   - DO NOT modify the schema or style without updating all components.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
     "$schema": "https://ui.shadcn.com/schema.json",
     "style": "new-york",
     "rsc": false,

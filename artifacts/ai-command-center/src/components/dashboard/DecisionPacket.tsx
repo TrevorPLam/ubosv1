@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/dashboard/DecisionPacket.tsx
+ * @module      AI Command Center / Dashboard
+ * @purpose     Individual decision packet component with approve/reject actions and metadata
+ *
+ * @ai_instructions
+ *   - Decision packets should show agent name and timestamp clearly.
+ *   - Approve/reject buttons should be color-coded for quick decisions.
+ *   - Relative time formatting should be human-readable.
+ *   - DO NOT modify packet structure without updating attention queue types.
+ *
+ * @exports     DecisionPacket
+ * @imports     @/hooks/useAttentionQueue, @/components/ui/button, lucide-react, date-fns
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { QueueItem } from "@/hooks/useAttentionQueue";
 import { Button } from "@/components/ui/button";
 import { Check, X, Clock } from "lucide-react";

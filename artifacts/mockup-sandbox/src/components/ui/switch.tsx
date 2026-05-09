@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/switch.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Switch component for toggle controls built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Switch must extend Radix UI primitive props for full API compatibility.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Switch should have proper keyboard navigation and ARIA attributes.
+ *   - DO NOT modify switch behavior without updating accessibility guidelines.
+ *
+ * @exports     Switch
+ * @imports     react, @radix-ui/react-switch, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 

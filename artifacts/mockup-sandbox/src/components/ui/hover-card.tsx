@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/hover-card.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Hover card component for contextual information on hover built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Hover card should have proper timing and positioning.
+ *   - DO NOT modify hover behavior without updating accessibility guidelines.
+ *
+ * @exports     HoverCard, HoverCardTrigger, HoverCardContent
+ * @imports     react, @radix-ui/react-hover-card, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card"
 

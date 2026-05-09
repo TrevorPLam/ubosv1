@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/integrations/IntegrationsPage.tsx
+ * @module      AI Command Center / Integrations
+ * @purpose     Integration management interface for connecting external MCP servers and services
+ *
+ * @ai_instructions
+ *   - Integration data should include realistic server configurations and tool descriptions.
+ *   - Server status must accurately reflect connection states (connected/disconnected/error).
+ *   - Trust tier badges should use appropriate color coding for security levels.
+ *   - DO NOT modify integration connection logic without updating server management.
+ *
+ * @exports     IntegrationsPage
+ * @imports     wouter, ./MCPServerCard, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { MCPServerCard, MCPServer } from "./MCPServerCard";
 import { Button } from "@/components/ui/button";

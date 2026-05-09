@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/memory/KnowledgeBasePage.tsx
+ * @module      AI Command Center / Memory
+ * @purpose     Knowledge base management for storing and retrieving project information and documents
+ *
+ * @ai_instructions
+ *   - Memory items should include realistic project documents and code references.
+ *   - Search functionality should work across titles, types, projects, and tags.
+ *   - Items must be categorized by type (document, code, secret).
+ *   - DO NOT modify memory structure without updating retrieval system.
+ *
+ * @exports     KnowledgeBasePage
+ * @imports     wouter, @/components/ui/*, lucide-react, @/api/projects
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

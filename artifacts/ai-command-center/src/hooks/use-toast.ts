@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/use-toast.ts
+ * @module      UI / Notifications
+ * @purpose     React hook and state management for toast notifications system
+ *
+ * @ai_instructions
+ *   - Must maintain global toast state across components
+ *   - Must properly cleanup timeouts and event listeners
+ *   - DO NOT modify TOAST_LIMIT without updating UI design
+ *   - Must handle concurrent toast operations safely
+ *
+ * @exports     useToast, toast, reducer
+ * @imports     @/components/ui/toast
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import type {

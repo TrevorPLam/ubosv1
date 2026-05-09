@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/dialog.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Dialog component with overlay, content, header, footer, title, and description
+ *
+ * @ai_instructions
+ *   - Dialog must use Radix UI primitives for accessibility and focus management.
+ *   - All subcomponents must use forwardRef for proper ref forwarding.
+ *   - Dialog should have proper close button and screen reader support.
+ *   - DO NOT modify animations or positioning without updating design tokens.
+ *
+ * @exports     Dialog, DialogPortal, DialogOverlay, DialogTrigger, DialogClose, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription
+ * @imports     react, @radix-ui/react-dialog, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"

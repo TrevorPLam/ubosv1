@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/ToolCallDisclosure.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Collapsible disclosure component displaying tool calls and their results
+ *
+ * @ai_instructions
+ *   - Tool calls should be displayed in a monospace font for readability.
+ *   - Results should be color-coded by success/failure status.
+ *   - Component must handle multiple tool calls gracefully.
+ *   - DO NOT modify tool call structure without updating chat API types.
+ *
+ * @exports     ToolCallDisclosure
+ * @imports     react, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { ChevronRight, ChevronDown, Wrench, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";

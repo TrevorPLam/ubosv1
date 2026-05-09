@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/form.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Form components with validation and field management built on react-hook-form
+ *
+ * @ai_instructions
+ *   - Form components must use forwardRef for proper ref forwarding.
+ *   - Components should extend react-hook-form props for full API compatibility.
+ *   - Form validation should integrate properly with field components.
+ *   - DO NOT modify form behavior without updating validation guidelines.
+ *
+ * @exports     FormProvider, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage, useFormField
+ * @imports     react, @radix-ui/react-label, @radix-ui/react-slot, react-hook-form
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"

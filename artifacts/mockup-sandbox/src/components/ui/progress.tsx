@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/progress.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Progress component for displaying progress indicators built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Progress must extend Radix UI primitive props for full API compatibility.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Progress should have proper ARIA attributes for accessibility.
+ *   - DO NOT modify progress behavior without updating accessibility guidelines.
+ *
+ * @exports     Progress
+ * @imports     react, @radix-ui/react-progress, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

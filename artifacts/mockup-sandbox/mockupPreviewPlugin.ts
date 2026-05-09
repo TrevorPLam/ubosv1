@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/mockupPreviewPlugin.ts
+ * @module      Mockup Sandbox / Build
+ * @purpose     Vite plugin for auto-discovering and generating component mockup previews
+ *
+ * @ai_instructions
+ *   - Mockup directory must be configurable via MOCKUPS_DIR constant.
+ *   - Generated module path must match imports in App.tsx.
+ *   - File watching must handle both additions and deletions.
+ *   - DO NOT modify glob patterns without updating component discovery logic.
+ *
+ * @exports     mockupPreviewPlugin
+ * @imports     fs, path, fast-glob, chokidar, vite
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { mkdirSync, writeFileSync } from "fs";
 import path from "path";
 import glob from "fast-glob";
@@ -5,7 +23,9 @@ import chokidar from "chokidar";
 import type { FSWatcher } from "chokidar";
 import type { Plugin } from "vite";
 
+// AI-NOTE: MOCKUPS_DIR defines where component mockups are stored for auto-discovery
 const MOCKUPS_DIR = "src/components/mockups";
+// AI-WARN: GENERATED_MODULE path must match the import path in App.tsx for proper loading
 const GENERATED_MODULE = "src/.generated/mockup-components.ts";
 
 interface DiscoveredComponent {

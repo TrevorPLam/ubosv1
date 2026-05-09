@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/pagination.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Pagination component for navigating through pages of content
+ *
+ * @ai_instructions
+ *   - Pagination must use forwardRef for proper ref forwarding.
+ *   - Pagination buttons should use the button component variants for consistency.
+ *   - Component should have proper ARIA attributes for accessibility.
+ *   - DO NOT modify pagination structure without updating accessibility guidelines.
+ *
+ * @exports     Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious, PaginationEllipsis
+ * @imports     react, lucide-react, @/lib/utils, @/components/ui/button
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react"
 

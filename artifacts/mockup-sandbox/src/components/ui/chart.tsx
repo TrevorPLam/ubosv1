@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/chart.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Chart components and configuration for data visualization built on recharts
+ *
+ * @ai_instructions
+ *   - Chart components must extend recharts primitive props for full API compatibility.
+ *   - Chart configuration should support both light and dark themes.
+ *   - Components should maintain consistent styling with the design system.
+ *   - DO NOT modify chart behavior without updating data visualization guidelines.
+ *
+ * @exports     ChartConfig, ChartContainer, ChartTooltip, ChartLegend, ChartStyle, and various chart components
+ * @imports     react, recharts, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as RechartsPrimitive from "recharts"
 

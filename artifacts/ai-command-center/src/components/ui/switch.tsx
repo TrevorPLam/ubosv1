@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/switch.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Switch toggle component with on/off states using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Switch component must use Radix UI primitives for accessibility.
+ *   - Should forward ref for proper DOM manipulation and form integration.
+ *   - Must support proper keyboard navigation and focus management.
+ *   - DO NOT modify switch behavior without updating form validation logic.
+ *
+ * @exports     Switch
+ * @imports     @radix-ui/react-switch, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as SwitchPrimitives from "@radix-ui/react-switch"
 

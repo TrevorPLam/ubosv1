@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/select.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Select component with trigger, content, items, and accessibility features
+ *
+ * @ai_instructions
+ *   - Select must use Radix UI primitives for accessibility and keyboard navigation.
+ *   - All subcomponents must use forwardRef for proper ref forwarding.
+ *   - Component should support both popper and item-based positioning.
+ *   - DO NOT modify styling without updating the design system tokens.
+ *
+ * @exports     Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton
+ * @imports     react, @radix-ui/react-select, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

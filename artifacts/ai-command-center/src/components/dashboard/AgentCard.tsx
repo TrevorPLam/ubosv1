@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/dashboard/AgentCard.tsx
+ * @module      AI Command Center / Dashboard
+ * @purpose     Interactive agent card component with status, metrics, and visual feedback
+ *
+ * @ai_instructions
+ *   - Agent cards should show real-time status with visual indicators.
+ *   - Memory and token usage must be formatted with proper units.
+ *   - Active agents should have animated background glow effects.
+ *   - DO NOT modify agent structure without updating agents API types.
+ *
+ * @exports     AgentCard
+ * @imports     @/api/agents, @/components/ui/StatusIndicator, @/lib/formatters, lucide-react, framer-motion
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Agent } from "@/api/agents";
 import { StatusIndicator } from "@/components/ui/StatusIndicator";
 import { formatBytes, formatNumber } from "@/lib/formatters";

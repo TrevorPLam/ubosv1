@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        lib/api-spec/package.json\n@module      API Specification\n@purpose     Package configuration for API code generation using Orval\n\n@ai_instructions\n   - Orval version must remain compatible with OpenAPI spec format.\n   - Codegen script must run typecheck after generation.\n   - DO NOT modify the codegen script without updating CI/CD workflows.\n   - All generated files must use the @generated true tag.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
   "name": "@workspace/api-spec",
   "version": "0.0.0",
   "private": true,

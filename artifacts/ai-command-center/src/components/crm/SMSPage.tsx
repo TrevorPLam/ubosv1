@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/SMSPage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     SMS marketing page with broadcasts, automations, and two-way inbox management
+ *
+ * @ai_instructions
+ *   - SMS broadcasts must track delivery rates and opt-outs accurately.
+ *   - Two-way inbox should show unread indicators and contact avatars.
+ *   - Automations should display trigger conditions and goals clearly.
+ *   - DO NOT modify SMS structure without updating CRM API types.
+ *
+ * @exports     SMSPage
+ * @imports     wouter, @/components/ui/card, @/components/ui/badge, @/components/ui/button, lucide-react, @/lib/utils, @/components/ui/scroll-area, @/components/ui/progress, @/components/ui/tabs, @/components/ui/dropdown-menu
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

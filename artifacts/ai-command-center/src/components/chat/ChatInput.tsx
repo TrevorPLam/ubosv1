@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/ChatInput.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Chat input component with file upload, voice input, and streaming support
+ *
+ * @ai_instructions
+ *   - File uploads must validate size and type before submission.
+ *   - Voice input should handle errors gracefully with toast notifications.
+ *   - Text input should support multi-line with shift+enter for new lines.
+ *   - DO NOT modify file handling without updating useFileUpload hook.
+ *
+ * @exports     ChatInput
+ * @imports     react, @/components/ui/button, @/components/ui/textarea, lucide-react, @/hooks/useFileUpload, @/hooks/useVoiceInput, ./VoiceWaveform, @/components/ui/progress, @/api/chat, sonner, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useRef, ChangeEvent, useCallback, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";

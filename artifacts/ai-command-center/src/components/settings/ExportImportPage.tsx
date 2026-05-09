@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/settings/ExportImportPage.tsx
+ * @module      AI Command Center / Settings
+ * @purpose     Data export and import functionality for workspace configuration backup
+ *
+ * @ai_instructions
+ *   - Export should include all agents, MCP configurations, and settings as JSON.
+ *   - Import must validate JSON structure before applying configuration.
+ *   - Backup files should include timestamp and version information.
+ *   - DO NOT modify export format without updating import validation.
+ *
+ * @exports     ExportImportPage
+ * @imports     @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Download, UploadCloud } from "lucide-react";

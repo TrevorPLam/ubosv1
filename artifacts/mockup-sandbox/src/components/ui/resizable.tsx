@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/resizable.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Resizable components for adjustable panel layouts built on react-resizable-panels
+ *
+ * @ai_instructions
+ *   - Resizable components must extend react-resizable-panels props for full API compatibility.
+ *   - Components should support all resizing behaviors and orientations.
+ *   - Resizable panels should have proper keyboard accessibility.
+ *   - DO NOT modify resizing behavior without updating accessibility guidelines.
+ *
+ * @exports     ResizablePanelGroup, ResizablePanel, ResizableHandle
+ * @imports     lucide-react, react-resizable-panels, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import { GripVertical } from "lucide-react"

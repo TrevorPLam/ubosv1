@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/input-group.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Input group component for grouping form controls with labels and descriptions
+ *
+ * @ai_instructions
+ *   - Input group must use forwardRef for proper ref forwarding.
+ *   - Components should support variants using class-variance-authority.
+ *   - Input group should properly compose with other form components.
+ *   - DO NOT modify input group layout without updating the design system.
+ *
+ * @exports     InputGroup, inputGroupVariants, InputGroupProps, InputGroupLabel, InputGroupDescription, InputGroupError
+ * @imports     react, class-variance-authority, @/lib/utils, @/components/ui/button, @/components/ui/input, @/components/ui/textarea
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

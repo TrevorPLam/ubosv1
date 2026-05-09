@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/SummaryPanel.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Collapsible panel displaying AI-generated conversation summaries with key points and action items
+ *
+ * @ai_instructions
+ *   - Summary panel must support loading states and empty states.
+ *   - Content should be collapsible with smooth animations.
+ *   - Auto-generated summaries should be clearly marked.
+ *   - DO NOT modify summary structure without updating chat API types.
+ *
+ * @exports     SummaryPanel
+ * @imports     @/api/chat, @/lib/utils, lucide-react, react, framer-motion, @/components/ui/button, date-fns
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { ConversationSummary } from "@/api/chat";
 import { cn } from "@/lib/utils";
 import { 

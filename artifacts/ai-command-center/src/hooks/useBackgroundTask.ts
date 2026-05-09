@@ -1,3 +1,20 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useBackgroundTask.ts
+ * @module      Utilities / Async
+ * @purpose     React hook to execute background tasks with progress tracking and cancellation
+ *
+ * @ai_instructions
+ *   - Must properly handle task cancellation and cleanup
+ *   - Must call onComplete and onError callbacks appropriately
+ *   - Currently simulates background processing with setTimeout
+ *   - DO NOT modify delay duration without considering UX impact
+ *
+ * @exports     useBackgroundTask, BackgroundTask
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useCallback, useRef } from 'react';
 
 export interface BackgroundTask<T = any> {

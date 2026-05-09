@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/marketing/MarketingAnalyticsPage.tsx
+ * @module      AI Command Center / Marketing
+ * @purpose     Marketing analytics dashboard with attribution, ROI tracking, and performance metrics
+ *
+ * @ai_instructions
+ *   - Analytics data should include realistic performance metrics and attribution data.
+ *   - Charts should use consistent color schemes with chart variables.
+ *   - Multi-touch attribution must support various attribution models.
+ *   - DO NOT modify attribution logic without updating CRM integration.
+ *
+ * @exports     MarketingAnalyticsPage
+ * @imports     wouter, recharts, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

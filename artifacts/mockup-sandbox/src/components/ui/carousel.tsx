@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/carousel.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Carousel component for sliding content galleries built on embla-carousel-react
+ *
+ * @ai_instructions
+ *   - Carousel must use forwardRef for proper ref forwarding.
+ *   - Components must support all embla-carousel-react features and API.
+ *   - Navigation buttons should use the button component for consistency.
+ *   - DO NOT modify carousel behavior without updating accessibility guidelines.
+ *
+ * @exports     Carousel, CarouselContent, CarouselItem, CarouselPrevious, CarouselNext, type CarouselApi
+ * @imports     react, embla-carousel-react, lucide-react, @/lib/utils, @/components/ui/button
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,

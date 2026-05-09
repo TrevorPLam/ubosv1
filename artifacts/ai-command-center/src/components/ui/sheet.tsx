@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/sheet.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Sheet component with slide-out panels using Radix UI dialog primitives
+ *
+ * @ai_instructions
+ *   - Sheet components must use Radix UI dialog primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Should support proper positioning and side configurations.
+ *   - DO NOT modify sheet behavior without updating accessibility features.
+ *
+ * @exports     Sheet, SheetTrigger, SheetClose, SheetPortal, SheetOverlay, SheetContent, SheetHeader, SheetFooter, SheetTitle, SheetDescription
+ * @imports     @radix-ui/react-dialog, class-variance-authority, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

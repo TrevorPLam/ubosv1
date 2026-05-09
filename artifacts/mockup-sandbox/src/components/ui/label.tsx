@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/label.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Label component with variants and accessibility features
+ *
+ * @ai_instructions
+ *   - Label must use Radix UI primitives for accessibility.
+ *   - Component must support variant styling through class-variance-authority.
+ *   - Label should properly associate with form controls.
+ *   - DO NOT modify variants without updating the design system.
+ *
+ * @exports     Label
+ * @imports     react, @radix-ui/react-label, class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

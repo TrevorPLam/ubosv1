@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        lib/api-zod/package.json\n@module      API Zod Schemas\n@purpose     Package configuration for Zod API schema validation library\n\n@ai_instructions\n   - Zod dependency must use catalog: for workspace-managed versions.\n   - DO NOT add additional validation libraries without updating codegen.\n   - Exports must point to the src/index.ts entry point.\n   - Generated schemas must be compatible with API client validation.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
   "name": "@workspace/api-zod",
   "version": "0.0.0",
   "private": true,

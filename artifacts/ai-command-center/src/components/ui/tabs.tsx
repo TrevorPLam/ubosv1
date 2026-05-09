@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/tabs.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Tabs component with list, trigger, and content using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Tabs components must use Radix UI primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Should support proper keyboard navigation and focus management.
+ *   - DO NOT modify tabs behavior without updating accessibility features.
+ *
+ * @exports     Tabs, TabsList, TabsTrigger, TabsContent
+ * @imports     @radix-ui/react-tabs, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as TabsPrimitive from "@radix-ui/react-tabs"
 

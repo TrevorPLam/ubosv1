@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/assets/AssetsPage.tsx
+ * @module      AI Command Center / Assets
+ * @purpose     Comprehensive asset management page with multi-industry support, analytics, and maintenance tracking
+ *
+ * @ai_instructions
+ *   - Asset data must include all required fields for proper categorization.
+ *   - Industry presets should cover major business sectors.
+ *   - Charts must use responsive containers and proper color schemes.
+ *   - DO NOT modify asset status values without updating status configuration.
+ *
+ * @exports     AssetsPage, AddAssetModal
+ * @imports     react, recharts, lucide-react, @/components/ui/card, @/components/ui/badge, @/components/ui/button, @/components/ui/progress, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useMemo } from "react";
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/api/agents.ts
+ * @module      AI Command Center / API
+ * @purpose     Agent management API with types, mock data, and CRUD operations
+ *
+ * @ai_instructions
+ *   - All agent statuses must be from the AgentStatus union type.
+ *   - Mock data must include realistic agent configurations.
+ *   - API functions must return promises with consistent error handling.
+ *   - DO NOT modify agent status values without updating UI components.
+ *
+ * @exports     AgentStatus, Agent, mockAgents, getAgents, getAgent
+ * @imports     ./client
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { mockFetch } from "./client";
 
 export type AgentStatus = 'idle' | 'thinking' | 'running-tool' | 'awaiting-approval' | 'error';

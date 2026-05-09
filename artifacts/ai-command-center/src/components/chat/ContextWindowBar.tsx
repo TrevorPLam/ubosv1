@@ -1,26 +1,19 @@
 /**
- * ContextWindowBar
+ * @file        artifacts/ai-command-center/src/components/chat/ContextWindowBar.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     Context window visualization bar with token usage tracking and model switching
  *
- * A compact strip rendered just below the chat header that visualises how
- * much of the active model's context window is consumed by the current
- * thread.  It provides:
+ * @ai_instructions
+ *   - Token estimation must include 10% system prompt overhead.
+ *   - Progress bar colors should reflect usage thresholds (75%, 90%, 95%).
+ *   - Action buttons should appear at critical usage levels only.
+ *   - DO NOT modify threshold values without updating token library.
  *
- *  - A slim progress bar whose fill colour shifts from green → amber →
- *    orange → red as usage approaches the model's limit.
- *  - A human-readable "X / Y tokens" label.
- *  - An animated warning icon once usage exceeds the WARN_THRESHOLD (75 %).
- *  - Inline action buttons ("Summarize" and "Branch") that appear once
- *    usage crosses the CRITICAL_THRESHOLD (90 %), prompting the user to
- *    reduce context pressure without blocking them from continuing.
- *  - A model-selector dropdown so the user can switch models and
- *    immediately see how the new limit changes their usage ratio.
+ * @exports     ContextWindowBar
+ * @imports     react, framer-motion, lucide-react, @/lib/utils, @/lib/tokens, @/api/chat, @/components/ui/select, @/components/ui/tooltip
  *
- * Design decisions:
- *  - Never prevents the user from sending a message — estimation is
- *    approximate and should only guide, not gate.
- *  - The strip is hidden when there are no messages to avoid noise on
- *    empty threads.
- *  - All heavy computation is memoised; the component re-renders cheaply.
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
  */
 
 import { useMemo } from "react";

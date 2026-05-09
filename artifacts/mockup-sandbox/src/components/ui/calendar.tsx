@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/calendar.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Calendar component for date selection built on react-day-picker
+ *
+ * @ai_instructions
+ *   - Calendar must use forwardRef for proper ref forwarding.
+ *   - Component should support all react-day-picker features and props.
+ *   - Styling should be consistent with the design system theme.
+ *   - DO NOT modify calendar behavior without updating accessibility guidelines.
+ *
+ * @exports     Calendar
+ * @imports     react, lucide-react, react-day-picker, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/card.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Card component with header, title, description, content, and footer subcomponents
+ *
+ * @ai_instructions
+ *   - All card subcomponents must use forwardRef for proper ref forwarding.
+ *   - Component styling should be consistent with the design system.
+ *   - Card components should compose properly with other UI elements.
+ *   - DO NOT modify spacing or styling without updating design tokens.
+ *
+ * @exports     Card, CardHeader, CardFooter, CardTitle, CardDescription, CardContent
+ * @imports     react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

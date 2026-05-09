@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/textarea.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Textarea form component with consistent styling and accessibility support
+ *
+ * @ai_instructions
+ *   - Textarea component must forward ref for proper DOM manipulation.
+ *   - Should support all standard HTML textarea attributes.
+ *   - Styling must be consistent with design system tokens.
+ *   - DO NOT modify textarea styling without updating form validation logic.
+ *
+ * @exports     Textarea
+ * @imports     @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

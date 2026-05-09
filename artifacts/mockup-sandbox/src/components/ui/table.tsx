@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/table.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Table components for displaying tabular data with proper structure
+ *
+ * @ai_instructions
+ *   - Table components must use forwardRef for proper ref forwarding.
+ *   - Table should support all standard HTML table attributes.
+ *   - Table styling should be consistent with the design system.
+ *   - DO NOT modify table structure without updating accessibility guidelines.
+ *
+ * @exports     Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption
+ * @imports     react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

@@ -1,3 +1,20 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useClipboard.ts
+ * @module      Utilities / Browser
+ * @purpose     React hook to copy text to clipboard with error handling and feedback
+ *
+ * @ai_instructions
+ *   - Must check for Clipboard API support before usage
+ *   - Must provide proper error handling for unsupported environments
+ *   - Must reset isCopied state after 2 seconds for UX feedback
+ *   - DO NOT modify the feedback timeout without considering UX impact
+ *
+ * @exports     useClipboard, UseClipboardReturn
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useCallback } from 'react';
 
 export interface UseClipboardReturn {

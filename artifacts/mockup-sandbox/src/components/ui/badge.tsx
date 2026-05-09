@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/badge.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Badge component with variants for status indicators and labels
+ *
+ * @ai_instructions
+ *   - Badge variants must follow the established design system color tokens.
+ *   - Component should support all standard HTML div attributes.
+ *   - Variants should be consistent with other UI component color schemes.
+ *   - DO NOT modify badge variants without updating the design system.
+ *
+ * @exports     Badge, badgeVariants, BadgeProps
+ * @imports     react, class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

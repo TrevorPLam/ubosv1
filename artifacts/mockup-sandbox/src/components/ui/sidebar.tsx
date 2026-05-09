@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/sidebar.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Sidebar components for collapsible navigation and content panels
+ *
+ * @ai_instructions
+ *   - Sidebar components must use forwardRef for proper ref forwarding.
+ *   - Components should support variants using class-variance-authority.
+ *   - Sidebar should be responsive and work on mobile devices.
+ *   - DO NOT modify sidebar behavior without updating accessibility guidelines.
+ *
+ * @exports     Sidebar, SidebarProvider, SidebarTrigger, SidebarRail, SidebarInset, SidebarInput, SidebarHeader, SidebarFooter, SidebarContent, SidebarGroup, SidebarGroupLabel, SidebarGroupAction, SidebarGroupContent, SidebarMenu, SidebarMenuItem, SidebarMenuButton, SidebarMenuBadge, SidebarMenuSkeleton, SidebarMenuAction, SidebarMenuSub, SidebarMenuSubItem, SidebarMenuSubButton
+ * @imports     react, @radix-ui/react-slot, class-variance-authority, lucide-react, @/hooks/use-mobile, @/lib/utils, @/components/ui/button
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

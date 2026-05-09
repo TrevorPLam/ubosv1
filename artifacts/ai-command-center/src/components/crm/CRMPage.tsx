@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/CRMPage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     Main CRM dashboard page with navigation to all CRM modules
+ *
+ * @ai_instructions
+ *   - Module cards should have consistent hover states and transitions.
+ *   - Navigation links must use wouter for client-side routing.
+ *   - Descriptions should be concise but informative for each module.
+ *   - DO NOT modify module structure without updating routing configuration.
+ *
+ * @exports     CRMPage
+ * @imports     wouter, @/components/ui/card, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, TrendingUp, FileSignature, Mail, MessageSquare, BarChart2, ChevronRight } from "lucide-react";

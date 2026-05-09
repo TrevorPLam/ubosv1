@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useFileUpload.ts
+ * @module      File Management / Upload
+ * @purpose     React hook for file upload with drag-and-drop, validation, and progress tracking
+ *
+ * @ai_instructions
+ *   - Must validate file types and sizes before upload
+ *   - Must properly cleanup object URLs on unmount
+ *   - Must handle drag events with proper counter to avoid false negatives
+ *   - DO NOT modify default file size limits without security review
+ *
+ * @exports     useFileUpload, FileUploadOptions, FileWithPreview, UseFileUploadResult
+ * @imports     @/api/chat
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useEffect, useRef, ChangeEvent, DragEvent } from 'react';
 import { FileAttachment } from '@/api/chat';
 

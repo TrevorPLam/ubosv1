@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/analytics/CostAnalyticsPage.tsx
+ * @module      AI Command Center / Analytics
+ * @purpose     Page component displaying cost analytics with charts and metrics for agent operations
+ *
+ * @ai_instructions
+ *   - Cost data must be formatted using the proper currency formatter.
+ *   - Charts should use responsive containers for proper scaling.
+ *   - All monetary values should be displayed consistently.
+ *   - DO NOT modify chart data structure without updating useCostSummary hook.
+ *
+ * @exports     CostAnalyticsPage
+ * @imports     wouter, @/hooks/useCostSummary, recharts, @/lib/formatters, @/components/ui/card, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { useCostSummary } from "@/hooks/useCostSummary";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";

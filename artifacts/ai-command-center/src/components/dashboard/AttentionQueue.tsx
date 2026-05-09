@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/dashboard/AttentionQueue.tsx
+ * @module      AI Command Center / Dashboard
+ * @purpose     Attention queue for human-in-the-loop decisions with approve/reject actions
+ *
+ * @ai_instructions
+ *   - Queue should show pending count prominently in the header.
+ *   - Empty state should be clear and reassuring when no decisions needed.
+ *   - Items should animate in/out smoothly for better UX.
+ *   - DO NOT modify queue structure without updating attention queue hooks.
+ *
+ * @exports     AttentionQueue
+ * @imports     @/hooks/useAttentionQueue, ./DecisionPacket, lucide-react, framer-motion
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useAttentionQueue } from "@/hooks/useAttentionQueue";
 import { DecisionPacket } from "./DecisionPacket";
 import { AlertCircle } from "lucide-react";

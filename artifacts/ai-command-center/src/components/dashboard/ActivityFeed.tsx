@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/dashboard/ActivityFeed.tsx
+ * @module      AI Command Center / Dashboard
+ * @purpose     Real-time system activity feed with SSE streaming and event visualization
+ *
+ * @ai_instructions
+ *   - Activity feed must support live streaming with pause/resume functionality.
+ *   - Event types should be color-coded and properly categorized.
+ *   - Auto-scroll should maintain position at bottom for new events.
+ *   - DO NOT modify event structure without updating event bus types.
+ *
+ * @exports     ActivityFeed, LogRow
+ * @imports     @/hooks/useSSE, @/components/ui/scroll-area, react, lucide-react, @/components/ui/button, framer-motion, @/lib/eventBus, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useSSE } from "@/hooks/useSSE";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useEffect, useRef, useState } from "react";

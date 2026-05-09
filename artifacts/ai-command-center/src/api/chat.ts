@@ -1,3 +1,22 @@
+/**
+ * @file        artifacts/ai-command-center/src/api/chat.ts
+ * @module      AI Command Center / API
+ * @purpose     Chat and conversation API with messaging, file uploads, summarization, and grounding features
+ *
+ * @ai_instructions
+ *   - All message roles must be from the predefined union types.
+ *   - File upload functions must handle progress callbacks and errors.
+ *   - Summarization functions should only operate on conversations with sufficient message count.
+ *   - Grounding modes must be validated before setting on threads.
+ *   - DO NOT modify message structure without updating UI components.
+ *
+ * @exports     FileAttachment, MessageFeedback, MessageVersion, Citation, GroundingMode, Message, ConversationSummary, Thread, mockThreads, getThreads, getThread, sendMessage, uploadFile, sendMessageWithFiles, deleteThread, createThread, renameThread, generateThreadTitle, createBranchFromMessage, searchMessages, submitFeedback, updateFeedback, updateMessage, getMessageVersions, restoreMessageVersion, regenerateResponse, generateSummary, updateSummary, shouldAutoSummarize, setThreadGroundingMode
+ * @imports     ./client
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { mockFetch } from "./client";
 
 export interface FileAttachment {
@@ -212,11 +231,13 @@ export const sendMessage = (threadId: string, content: string, attachments?: Fil
   } as Message, 500);
 };
 
+// AI-WARN: File upload function handles sensitive data - ensure proper validation and error handling
 export const uploadFile = (file: File, onProgress?: (progress: number) => void): Promise<{ url: string }> => {
   return new Promise((resolve, reject) => {
     const formData = new FormData();
     formData.append('file', file);
 
+    // AI-NOTE: Using XMLHttpRequest for progress tracking instead of fetch
     const xhr = new XMLHttpRequest();
 
     if (onProgress) {
@@ -228,9 +249,11 @@ export const uploadFile = (file: File, onProgress?: (progress: number) => void):
       });
     }
 
+    // AI-NOTE: Response parsing must handle both success and error cases
     xhr.addEventListener('load', () => {
       if (xhr.status === 200) {
         try {
+          // AI-WARN: JSON parsing can throw - ensure proper error handling
           const response = JSON.parse(xhr.responseText);
           resolve({
             url: response.url || `/uploads/${file.name}`

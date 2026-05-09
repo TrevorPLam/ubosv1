@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/BillsPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Page component for managing and tracking vendor bills and payment approvals
+ *
+ * @ai_instructions
+ *   - Bill data should include realistic vendor information and due dates.
+ *   - Currency formatting must use consistent USD format with no decimals.
+ *   - Status badges should use appropriate color coding for payment states.
+ *   - DO NOT modify bill status workflow without updating approval logic.
+ *
+ * @exports     BillsPage
+ * @imports     wouter, @/components/ui/*, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

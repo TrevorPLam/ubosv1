@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/tooltip.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Tooltip component for contextual information on hover built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Tooltip should have proper timing and positioning.
+ *   - DO NOT modify tooltip behavior without updating accessibility guidelines.
+ *
+ * @exports     TooltipProvider, Tooltip, TooltipTrigger, TooltipContent
+ * @imports     react, @radix-ui/react-tooltip, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

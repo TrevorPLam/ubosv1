@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/accordion.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Accordion component with collapsible sections built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must use forwardRef for proper ref forwarding.
+ *   - Components must extend Radix UI primitive props for full API compatibility.
+ *   - Styling should be consistent with other collapsible components.
+ *   - DO NOT modify animation classes without updating the design system.
+ *
+ * @exports     Accordion, AccordionItem, AccordionTrigger, AccordionContent
+ * @imports     react, @radix-ui/react-accordion, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as AccordionPrimitive from "@radix-ui/react-accordion"
 import { ChevronDown } from "lucide-react"

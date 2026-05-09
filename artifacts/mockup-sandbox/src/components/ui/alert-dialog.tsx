@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/alert-dialog.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Alert dialog component for modal confirmations built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - All components must extend Radix UI primitive props for full API compatibility.
+ *   - Dialog buttons must use the button component variants for consistency.
+ *   - Components should have proper ARIA attributes for accessibility.
+ *   - DO NOT modify dialog structure without updating accessibility guidelines.
+ *
+ * @exports     AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogAction, AlertDialogCancel
+ * @imports     react, @radix-ui/react-alert-dialog, @/lib/utils, @/components/ui/button
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog"
 

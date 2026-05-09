@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/api/agreements.ts
+ * @module      AI Command Center / API
+ * @purpose     Agreement management API with types and mock data for CRM functionality
+ *
+ * @ai_instructions
+ *   - All agreement statuses must be from the AgreementStatus union type.
+ *   - Mock data must include realistic agreement lifecycle stages.
+ *   - Engagement scores should be calculated based on client interaction patterns.
+ *   - DO NOT modify status values without updating CRM components.
+ *
+ * @exports     AgreementStatus, Agreement, mockAgreements
+ * @imports     None
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 export type AgreementStatus = "signed" | "viewed" | "sent" | "draft" | "expired";
 
 export interface Agreement {

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/dialog.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Dialog component with overlay, content, and trigger using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Dialog components must use Radix UI primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Overlay should have proper backdrop blur and opacity.
+ *   - DO NOT modify dialog behavior without updating accessibility features.
+ *
+ * @exports     Dialog, DialogTrigger, DialogPortal, DialogClose, DialogOverlay, DialogContent, DialogHeader, DialogFooter, DialogTitle, DialogDescription
+ * @imports     @radix-ui/react-dialog, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { X } from "lucide-react"

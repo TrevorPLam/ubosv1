@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/select.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Select dropdown component with trigger, content, and item options using Radix UI
+ *
+ * @ai_instructions
+ *   - Select components must use Radix UI primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Should support proper keyboard navigation and focus management.
+ *   - DO NOT modify select behavior without updating accessibility features.
+ *
+ * @exports     Select, SelectGroup, SelectValue, SelectTrigger, SelectContent, SelectLabel, SelectItem, SelectSeparator, SelectScrollUpButton, SelectScrollDownButton
+ * @imports     @radix-ui/react-select, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 "use client"
 
 import * as React from "react"

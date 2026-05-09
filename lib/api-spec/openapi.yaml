@@ -1,3 +1,16 @@
+# @file        lib/api-spec/openapi.yaml
+# @module      API Specification
+# @purpose     OpenAPI 3.1.0 specification for API endpoints and schemas
+#
+# @ai_instructions
+#   - Title must remain "Api" to maintain compatibility with generated imports.
+#   - All new endpoints must follow RESTful conventions.
+#   - Schema definitions must be compatible with Zod generation.
+#   - DO NOT change the title without updating orval.config.ts and all generated files.
+#
+# @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+# @license     SPDX-License-Identifier: MIT
+
 openapi: 3.1.0
 info:
   # Do not change the title, if the title changes, the import paths will be broken

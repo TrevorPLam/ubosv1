@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/pages/not-found.tsx
+ * @module      Pages / Error
+ * @purpose     404 not found page with helpful guidance for missing routes
+ *
+ * @ai_instructions
+ *   - Must display a clear 404 error message
+ *   - Must provide helpful guidance about router configuration
+ *   - Must use consistent UI components and styling
+ *   - DO NOT modify the error message without updating user guidance
+ *
+ * @exports     NotFound
+ * @imports     @/components/ui/card, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Card, CardContent } from "@/components/ui/card";
 import { AlertCircle } from "lucide-react";
 

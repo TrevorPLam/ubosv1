@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/PipelinePage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     Visual sales pipeline board with deal stages, values, and win probability tracking
+ *
+ * @ai_instructions
+ *   - Pipeline stages must follow standard sales workflow (prospecting → qualification → proposal → negotiation → closed).
+ *   - Deal values should be formatted with proper currency formatting.
+ *   - Win probability should be displayed as progress bars with percentages.
+ *   - DO NOT modify pipeline structure without updating CRM API types.
+ *
+ * @exports     PipelinePage
+ * @imports     wouter, lucide-react, @/lib/utils, @/components/ui/button, @/components/ui/card, @/components/ui/progress, @/components/ui/scroll-area
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import {
   ChevronRight, Plus, Filter, Clock, ArrowUpRight, TrendingUp,

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/marketing/SocialsPage.tsx
+ * @module      AI Command Center / Marketing
+ * @purpose     Social media management with content calendar, unified inbox, and analytics
+ *
+ * @ai_instructions
+ *   - Social data should include realistic post metrics and engagement data.
+ *   - Unified inbox must aggregate comments, DMs, and mentions from all platforms.
+ *   - AI triage should suggest response drafts and route critical items.
+ *   - DO NOT modify platform integration without updating social monitoring.
+ *
+ * @exports     SocialsPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

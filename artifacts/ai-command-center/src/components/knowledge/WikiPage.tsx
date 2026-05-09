@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/knowledge/WikiPage.tsx
+ * @module      AI Command Center / Knowledge Management
+ * @purpose     Company wiki and handbook with structured content, search, and organization charts
+ *
+ * @ai_instructions
+ *   - Wiki content should include realistic policy and organizational information.
+ *   - Search functionality must work across all articles, headings, and paragraphs.
+ *   - Org charts should automatically reflect team directory reporting lines.
+ *   - DO NOT modify wiki structure without updating content management system.
+ *
+ * @exports     WikiPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

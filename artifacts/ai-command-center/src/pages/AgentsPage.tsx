@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/pages/AgentsPage.tsx
+ * @module      Pages / Agents
+ * @purpose     Main agents page with fleet panel, attention queue, and activity feed
+ *
+ * @ai_instructions
+ *   - Must use useAgentStatus hook for real-time agent data
+ *   - Must maintain selected agent state for detail drawer
+ *   - Must properly layout responsive design with attention queue
+ *   - DO NOT modify the layout structure without updating all dependent components
+ *
+ * @exports     AgentsPage
+ * @imports     @/components/dashboard, @/components/agents, @/hooks/useAgentStatus
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { AgentFleetPanel } from "@/components/dashboard/AgentFleetPanel";
 import { AttentionQueue } from "@/components/dashboard/AttentionQueue";

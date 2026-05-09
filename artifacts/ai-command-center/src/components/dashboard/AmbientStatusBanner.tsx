@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/dashboard/AmbientStatusBanner.tsx
+ * @module      AI Command Center / Dashboard
+ * @purpose     System status banner with live indicators and version information
+ *
+ * @ai_instructions
+ *   - Status banner should show animated ping indicator for live status.
+ *   - Version display must be prominent and easily accessible.
+ *   - System metrics should update in real-time when available.
+ *   - DO NOT modify status structure without updating system monitoring.
+ *
+ * @exports     AmbientStatusBanner
+ * @imports     lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Activity } from "lucide-react";
 
 export function AmbientStatusBanner() {

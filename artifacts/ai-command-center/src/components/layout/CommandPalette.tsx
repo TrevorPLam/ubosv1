@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/layout/CommandPalette.tsx
+ * @module      AI Command Center / Layout
+ * @purpose     Command palette for quick navigation and search across the application
+ *
+ * @ai_instructions
+ *   - Command palette should support keyboard shortcut (Cmd/Ctrl + K) for opening.
+ *   - Search functionality should work across agents, pages, and actions.
+ *   - Navigation must update the wouter location state on selection.
+ *   - DO NOT modify keyboard shortcuts without updating user documentation.
+ *
+ * @exports     CommandPalette
+ * @imports     react, wouter, @/stores/uiStore, @/components/ui/*, lucide-react, @/api/agents
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useEffect, useState } from "react";
 import { useLocation } from "wouter";
 import { useUIStore } from "@/stores/uiStore";

@@ -1,3 +1,20 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useVoiceInput.ts
+ * @module      Input / Voice
+ * @purpose     React hook to handle speech recognition for voice input functionality
+ *
+ * @ai_instructions
+ *   - Must check for Speech Recognition API support before usage
+ *   - Must properly cleanup recognition instance on unmount
+ *   - Must handle both interim and final transcript results
+ *   - DO NOT modify default language without updating user preferences
+ *
+ * @exports     useVoiceInput
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 interface UseVoiceInputProps {

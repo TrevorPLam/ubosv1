@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/chat/MessageEditor.tsx
+ * @module      AI Command Center / Chat
+ * @purpose     In-place message editor with version history and keyboard shortcuts
+ *
+ * @ai_instructions
+ *   - Editor should auto-focus and select text on mount.
+ *   - Version history should support restoring previous content.
+ *   - Keyboard shortcuts: Ctrl+Enter to save, Esc to cancel.
+ *   - DO NOT modify message structure without updating chat API types.
+ *
+ * @exports     MessageEditor
+ * @imports     react, @/components/ui/button, @/components/ui/textarea, lucide-react, @/lib/utils, @/api/chat
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";

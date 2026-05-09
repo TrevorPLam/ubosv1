@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/slider.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Slider component for value selection built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Slider must extend Radix UI primitive props for full API compatibility.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Slider should have proper keyboard navigation and ARIA attributes.
+ *   - DO NOT modify slider behavior without updating accessibility guidelines.
+ *
+ * @exports     Slider
+ * @imports     react, @radix-ui/react-slider, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as SliderPrimitive from "@radix-ui/react-slider"
 

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/knowledge/TrainingPage.tsx
+ * @module      AI Command Center / Knowledge Management
+ * @purpose     Training course management with course builder, assignments, and progress tracking
+ *
+ * @ai_instructions
+ *   - Course data should include realistic modules with sequential lesson structures.
+ *   - Progress tracking must accurately reflect lesson completion states.
+ *   - Assignment system should support individual, team, and role-based enrollment.
+ *   - DO NOT modify course structure without updating progress calculation.
+ *
+ * @exports     TrainingPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

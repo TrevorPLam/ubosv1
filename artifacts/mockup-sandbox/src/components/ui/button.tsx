@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/button.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Button component with variants, sizes, and accessibility features
+ *
+ * @ai_instructions
+ *   - All button variants must follow the established design system tokens.
+ *   - Component must support asChild prop for composition patterns.
+ *   - Variants should be consistent with other UI components.
+ *   - DO NOT modify variants without updating the design system documentation.
+ *
+ * @exports     Button, buttonVariants, ButtonProps
+ * @imports     react, @radix-ui/react-slot, class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"

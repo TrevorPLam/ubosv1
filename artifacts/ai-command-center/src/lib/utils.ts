@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/lib/utils.ts
+ * @module      Utilities / General
+ * @purpose     General utility functions for CSS classes, formatting, and clipboard operations
+ *
+ * @ai_instructions
+ *   - Must use clsx and tailwind-merge for CSS class utilities
+ *   - Must provide fallback clipboard implementation for older browsers
+ *   - Must format conversations to JSON, Markdown, and plain text
+ *   - DO NOT modify conversation formatting without updating export features
+ *
+ * @exports     cn, formatToJSON, formatToMarkdown, formatToText, fallbackCopyToClipboard, isClipboardSupported, copyToClipboard
+ * @imports     clsx, tailwind-merge, @/api/chat
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { Message, Thread } from "@/api/chat"

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/kbd.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Keyboard key component and key group component for displaying keyboard shortcuts
+ *
+ * @ai_instructions
+ *   - All components must use data-slot attributes for proper styling hooks.
+ *   - Components must support all standard HTML element attributes via props spreading.
+ *   - DO NOT modify base styles without updating the design system.
+ *   - Kbd component must render as a kbd element, KbdGroup as kbd element with group styling.
+ *
+ * @exports     Kbd, KbdGroup
+ * @imports     react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { cn } from "@/lib/utils"
 
 function Kbd({ className, ...props }: React.ComponentProps<"kbd">) {

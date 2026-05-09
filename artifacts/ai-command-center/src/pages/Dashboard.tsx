@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/pages/Dashboard.tsx
+ * @module      Pages / Dashboard
+ * @purpose     Main dashboard page with CRM, work, calendar, documents, and finance widgets
+ *
+ * @ai_instructions
+ *   - Must display mock data for CRM, work, calendar, documents, and finance
+ *   - Must use responsive grid layout for widgets
+ *   - Must provide navigation links to detailed pages
+ *   - DO NOT modify the widget structure without updating the dashboard design system
+ *
+ * @exports     Dashboard
+ * @imports     wouter, lucide-react, @/components/ui, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import {
   Users, TrendingUp, DollarSign, FileText, CalendarDays,

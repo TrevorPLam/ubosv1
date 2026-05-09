@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/EmailPage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     Email marketing page with campaigns, automations, and performance analytics
+ *
+ * @ai_instructions
+ *   - Campaign metrics should calculate open/click/conversion rates accurately.
+ *   - Automations must show completion rates and enrollment counts.
+ *   - Performance indicators should be color-coded for quick assessment.
+ *   - DO NOT modify campaign structure without updating CRM API types.
+ *
+ * @exports     EmailPage
+ * @imports     wouter, @/components/ui/card, @/components/ui/badge, @/components/ui/button, lucide-react, @/lib/utils, @/components/ui/progress, @/components/ui/scroll-area, @/components/ui/dropdown-menu, @/components/ui/tabs
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

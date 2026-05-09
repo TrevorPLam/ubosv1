@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/clients/ClientDetailPage.tsx
+ * @module      AI Command Center / Clients
+ * @purpose     Detailed client management page with projects, agreements, documents, and communication
+ *
+ * @ai_instructions
+ *   - Client detail page must support comprehensive client information management
+ *   - Must integrate with calendar store for appointment scheduling
+ *   - Should provide tabs for projects, agreements, and documents
+ *   - DO NOT modify client data structure without updating clients API types
+ *
+ * @exports     ClientDetailPage
+ * @imports     react, wouter, lucide-react, @/lib/utils, @/components/ui/*, @/stores/calendarStore, @/api/*, ./clientsData
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState } from "react";
 import { useLocation, useParams } from "wouter";
 import {

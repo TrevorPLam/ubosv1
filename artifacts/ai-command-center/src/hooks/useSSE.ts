@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useSSE.ts
+ * @module      Events / Streaming
+ * @purpose     React hook to manage Server-Sent Events for real-time agent logs
+ *
+ * @ai_instructions
+ *   - Must subscribe to eventBus for log events
+ *   - Must maintain a rolling buffer of the last 100 events
+ *   - Must provide initial mock logs for demonstration
+ *   - DO NOT modify the event buffer size without considering performance impact
+ *
+ * @exports     useSSE
+ * @imports     @/lib/eventBus
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useEffect, useState } from "react";
 import { startSimulator, eventBus, SSELogEvent } from "@/lib/eventBus";
 

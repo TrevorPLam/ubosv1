@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/crm/AgreementsPage.tsx
+ * @module      AI Command Center / CRM
+ * @purpose     Agreements management page with document lifecycle tracking and engagement analytics
+ *
+ * @ai_instructions
+ *   - Agreement statuses must follow the predefined workflow (draft → sent → viewed → signed).
+ *   - Engagement scores should be calculated based on open rates and time spent.
+ *   - Table must be responsive with proper column visibility breakpoints.
+ *   - DO NOT modify agreement structure without updating CRM API types.
+ *
+ * @exports     AgreementsPage, StatusBadge, EngagementBar
+ * @imports     wouter, @/components/ui/card, @/components/ui/badge, @/components/ui/button, lucide-react, @/lib/utils, @/components/ui/scroll-area, @/components/ui/dropdown-menu, @/api/agreements
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

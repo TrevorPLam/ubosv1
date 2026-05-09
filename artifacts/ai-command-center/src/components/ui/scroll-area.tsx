@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/scroll-area.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Scroll area component with customizable scrollbars using Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Scroll area components must use Radix UI primitives for accessibility.
+ *   - All subcomponents should forward ref for proper DOM manipulation.
+ *   - Should support both horizontal and vertical scrolling.
+ *   - DO NOT modify scroll behavior without updating accessibility features.
+ *
+ * @exports     ScrollArea, ScrollBar
+ * @imports     @radix-ui/react-scroll-area, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area"
 

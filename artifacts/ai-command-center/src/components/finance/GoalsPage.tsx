@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/GoalsPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Financial goals tracking with progress visualization and savings milestones
+ *
+ * @ai_instructions
+ *   - Goals should use consistent color coding with chart variables for visualization.
+ *   - Currency formatting must support both full and compact display modes.
+ *   - Progress calculations should accurately reflect current vs target amounts.
+ *   - DO NOT modify goal tracking logic without updating progress calculations.
+ *
+ * @exports     GoalsPage
+ * @imports     wouter, recharts, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import {
   AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid,

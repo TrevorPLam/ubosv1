@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/ui/table.tsx
+ * @module      AI Command Center / UI Components
+ * @purpose     Table component with header, body, row, and cell subcomponents for data display
+ *
+ * @ai_instructions
+ *   - Table components must forward ref for proper DOM manipulation.
+ *   - All subcomponents should maintain consistent spacing and alignment.
+ *   - Table should have responsive overflow handling.
+ *   - DO NOT modify table structure without updating data display logic.
+ *
+ * @exports     Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption
+ * @imports     @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 
 import { cn } from "@/lib/utils"

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/OverviewPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Financial dashboard with cash flow, profit/loss, and spending overview visualizations
+ *
+ * @ai_instructions
+ *   - Charts should use consistent color schemes with chart variables.
+ *   - Currency formatting must support both full and compact display modes.
+ *   - Financial metrics should include trend indicators and comparisons.
+ *   - DO NOT modify chart data structure without updating visualization logic.
+ *
+ * @exports     OverviewPage
+ * @imports     wouter, recharts, @/components/ui/*, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import {
   AreaChart, Area, BarChart, Bar, PieChart, Pie, Cell,

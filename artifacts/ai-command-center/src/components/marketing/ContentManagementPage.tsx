@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/marketing/ContentManagementPage.tsx
+ * @module      AI Command Center / Marketing
+ * @purpose     Content management with calendar, brief generator, and production workflow
+ *
+ * @ai_instructions
+ *   - Content data should include realistic calendar events and brief information.
+ *   - Production workflow must support drag-and-drop and stage transitions.
+ *   - AI brief generation should integrate with SEO and brand guidelines.
+ *   - DO NOT modify workflow stages without updating production logic.
+ *
+ * @exports     ContentManagementPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

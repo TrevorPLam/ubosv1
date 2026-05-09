@@ -1,3 +1,21 @@
+/**
+ * @file        lib/db/src/schema/index.ts
+ * @module      Database / Schema
+ * @purpose     Central export point for all database schema definitions
+ *
+ * @ai_instructions
+ *   - Export each model/table from separate files using export * from "./filename".
+ *   - Each model file must define a Drizzle table, insert schema, and types.
+ *   - DO NOT define tables directly in this file.
+ *   - Follow the naming convention: tableName, insertTableSchema, InsertTable, Table.
+ *
+ * @exports     All schema exports from individual model files
+ * @see         Follow the commented examples for proper table definition structure
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 // Export your models here. Add one export per file
 // export * from "./posts";
 //

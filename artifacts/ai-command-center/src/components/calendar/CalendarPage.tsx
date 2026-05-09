@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/calendar/CalendarPage.tsx
+ * @module      AI Command Center / Calendar
+ * @purpose     Full-featured calendar component with month, week, day, and agenda views supporting tasks and appointments
+ *
+ * @ai_instructions
+ *   - Calendar must support both tasks and appointments with proper color coding.
+ *   - Date calculations must use date-fns for consistency.
+ *   - All views should be responsive and handle large datasets.
+ *   - DO NOT modify event structure without updating calendar store.
+ *
+ * @exports     CalendarPage, AppointmentModal, MiniCalendar, MonthView, WeekView, DayView, AgendaView
+ * @imports     react, @tanstack/react-query, @/api/projects, @/stores/calendarStore, @/components/ui/*, framer-motion, @/lib/utils, lucide-react, date-fns
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useMemo, useRef, useEffect } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getTasks, createTask, type Task, type TaskStatus, type TaskPriority } from "@/api/projects";

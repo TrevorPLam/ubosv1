@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/marketing/BrandKitPage.tsx
+ * @module      AI Command Center / Marketing
+ * @purpose     Brand kit management with identity repository, voice guidelines, and asset templates
+ *
+ * @ai_instructions
+ *   - Brand data should include realistic identity assets and guideline information.
+ *   - Status badges should accurately reflect asset availability and approval states.
+ *   - Asset repository must support multiple formats and variants.
+ *   - DO NOT modify brand structure without updating asset management system.
+ *
+ * @exports     BrandKitPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

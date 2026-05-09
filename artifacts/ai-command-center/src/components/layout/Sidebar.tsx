@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/layout/Sidebar.tsx
+ * @module      AI Command Center / Layout
+ * @purpose     Main application sidebar with navigation menu and collapsible functionality
+ *
+ * @ai_instructions
+ *   - Sidebar should maintain consistent navigation structure across all pages.
+ *   - Icons must accurately represent their respective navigation areas.
+ *   - Collapsible state should be managed through the UI store.
+ *   - DO NOT modify navigation structure without updating routing configuration.
+ *
+ * @exports     Sidebar
+ * @imports     wouter, lucide-react, @/lib/utils, @/stores/uiStore, @/hooks/useAttentionQueue
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useLocation, Link } from "wouter";
 import { LayoutDashboard, Bot, MessageSquare, Mail, KanbanSquare, CalendarDays, FolderOpen, Banknote, Package, LineChart, FileText, Database, Blocks, Settings, Activity, PanelLeftClose, PanelLeftOpen, Users, Building2, Megaphone, Store, UserCog, BookOpenCheck } from "lucide-react";
 import { cn } from "@/lib/utils";

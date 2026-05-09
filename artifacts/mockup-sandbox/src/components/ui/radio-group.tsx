@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/radio-group.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Radio group component for single selection built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Radio group must extend Radix UI primitive props for full API compatibility.
+ *   - Components must use forwardRef for proper ref forwarding.
+ *   - Radio group should have proper keyboard navigation support.
+ *   - DO NOT modify radio behavior without updating accessibility guidelines.
+ *
+ * @exports     RadioGroup, RadioGroupItem
+ * @imports     react, @radix-ui/react-radio-group, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group"
 import { Circle } from "lucide-react"

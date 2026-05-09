@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/checkbox.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Checkbox component for form inputs built on Radix UI primitives
+ *
+ * @ai_instructions
+ *   - Checkbox must extend Radix UI primitive props for full API compatibility.
+ *   - Component must use forwardRef for proper ref forwarding.
+ *   - Checkbox should have proper checked/unchecked states with icons.
+ *   - DO NOT modify checkbox behavior without updating accessibility guidelines.
+ *
+ * @exports     Checkbox
+ * @imports     react, @radix-ui/react-checkbox, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { Check } from "lucide-react"

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/api/clientDocuments.ts
+ * @module      AI Command Center / API
+ * @purpose     Client document management API with types and mock data for document tracking
+ *
+ * @ai_instructions
+ *   - All document statuses must be from the DocStatus union type.
+ *   - Document types should cover common file formats used in business.
+ *   - Access levels must enforce proper permission boundaries.
+ *   - DO NOT modify status values without updating document management UI.
+ *
+ * @exports     DocStatus, DocType, AccessLevel, ClientDocument, mockClientDocuments
+ * @imports     None
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 export type DocStatus = "approved" | "pending" | "draft" | "requires_signature" | "expired";
 export type DocType = "pdf" | "spreadsheet" | "doc" | "image" | "code";
 export type AccessLevel = "private" | "team" | "public";

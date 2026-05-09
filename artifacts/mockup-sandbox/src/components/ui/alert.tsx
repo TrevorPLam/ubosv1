@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/alert.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Alert component with variants for displaying important messages
+ *
+ * @ai_instructions
+ *   - All components must use forwardRef for proper ref forwarding.
+ *   - Alert must have proper ARIA role for accessibility.
+ *   - Variants should be consistent with other UI component color schemes.
+ *   - DO NOT modify alert variants without updating the design system.
+ *
+ * @exports     Alert, AlertTitle, AlertDescription
+ * @imports     react, class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { cva, type VariantProps } from "class-variance-authority"
 

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/hooks/useAttentionQueue.ts
+ * @module      Agent Management / Approval
+ * @purpose     React hook to manage attention queue for agent approval requests
+ *
+ * @ai_instructions
+ *   - Must subscribe to eventBus for approval_requested events
+ *   - Must prevent duplicate queue items with same ID
+ *   - Must provide approve and reject functions that remove items
+ *   - DO NOT modify INITIAL_QUEUE without updating business logic
+ *
+ * @exports     useAttentionQueue, QueueItem
+ * @imports     @/lib/eventBus
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { useState, useEffect } from 'react';
 import { startSimulator, eventBus, ApprovalRequestedEvent } from '@/lib/eventBus';
 

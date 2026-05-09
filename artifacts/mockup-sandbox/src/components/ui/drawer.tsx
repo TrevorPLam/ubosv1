@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/drawer.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Drawer component for slide-out panels built on vaul
+ *
+ * @ai_instructions
+ *   - Drawer must extend vaul primitive props for full API compatibility.
+ *   - Component should support all vaul features and animations.
+ *   - Drawer should have proper overlay and close functionality.
+ *   - DO NOT modify drawer behavior without updating accessibility guidelines.
+ *
+ * @exports     Drawer, DrawerTrigger, DrawerClose, DrawerContent, DrawerHeader, DrawerFooter, DrawerTitle, DrawerDescription
+ * @imports     react, vaul, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import { Drawer as DrawerPrimitive } from "vaul"
 

@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/empty.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Empty state component for displaying placeholder content
+ *
+ * @ai_instructions
+ *   - Empty must use data-slot attributes for proper styling hooks.
+ *   - Component should support all standard HTML div attributes.
+ *   - Empty state should be responsive and accessible.
+ *   - DO NOT modify empty state layout without updating the design system.
+ *
+ * @exports     Empty, emptyVariants, EmptyProps
+ * @imports     class-variance-authority, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"

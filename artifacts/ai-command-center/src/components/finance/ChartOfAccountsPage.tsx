@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/finance/ChartOfAccountsPage.tsx
+ * @module      AI Command Center / Finance Management
+ * @purpose     Chart of accounts management with hierarchical account organization and balance tracking
+ *
+ * @ai_instructions
+ *   - Account groups should maintain proper asset/liability/equity/income/expense classification.
+ *   - Account codes must follow consistent numbering scheme within each type.
+ *   - Balance calculations should include proper currency formatting.
+ *   - DO NOT modify account structure without updating financial reporting logic.
+ *
+ * @exports     ChartOfAccountsPage
+ * @imports     wouter, @/components/ui/*, lucide-react
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";

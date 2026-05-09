@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/ai-command-center/src/components/clients/clientsData.ts
+ * @module      AI Command Center / Clients
+ * @purpose     Client data types, mock data, and utility functions for CRM functionality
+ *
+ * @ai_instructions
+ *   - All client statuses must be from the ClientStatus union type.
+ *   - Mock data must include realistic client information and contact details.
+ *   - Address helper functions must return complete address objects.
+ *   - DO NOT modify status values without updating UI components.
+ *
+ * @exports     ClientStatus, Salutation, Gender, EmailType, PhoneType, SocialPlatform, Client, clientDisplayName, mockClients, STATUS_CONFIG, LANGUAGES, COUNTRIES
+ * @imports     None
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 export type ClientStatus = "active" | "inactive" | "at-risk" | "new";
 
 export type Salutation = "" | "Mr." | "Ms." | "Mrs." | "Dr." | "Prof.";

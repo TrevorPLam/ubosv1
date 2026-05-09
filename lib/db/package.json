@@ -1,4 +1,5 @@
 {
+  "_comment": "@file        lib/db/package.json\n@module      Database / Core\n@purpose     Package configuration for database ORM and schema management\n\n@ai_instructions\n   - All dependencies must use catalog: for workspace-managed versions.\n   - Drizzle versions must remain compatible across all packages.\n   - Push scripts must use the drizzle.config.ts configuration file.\n   - DO NOT modify database dependencies without updating migration scripts.\n   - Schema exports must match the directory structure.\n\n@copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>\n@license     SPDX-License-Identifier: MIT",
   "name": "@workspace/db",
   "version": "0.0.0",
   "private": true,

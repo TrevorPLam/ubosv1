@@ -1,3 +1,21 @@
+/**
+ * @file        artifacts/mockup-sandbox/src/components/ui/toast.tsx
+ * @module      Mockup Sandbox / UI Components
+ * @purpose     Toast component with provider, viewport, action, close, title, and description
+ *
+ * @ai_instructions
+ *   - Toast must use Radix UI primitives for accessibility and swipe gestures.
+ *   - All subcomponents must use forwardRef for proper ref forwarding.
+ *   - Toast should support swipe-to-dismiss and proper viewport positioning.
+ *   - DO NOT modify animations or variants without updating design tokens.
+ *
+ * @exports     type ToastProps, type ToastActionElement, ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose, ToastAction
+ * @imports     react, @radix-ui/react-toast, class-variance-authority, lucide-react, @/lib/utils
+ *
+ * @copyright   SPDX-FileCopyrightText: 2025 Trevor Lam <trevor@example.org>
+ * @license     SPDX-License-Identifier: MIT
+ */
+
 import * as React from "react"
 import * as ToastPrimitives from "@radix-ui/react-toast"
 import { cva, type VariantProps } from "class-variance-authority"
