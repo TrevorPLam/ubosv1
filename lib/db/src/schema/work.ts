@@ -172,24 +172,51 @@ export const templateTasks = pgTable("template_tasks", {
   templateOrderIdx: index("idx_template_tasks_order").on(table.template_id, table.order_index)
 }));
 
-// Zod schemas for validation
-export const insertProjectSchema = createInsertSchema(projects).omit({ id: true, created_at: true, updated_at: true, deleted_at: true });
-export const insertTaskSchema = createInsertSchema(tasks).omit({ id: true, created_at: true, updated_at: true, deleted_at: true });
-export const insertTaskCommentSchema = createInsertSchema(taskComments).omit({ id: true, created_at: true });
-export const insertTaskDependencySchema = createInsertSchema(taskDependencies).omit({ id: true, created_at: true });
-export const insertProjectTemplateSchema = createInsertSchema(projectTemplates).omit({ id: true, created_at: true, updated_at: true });
-export const insertTemplateTaskSchema = createInsertSchema(templateTasks).omit({ id: true });
+// Insert schemas with validation
+export const insertProjectSchema = createInsertSchema(projects).omit({ 
+  id: true, 
+  created_at: true, 
+  updated_at: true, 
+  deleted_at: true 
+});
 
-// Type exports
-export type InsertProject = z.infer<typeof insertProjectSchema>;
+export const insertTaskSchema = createInsertSchema(tasks).omit({ 
+  id: true, 
+  created_at: true, 
+  updated_at: true, 
+  deleted_at: true 
+});
+
+export const insertTaskCommentSchema = createInsertSchema(taskComments).omit({ 
+  id: true, 
+  created_at: true 
+});
+
+export const insertTaskDependencySchema = createInsertSchema(taskDependencies).omit({ 
+  id: true, 
+  created_at: true 
+});
+
+export const insertProjectTemplateSchema = createInsertSchema(projectTemplates).omit({ 
+  id: true, 
+  created_at: true, 
+  updated_at: true 
+});
+
+export const insertTemplateTaskSchema = createInsertSchema(templateTasks).omit({ 
+  id: true 
+});
+
+// Type inference
 export type Project = typeof projects.$inferSelect;
-export type InsertTask = z.infer<typeof insertTaskSchema>;
+export type InsertProject = typeof projects.$inferInsert;
 export type Task = typeof tasks.$inferSelect;
-export type InsertTaskComment = z.infer<typeof insertTaskCommentSchema>;
+export type InsertTask = typeof tasks.$inferInsert;
 export type TaskComment = typeof taskComments.$inferSelect;
-export type InsertTaskDependency = z.infer<typeof insertTaskDependencySchema>;
+export type InsertTaskComment = typeof taskComments.$inferInsert;
 export type TaskDependency = typeof taskDependencies.$inferSelect;
-export type InsertProjectTemplate = z.infer<typeof insertProjectTemplateSchema>;
+export type InsertTaskDependency = typeof taskDependencies.$inferInsert;
 export type ProjectTemplate = typeof projectTemplates.$inferSelect;
-export type InsertTemplateTask = z.infer<typeof insertTemplateTaskSchema>;
+export type InsertProjectTemplate = typeof projectTemplates.$inferInsert;
 export type TemplateTask = typeof templateTasks.$inferSelect;
+export type InsertTemplateTask = typeof templateTasks.$inferInsert;

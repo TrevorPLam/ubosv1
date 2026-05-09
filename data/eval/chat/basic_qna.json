@@ -1,0 +1,87 @@
+[
+  {
+    "id": "chat_basic_001",
+    "input": "What is the purpose of project management?",
+    "expected_output": "Project management is the process of planning, executing, and controlling work to achieve specific goals within constraints like time, budget, and resources. It involves organizing teams, managing risks, and ensuring deliverables meet quality standards.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.15
+    },
+    "metadata": {
+      "category": "basic_qna",
+      "difficulty": "easy",
+      "tags": ["project_management", "definition"]
+    }
+  },
+  {
+    "id": "chat_basic_002", 
+    "input": "How do you create a new task in a project?",
+    "expected_output": "To create a new task, navigate to your project dashboard, click the 'Add Task' button, fill in the task title, description, assignee, due date, and priority level, then click 'Save'. The task will appear in the project's task list and notify the assigned team member.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.15
+    },
+    "metadata": {
+      "category": "basic_qna",
+      "difficulty": "easy",
+      "tags": ["tasks", "how_to"]
+    }
+  },
+  {
+    "id": "chat_basic_003",
+    "input": "What are the different project statuses available?",
+    "expected_output": "Projects can have several statuses: Planning, In Progress, On Hold, Completed, and Cancelled. Each status helps track the project's lifecycle and informs team members about current progress and next steps.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.15
+    },
+    "metadata": {
+      "category": "basic_qna",
+      "difficulty": "easy",
+      "tags": ["projects", "statuses"]
+    }
+  },
+  {
+    "id": "chat_basic_004",
+    "input": "How can I view my team's workload?",
+    "expected_output": "You can view your team's workload by going to the Team Dashboard and selecting the 'Workload View'. This shows each team member's current tasks, upcoming deadlines, and capacity utilization. You can filter by date range or project to get specific insights.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.15
+    },
+    "metadata": {
+      "category": "basic_qna",
+      "difficulty": "medium",
+      "tags": ["team", "workload", "dashboard"]
+    }
+  },
+  {
+    "id": "chat_basic_005",
+    "input": "What is the difference between a task and a milestone?",
+    "expected_output": "A task is a specific action item that needs to be completed, usually with a clear deliverable and assignee. A milestone is a significant point in a project timeline that marks the completion of a major phase or achievement. Milestones typically don't have assignees but serve as markers for progress tracking.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.15
+    },
+    "metadata": {
+      "category": "basic_qna",
+      "difficulty": "medium",
+      "tags": ["tasks", "milestones", "concepts"]
+    }
+  }
+]

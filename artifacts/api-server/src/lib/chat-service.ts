@@ -39,6 +39,7 @@ import {
 } from "@workspace/db";
 import { AppError, ErrorTypes } from "../middlewares/error-handler";
 import { createSummaryJob, createFeedbackJob, processFeedbackImmediate } from "./jobs/chat-jobs";
+import { CostService } from "./cost-service";
 
 interface ListThreadsOptions {
   page: number;
@@ -313,6 +314,31 @@ class ChatService {
           updatedAt: new Date(),
         })
         .where(eq(chatThreadsTable.id, threadId));
+
+      // Record token usage for user message (prompt tokens)
+      try {
+        const eventId = `chat_msg_${message.id}_${Date.now()}`;
+        const estimatedTokens = Math.ceil((data.content || "").length / 4); // Rough estimation
+        
+        await CostService.recordUsage({
+          tenantId,
+          eventId,
+          model: "chat-input", // Generic for user messages
+          eventType: "prompt",
+          inputTokens: estimatedTokens,
+          outputTokens: 0,
+          messageId: message.id,
+          userId,
+          metadata: {
+            threadId,
+            role: "user",
+            contentLength: (data.content || "").length
+          }
+        });
+      } catch (error) {
+        // Log error but don't fail the message creation
+        console.warn("Failed to record token usage for chat message:", error);
+      }
 
       return message;
     } catch (error) {

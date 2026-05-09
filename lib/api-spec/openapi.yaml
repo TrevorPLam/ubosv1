@@ -29,8 +29,32 @@ tags:
     description: Approval workflow operations
   - name: chat
     description: Chat and conversation management operations
-paths:
-  /healthz:
+  - name: projects
+    description: Project management operations
+  - name: tasks
+    description: Task management operations
+  - name: templates
+    description: Project template operations
+  - name: clients
+    description: Client management operations
+  - name: crm
+    description: CRM contacts and pipeline operations
+  - name: agreements
+    description: Agreement and signature operations
+  - name: documents
+    description: Document management operations
+  - name: knowledge
+    description: Knowledge base operations
+  - name: files
+    description: File upload and storage operations
+  - name: email
+    description: Email account and message management operations
+  - name: assets
+    description: Asset management operations
+  - name: finance
+    description: Finance and accounting operations
+  paths:
+/healthz:
     get:
       operationId: healthCheck
       tags: [health]
@@ -43,7 +67,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
-  /agents:
+/agents:
     get:
       operationId: listAgents
       tags: [agents]
@@ -87,7 +111,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /agents/{id}:
+/agents/{id}:
     get:
       operationId: getAgent
       tags: [agents]
@@ -125,7 +149,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /approvals:
+/approvals:
     get:
       operationId: listApprovals
       tags: [approvals]
@@ -170,7 +194,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /approvals/{id}/decide:
+/approvals/{id}/decide:
     post:
       operationId: decideApproval
       tags: [approvals]
@@ -220,7 +244,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValidationError"
-  /threads:
+/threads:
     post:
       operationId: createThread
       tags: [chat]
@@ -291,7 +315,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /threads/{id}:
+/threads/{id}:
     get:
       operationId: getThread
       tags: [chat]
@@ -393,7 +417,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /threads/{id}/messages:
+/threads/{id}/messages:
     post:
       operationId: sendMessage
       tags: [chat]
@@ -437,7 +461,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValidationError"
-  /threads/{id}/stream:
+/threads/{id}/stream:
     get:
       operationId: streamResponse
       tags: [chat]
@@ -476,7 +500,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /messages/{id}:
+/messages/{id}:
     patch:
       operationId: editMessage
       tags: [chat]
@@ -520,7 +544,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValidationError"
-  /messages/{id}/feedback:
+/messages/{id}/feedback:
     post:
       operationId: submitFeedback
       tags: [chat]
@@ -564,7 +588,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValidationError"
-  /threads/{id}/summarize:
+/threads/{id}/summarize:
     post:
       operationId: generateSummary
       tags: [chat]
@@ -601,7 +625,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /threads/{id}/grounding:
+/threads/{id}/grounding:
     post:
       operationId: updateGrounding
       tags: [chat]
@@ -645,6 +669,3501 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ValidationError"
+/projects:
+    post:
+      operationId: createProject
+      tags: [projects]
+      summary: Create a new project
+      description: Creates a new project with optional description and color
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateProjectRequest"
+      responses:
+        "201":
+          description: Project created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    get:
+      operationId: listProjects
+      tags: [projects]
+      summary: List projects
+      description: Returns paginated list of projects
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, archived]
+        - name: clientId
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of projects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/projects/{id}:
+    get:
+      operationId: getProject
+      tags: [projects]
+      summary: Get project details
+      description: Returns project with task summary counts
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Project details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/projects/{id}/tasks:
+    post:
+      operationId: createTask
+      tags: [tasks]
+      summary: Create a new task
+      description: Creates a new task within a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTaskRequest"
+      responses:
+        "201":
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    get:
+      operationId: listTasks
+      tags: [tasks]
+      summary: List tasks for project
+      description: Returns paginated list of tasks for a project
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [backlog, in-progress, in-review, done]
+        - name: priority
+          in: query
+          schema:
+            type: string
+            enum: [low, medium, high, critical]
+        - name: assignedAgentId
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Project not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/tasks/{id}:
+    patch:
+      operationId: updateTask
+      tags: [tasks]
+      summary: Update task
+      description: Updates task fields
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTaskRequest"
+      responses:
+        "200":
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/tasks/{id}/move:
+    post:
+      operationId: moveTask
+      tags: [tasks]
+      summary: Move task to new status
+      description: Changes task status and optionally sets order_index
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MoveTaskRequest"
+      responses:
+        "200":
+          description: Task moved
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/tasks/{id}/comments:
+    post:
+      operationId: addTaskComment
+      tags: [tasks]
+      summary: Add comment to task
+      description: Adds a comment to a task
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddCommentRequest"
+      responses:
+        "201":
+          description: Comment added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskComment"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/tasks/{id}/dependencies:
+    post:
+      operationId: addTaskDependency
+      tags: [tasks]
+      summary: Add dependency to task
+      description: Adds a dependency relationship between tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddDependencyRequest"
+      responses:
+        "201":
+          description: Dependency added
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskDependency"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Task not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/templates:
+    get:
+      operationId: listTemplates
+      tags: [templates]
+      summary: List project templates
+      description: Returns list of project templates
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of templates
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemplateListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createTemplate
+      tags: [templates]
+      summary: Create project template
+      description: Creates a new project template with tasks
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTemplateRequest"
+      responses:
+        "201":
+          description: Template created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectTemplate"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/templates/{id}/instantiate:
+    post:
+      operationId: instantiateTemplate
+      tags: [templates]
+      summary: Create project from template
+      description: Creates a new project from a template, cloning all template tasks
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InstantiateTemplateRequest"
+      responses:
+        "201":
+          description: Project created from template
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Template not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/clients:
+    get:
+      operationId: listClients
+      tags: [clients]
+      summary: List clients
+      description: Returns paginated list of clients with their contact information
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, inactive, at-risk, new]
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of clients
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createClient
+      tags: [clients]
+      summary: Create client
+      description: Creates a new client with contact information
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateClientRequest"
+      responses:
+        "201":
+          description: Client created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/clients/{id}:
+    get:
+      operationId: getClient
+      tags: [clients]
+      summary: Get client details
+      description: Returns detailed client information including contacts and related data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Client details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    put:
+      operationId: updateClient
+      tags: [clients]
+      summary: Update client
+      description: Updates client information completely
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateClientRequest"
+      responses:
+        "200":
+          description: Client updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Client"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    delete:
+      operationId: deleteClient
+      tags: [clients]
+      summary: Delete client
+      description: Deletes a client and all associated data
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Client deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/clients/{id}/contacts:
+    get:
+      operationId: getClientContacts
+      tags: [clients]
+      summary: Get client contacts
+      description: Returns all contact information for a specific client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Client contacts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ClientContactsResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/clients/{id}/projects:
+    get:
+      operationId: getClientProjects
+      tags: [clients]
+      summary: Get client projects
+      description: Returns all projects associated with a specific client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Client projects
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/clients/{id}/documents:
+    get:
+      operationId: getClientDocuments
+      tags: [clients]
+      summary: Get client documents
+      description: Returns all documents associated with a specific client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Client documents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/clients/{id}/agreements:
+    get:
+      operationId: getClientAgreements
+      tags: [clients]
+      summary: Get client agreements
+      description: Returns all agreements associated with a specific client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Client agreements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgreementListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/clients/{id}/appointments:
+    get:
+      operationId: getClientAppointments
+      tags: [clients]
+      summary: Get client appointments
+      description: Returns all appointments associated with a specific client
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Client appointments
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AppointmentListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Client not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/contacts:
+    get:
+      operationId: listContacts
+      tags: [crm]
+      summary: List CRM contacts
+      description: Returns paginated list of CRM contacts (leads)
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [hot, warm, cold]
+        - name: search
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of contacts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContactListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createContact
+      tags: [crm]
+      summary: Create contact
+      description: Creates a new CRM contact (lead)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateContactRequest"
+      responses:
+        "201":
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/pipeline:
+    get:
+      operationId: getPipeline
+      tags: [crm]
+      summary: Get sales pipeline
+      description: Returns opportunities grouped by pipeline stage
+      parameters:
+        - name: stage
+          in: query
+          schema:
+            type: string
+            enum: [prospecting, qualification, proposal, negotiation, closed-won, closed-lost]
+      responses:
+        "200":
+          description: Pipeline data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/opportunities:
+    post:
+      operationId: createOpportunity
+      tags: [crm]
+      summary: Create opportunity
+      description: Creates a new sales opportunity
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateOpportunityRequest"
+      responses:
+        "201":
+          description: Opportunity created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Opportunity"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/opportunities/{id}:
+    patch:
+      operationId: updateOpportunity
+      tags: [crm]
+      summary: Update opportunity
+      description: Updates opportunity information (stage movement, etc.)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateOpportunityRequest"
+      responses:
+        "200":
+          description: Opportunity updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Opportunity"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Opportunity not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/agreements:
+    get:
+      operationId: listAgreements
+      tags: [agreements]
+      summary: List agreements
+      description: Returns paginated list of agreements
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, sent, viewed, signed, expired]
+        - name: client_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of agreements
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgreementListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createAgreement
+      tags: [agreements]
+      summary: Create agreement
+      description: Creates a new agreement
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAgreementRequest"
+      responses:
+        "201":
+          description: Agreement created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Agreement"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/agreements/{id}/versions:
+    post:
+      operationId: createAgreementVersion
+      tags: [agreements]
+      summary: Create agreement version
+      description: Creates a new version of an existing agreement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAgreementVersionRequest"
+      responses:
+        "201":
+          description: Agreement version created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgreementVersion"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/agreements/{id}/signature:
+    patch:
+      operationId: updateAgreementSignature
+      tags: [agreements]
+      summary: Update agreement signature state
+      description: Updates the signature status of an agreement
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSignatureRequest"
+      responses:
+        "200":
+          description: Signature state updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Agreement"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Agreement not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/files/upload:
+    post:
+      operationId: getUploadUrl
+      tags: [files]
+      summary: Get pre-signed upload URL
+      description: Returns a pre-signed URL for direct file upload to S3/R2 storage
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UploadRequest"
+      responses:
+        "200":
+          description: Pre-signed URL generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UploadResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/documents:
+    get:
+      operationId: listDocuments
+      tags: [documents]
+      summary: List documents
+      description: Returns paginated list of documents with filtering options
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [pdf, spreadsheet, doc, image, code, presentation, video, audio, archive, other]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, pending, approved, requires_signature, expired]
+        - name: access_level
+          in: query
+          schema:
+            type: string
+            enum: [private, team, public]
+        - name: folder
+          in: query
+          schema:
+            type: string
+        - name: owner_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of documents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createDocument
+      tags: [documents]
+      summary: Create document
+      description: Creates a new document record with an initial version
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDocumentRequest"
+      responses:
+        "201":
+          description: Document created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Document"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/documents/{id}:
+    get:
+      operationId: getDocument
+      tags: [documents]
+      summary: Get document details
+      description: Returns document details with version history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Document details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/documents/{id}/versions:
+    post:
+      operationId: createDocumentVersion
+      tags: [documents]
+      summary: Create document version
+      description: Uploads a new version of an existing document
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateDocumentVersionRequest"
+      responses:
+        "201":
+          description: Document version created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DocumentVersion"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/documents/{id}/link:
+    post:
+      operationId: linkDocument
+      tags: [documents]
+      summary: Link document to entity
+      description: Links a document to any entity (client, project, task, employee)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkDocumentRequest"
+      responses:
+        "201":
+          description: Document linked successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EntityDocument"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Document not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/knowledge:
+    get:
+      operationId: listKnowledge
+      tags: [knowledge]
+      summary: List knowledge entries
+      description: Returns paginated list of knowledge entries with filtering
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [sop, wiki, training, certification, policy, process, template, faq, best_practice, other]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, needs-review, published, current]
+        - name: role
+          in: query
+          schema:
+            type: string
+        - name: department
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of knowledge entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createKnowledge
+      tags: [knowledge]
+      summary: Create knowledge entry
+      description: Creates a new knowledge entry with initial version
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateKnowledgeRequest"
+      responses:
+        "201":
+          description: Knowledge entry created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeEntry"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/knowledge/search:
+    get:
+      operationId: searchKnowledge
+      tags: [knowledge]
+      summary: Search knowledge entries
+      description: Full-text search across knowledge entries
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [sop, wiki, training, certification, policy, process, template, faq, best_practice, other]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 10
+            minimum: 1
+            maximum: 50
+      responses:
+        "200":
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeSearchResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/knowledge/{id}:
+    get:
+      operationId: getKnowledge
+      tags: [knowledge]
+      summary: Get knowledge entry
+      description: Returns knowledge entry with version history
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Knowledge entry details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Knowledge entry not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateKnowledge
+      tags: [knowledge]
+      summary: Update knowledge entry
+      description: Updates a knowledge entry, creating a new version
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateKnowledgeRequest"
+      responses:
+        "200":
+          description: Knowledge entry updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/KnowledgeEntry"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Knowledge entry not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+/certifications:
+    get:
+      operationId: listCertifications
+      tags: [knowledge]
+      summary: List certification records
+      description: Returns paginated list of employee certification records
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: employee_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [compliant, at-risk, overdue, expired, pending]
+      responses:
+        "200":
+          description: List of certification records
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CertificationListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/email/accounts:
+    get:
+      operationId: listEmailAccounts
+      tags: [email]
+      summary: List email accounts
+      description: Returns list of connected email accounts for the current user
+      responses:
+        "200":
+          description: List of email accounts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailAccountListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createEmailAccount
+      tags: [email]
+      summary: Connect email account
+      description: Connect a new email account via OAuth
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmailAccountRequest"
+      responses:
+        "201":
+          description: Email account connected
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailAccount"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/email/accounts/{accountId}/messages:
+    get:
+      operationId: listEmailMessages
+      tags: [email]
+      summary: List email messages
+      description: Returns paginated list of email messages for an account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: folder
+          in: query
+          schema:
+            type: string
+            enum: [inbox, sent, drafts, archive, trash]
+            default: inbox
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: unread_only
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        "200":
+          description: List of email messages
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailMessageListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/email/accounts/{accountId}/send:
+    post:
+      operationId: sendEmail
+      tags: [email]
+      summary: Send email
+      description: Send an email through a connected account
+      parameters:
+        - name: accountId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendEmailRequest"
+      responses:
+        "200":
+          description: Email sent successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailMessage"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Account not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/email/drafts:
+    get:
+      operationId: listEmailDrafts
+      tags: [email]
+      summary: List email drafts
+      description: Returns list of email drafts for the current user
+      parameters:
+        - name: account_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+      responses:
+        "200":
+          description: List of email drafts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailDraftListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createEmailDraft
+      tags: [email]
+      summary: Create email draft
+      description: Create a new email draft
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmailDraftRequest"
+      responses:
+        "201":
+          description: Email draft created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailDraft"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/email/drafts/{draftId}:
+    patch:
+      operationId: updateEmailDraft
+      tags: [email]
+      summary: Update email draft
+      description: Update an existing email draft
+      parameters:
+        - name: draftId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateEmailDraftRequest"
+      responses:
+        "200":
+          description: Email draft updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailDraft"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Draft not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/email/messages/{messageId}/star:
+    post:
+      operationId: starEmailMessage
+      tags: [email]
+      summary: Star/unstar email message
+      description: Toggle star status of an email message
+      parameters:
+        - name: messageId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                starred:
+                  type: boolean
+              required:
+                - starred
+      responses:
+        "200":
+          description: Message star status updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailMessage"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/assets:
+    get:
+      operationId: listAssets
+      tags: [assets]
+      summary: List assets
+      description: Returns paginated list of assets with optional filtering
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: industry
+          in: query
+          schema:
+            type: string
+            enum: [digital, food, product, equipment, real_estate, fleet]
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, low_stock, expiring, maintenance, inactive, critical]
+        - name: category_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of assets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createAsset
+      tags: [assets]
+      summary: Create asset
+      description: Creates a new asset record
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAssetRequest"
+      responses:
+        "201":
+          description: Asset created successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Asset"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/assets/{id}:
+    get:
+      operationId: getAsset
+      tags: [assets]
+      summary: Get asset details
+      description: Returns asset details including depreciation and maintenance records
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Asset details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateAsset
+      tags: [assets]
+      summary: Update asset
+      description: Updates asset information
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateAssetRequest"
+      responses:
+        "200":
+          description: Asset updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Asset"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/assets/{id}/depreciation:
+    get:
+      operationId: getAssetDepreciation
+      tags: [assets]
+      summary: Get asset depreciation schedule
+      description: Returns depreciation schedule for an asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Depreciation schedule
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DepreciationScheduleResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/assets/{id}/maintenance:
+    post:
+      operationId: createMaintenanceRecord
+      tags: [assets]
+      summary: Create maintenance record
+      description: Creates a maintenance record for an asset
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMaintenanceRequest"
+      responses:
+        "201":
+          description: Maintenance record created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceRecord"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Asset not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/asset-categories:
+    get:
+      operationId: listAssetCategories
+      tags: [assets]
+      summary: List asset categories
+      description: Returns list of asset categories
+      responses:
+        "200":
+          description: List of asset categories
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetCategoryListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createAssetCategory
+      tags: [assets]
+      summary: Create asset category
+      description: Creates a new asset category
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAssetCategoryRequest"
+      responses:
+        "201":
+          description: Asset category created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssetCategory"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/accounts:
+    get:
+      operationId: listAccounts
+      tags: [finance]
+      summary: List chart of accounts
+      description: Returns paginated list of accounts with current status
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: type
+          in: query
+          schema:
+            type: string
+            enum: [asset, liability, equity, income, expense]
+        - name: is_active
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of accounts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AccountListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createAccount
+      tags: [finance]
+      summary: Create account
+      description: Creates a new account in the chart of accounts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAccountRequest"
+      responses:
+        "201":
+          description: Account created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/transactions:
+    get:
+      operationId: listTransactions
+      tags: [finance]
+      summary: List transactions
+      description: Returns paginated list of transactions with filtering
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: account_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: is_reconciled
+          in: query
+          schema:
+            type: boolean
+        - name: date_from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of transactions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TransactionListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createTransaction
+      tags: [finance]
+      summary: Create transaction
+      description: Creates a new transaction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTransactionRequest"
+      responses:
+        "201":
+          description: Transaction created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/transactions/{id}:
+    patch:
+      operationId: updateTransaction
+      tags: [finance]
+      summary: Update transaction
+      description: Updates a transaction (for reconciliation)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTransactionRequest"
+      responses:
+        "200":
+          description: Transaction updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Transaction"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Transaction not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/invoices:
+    get:
+      operationId: listInvoices
+      tags: [finance]
+      summary: List invoices
+      description: Returns paginated list of invoices
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, sent, paid, overdue, cancelled]
+        - name: client_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of invoices
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvoiceListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createInvoice
+      tags: [finance]
+      summary: Create invoice
+      description: Creates a new invoice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateInvoiceRequest"
+      responses:
+        "201":
+          description: Invoice created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/invoices/{id}:
+    get:
+      operationId: getInvoice
+      tags: [finance]
+      summary: Get invoice
+      description: Returns a specific invoice
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Invoice details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Invoice not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateInvoice
+      tags: [finance]
+      summary: Update invoice
+      description: Updates invoice status or records payment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateInvoiceRequest"
+      responses:
+        "200":
+          description: Invoice updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Invoice"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Invoice not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/bills:
+    get:
+      operationId: listBills
+      tags: [finance]
+      summary: List bills
+      description: Returns paginated list of bills
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, pending-approval, scheduled, paid, overdue]
+        - name: vendor_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: List of bills
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BillListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createBill
+      tags: [finance]
+      summary: Create bill
+      description: Creates a new bill
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBillRequest"
+      responses:
+        "201":
+          description: Bill created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bill"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/bills/{id}:
+    get:
+      operationId: getBill
+      tags: [finance]
+      summary: Get bill
+      description: Returns a specific bill
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Bill details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bill"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Bill not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateBill
+      tags: [finance]
+      summary: Update bill
+      description: Updates bill status or schedules payment
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBillRequest"
+      responses:
+        "200":
+          description: Bill updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Bill"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Bill not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/journal-entries:
+    get:
+      operationId: listJournalEntries
+      tags: [finance]
+      summary: List journal entries
+      description: Returns paginated list of journal entries
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, posted]
+        - name: date_from
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: date_to
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: List of journal entries
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntryListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createJournalEntry
+      tags: [finance]
+      summary: Create journal entry
+      description: Creates a new balanced journal entry
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateJournalEntryRequest"
+      responses:
+        "201":
+          description: Journal entry created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/journal-entries/{id}:
+    get:
+      operationId: getJournalEntry
+      tags: [finance]
+      summary: Get journal entry
+      description: Returns a specific journal entry with lines
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Journal entry details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntryWithLines"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Journal entry not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateJournalEntry
+      tags: [finance]
+      summary: Update journal entry
+      description: Updates journal entry status (posting)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateJournalEntryRequest"
+      responses:
+        "200":
+          description: Journal entry updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JournalEntry"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Journal entry not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/budgets:
+    get:
+      operationId: listBudgets
+      tags: [finance]
+      summary: List budgets
+      description: Returns paginated list of budgets
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [operations, marketing, sales, rd, admin, capex, other]
+      responses:
+        "200":
+          description: List of budgets
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BudgetListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createBudget
+      tags: [finance]
+      summary: Create budget
+      description: Creates a new budget
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBudgetRequest"
+      responses:
+        "201":
+          description: Budget created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Budget"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/goals:
+    get:
+      operationId: listGoals
+      tags: [finance]
+      summary: List goals
+      description: Returns paginated list of financial goals
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: is_active
+          in: query
+          schema:
+            type: boolean
+        - name: category
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of goals
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/GoalListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    post:
+      operationId: createGoal
+      tags: [finance]
+      summary: Create goal
+      description: Creates a new financial goal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateGoalRequest"
+      responses:
+        "201":
+          description: Goal created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Goal"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/goals/{id}:
+    patch:
+      operationId: updateGoal
+      tags: [finance]
+      summary: Update goal
+      description: Updates goal current amount or status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGoalRequest"
+      responses:
+        "200":
+          description: Goal updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Goal"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Goal not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/reports/income-statement:
+    get:
+      operationId: getIncomeStatement
+      tags: [finance]
+      summary: Get income statement
+      description: Returns income statement for specified period
+      parameters:
+        - name: period_start
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+        - name: period_end
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Income statement
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IncomeStatement"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+/reports/balance-sheet:
+    get:
+      operationId: getBalanceSheet
+      tags: [finance]
+      summary: Get balance sheet
+      description: Returns balance sheet as of specified date
+      parameters:
+        - name: as_of_date
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date
+      responses:
+        "200":
+          description: Balance sheet
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BalanceSheet"
+        "400":
+          description: Bad request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     HealthStatus:
@@ -1202,4 +4721,2662 @@ components:
           format: date-time
       required:
         - jobId, status
+    # Work management schemas
+    Project:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [active, archived]
+        color:
+          type: string
+        clientId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, name, status, createdAt, updatedAt
+    Task:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        projectId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [backlog, in-progress, in-review, done]
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        assignedAgentId:
+          type: string
+          format: uuid
+        dueDate:
+          type: string
+          format: date-time
+        billable:
+          type: boolean
+        orderIndex:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, projectId, title, status, priority, billable, orderIndex, createdAt, updatedAt
+    TaskComment:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        taskId:
+          type: string
+          format: uuid
+        authorId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, taskId, authorId, content, createdAt
+    TaskDependency:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        dependentTaskId:
+          type: string
+          format: uuid
+        dependencyTaskId:
+          type: string
+          format: uuid
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, dependentTaskId, dependencyTaskId, createdAt
+    ProjectTemplate:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, name, createdAt, updatedAt
+    TemplateTask:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        templateId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [backlog, in-progress, in-review, done]
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        orderIndex:
+          type: integer
+      required:
+        - id, templateId, title, status, priority, orderIndex
+    # Request schemas
+    CreateProjectRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        clientId:
+          type: string
+          format: uuid
+      required:
+        - name
+    CreateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+          default: medium
+        assignedAgentId:
+          type: string
+          format: uuid
+        dueDate:
+          type: string
+          format: date-time
+        billable:
+          type: boolean
+          default: false
+        orderIndex:
+          type: integer
+          default: 0
+      required:
+        - title
+    UpdateTaskRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        assignedAgentId:
+          type: string
+          format: uuid
+        dueDate:
+          type: string
+          format: date-time
+        billable:
+          type: boolean
+        orderIndex:
+          type: integer
+    MoveTaskRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [backlog, in-progress, in-review, done]
+        orderIndex:
+          type: integer
+      required:
+        - status
+    AddCommentRequest:
+      type: object
+      properties:
+        content:
+          type: string
+      required:
+        - content
+    AddDependencyRequest:
+      type: object
+      properties:
+        dependencyTaskId:
+          type: string
+          format: uuid
+      required:
+        - dependencyTaskId
+    CreateTemplateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        tasks:
+          type: array
+          items:
+            type: object
+            properties:
+              title:
+                type: string
+              description:
+                type: string
+              priority:
+                type: string
+                enum: [low, medium, high, critical]
+                default: medium
+              orderIndex:
+                type: integer
+                default: 0
+            required:
+              - title
+      required:
+        - name
+    InstantiateTemplateRequest:
+      type: object
+      properties:
+        projectName:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        clientId:
+          type: string
+          format: uuid
+      required:
+        - projectName
+    # Response schemas
+    ProjectListResponse:
+      type: object
+      properties:
+        projects:
+          type: array
+          items:
+            $ref: "#/components/schemas/Project"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - projects, pagination
+    ProjectDetailResponse:
+      type: object
+      properties:
+        project:
+          $ref: "#/components/schemas/Project"
+        taskCounts:
+          type: object
+          properties:
+            total:
+              type: integer
+            backlog:
+              type: integer
+            inProgress:
+              type: integer
+            inReview:
+              type: integer
+            done:
+              type: integer
+          required:
+            - total, backlog, inProgress, inReview, done
+      required:
+        - project, taskCounts
+    TaskListResponse:
+      type: object
+      properties:
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - tasks, pagination
+    TemplateListResponse:
+      type: object
+      properties:
+        templates:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectTemplate"
+      required:
+        - templates
+    # Client schemas
+    Client:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        salutation:
+          type: string
+          enum: [mr, mrs, ms, dr, prof, mx, none]
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+        suffix:
+          type: string
+        preferredName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          type: string
+          enum: [male, female, non-binary, prefer-not-to-say]
+        preferredLanguage:
+          type: string
+        company:
+          type: string
+        jobTitle:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, at-risk, new]
+        source:
+          type: string
+        crmContactId:
+          type: string
+          format: uuid
+        clientOwner:
+          type: string
+        notes:
+          type: string
+        lastActivityAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - firstName, lastName, status, createdAt, updatedAt
+    CreateClientRequest:
+      type: object
+      properties:
+        salutation:
+          type: string
+          enum: [mr, mrs, ms, dr, prof, mx, none]
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+        suffix:
+          type: string
+        preferredName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          type: string
+          enum: [male, female, non-binary, prefer-not-to-say]
+        preferredLanguage:
+          type: string
+        company:
+          type: string
+        jobTitle:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, at-risk, new]
+        source:
+          type: string
+        clientOwner:
+          type: string
+        notes:
+          type: string
+      required:
+        - firstName, lastName
+    UpdateClientRequest:
+      type: object
+      properties:
+        salutation:
+          type: string
+          enum: [mr, mrs, ms, dr, prof, mx, none]
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+        suffix:
+          type: string
+        preferredName:
+          type: string
+        dateOfBirth:
+          type: string
+          format: date
+        gender:
+          type: string
+          enum: [male, female, non-binary, prefer-not-to-say]
+        preferredLanguage:
+          type: string
+        company:
+          type: string
+        jobTitle:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, at-risk, new]
+        source:
+          type: string
+        clientOwner:
+          type: string
+        notes:
+          type: string
+      required:
+        - firstName, lastName, status
+    ClientListResponse:
+      type: object
+      properties:
+        clients:
+          type: array
+          items:
+            $ref: "#/components/schemas/Client"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - clients, pagination
+    ClientDetailResponse:
+      type: object
+      properties:
+        client:
+          $ref: "#/components/schemas/Client"
+        contacts:
+          $ref: "#/components/schemas/ClientContactsResponse"
+      required:
+        - client, contacts
+    ClientContactsResponse:
+      type: object
+      properties:
+        emails:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              email:
+                type: string
+              type:
+                type: string
+                enum: [personal, work, other]
+              isPrimary:
+                type: boolean
+        phones:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              phone:
+                type: string
+              type:
+                type: string
+                enum: [mobile, home, work, other]
+              isPrimary:
+                type: boolean
+              countryCode:
+                type: string
+        websites:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              url:
+                type: string
+              title:
+                type: string
+              isPrimary:
+                type: boolean
+        socialProfiles:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              platform:
+                type: string
+              profileUrl:
+                type: string
+              username:
+                type: string
+              isPrimary:
+                type: boolean
+        addresses:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              type:
+                type: string
+                enum: [home, work, mailing, business]
+              streetLine1:
+                type: string
+              streetLine2:
+                type: string
+              city:
+                type: string
+              stateProvince:
+                type: string
+              postalCode:
+                type: string
+              country:
+                type: string
+              isPrimary:
+                type: boolean
+      required:
+        - emails, phones, websites, socialProfiles, addresses
+    # CRM schemas
+    Contact:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        email:
+          type: string
+        company:
+          type: string
+        phone:
+          type: string
+        leadScore:
+          type: integer
+        status:
+          type: string
+          enum: [hot, warm, cold]
+        tags:
+          type: array
+          items:
+            type: string
+        clientId:
+          type: string
+          format: uuid
+        lastActivityAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - name, status, leadScore, createdAt, updatedAt
+    CreateContactRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        company:
+          type: string
+        phone:
+          type: string
+        status:
+          type: string
+          enum: [hot, warm, cold]
+        tags:
+          type: array
+          items:
+            type: string
+      required:
+        - name
+    ContactListResponse:
+      type: object
+      properties:
+        contacts:
+          type: array
+          items:
+            $ref: "#/components/schemas/Contact"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - contacts, pagination
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        contactId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        value:
+          type: string
+          format: decimal
+        stage:
+          type: string
+          enum: [prospecting, qualification, proposal, negotiation, closed-won, closed-lost]
+        winProbability:
+          type: integer
+        expectedCloseDate:
+          type: string
+          format: date
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - clientId, name, stage, winProbability, createdAt, updatedAt
+    CreateOpportunityRequest:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+        contactId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        value:
+          type: string
+          format: decimal
+        stage:
+          type: string
+          enum: [prospecting, qualification, proposal, negotiation, closed-won, closed-lost]
+        winProbability:
+          type: integer
+        expectedCloseDate:
+          type: string
+          format: date
+      required:
+        - clientId, name
+    UpdateOpportunityRequest:
+      type: object
+      properties:
+        stage:
+          type: string
+          enum: [prospecting, qualification, proposal, negotiation, closed-won, closed-lost]
+        winProbability:
+          type: integer
+        expectedCloseDate:
+          type: string
+          format: date
+    PipelineResponse:
+      type: object
+      properties:
+        stages:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: "#/components/schemas/Opportunity"
+      required:
+        - stages
+    # Agreement schemas
+    Agreement:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        clientId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        status:
+          type: string
+          enum: [draft, sent, viewed, signed, expired]
+        value:
+          type: string
+          format: decimal
+        sentAt:
+          type: string
+          format: date-time
+        openedCount:
+          type: integer
+        engagementScore:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - clientId, title, status, createdAt, updatedAt
+    CreateAgreementRequest:
+      type: object
+      properties:
+        clientId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        value:
+          type: string
+          format: decimal
+      required:
+        - clientId, title
+    AgreementVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        agreementId:
+          type: string
+          format: uuid
+        versionNumber:
+          type: integer
+        content:
+          type: string
+        storageRef:
+          type: string
+        createdBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - agreementId, versionNumber, createdBy, createdAt
+    CreateAgreementVersionRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        storageRef:
+          type: string
+      required:
+        - content
+    UpdateSignatureRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [pending, completed, declined]
+        externalEnvelopeId:
+          type: string
+      required:
+        - status
+    AgreementListResponse:
+      type: object
+      properties:
+        agreements:
+          type: array
+          items:
+            $ref: "#/components/schemas/Agreement"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - agreements, pagination
+    # File upload schemas
+    UploadRequest:
+      type: object
+      properties:
+        filename:
+          type: string
+        mime_type:
+          type: string
+        size_bytes:
+          type: integer
+      required:
+        - filename, mime_type, size_bytes
+    UploadResponse:
+      type: object
+      properties:
+        upload_url:
+          type: string
+        storage_key:
+          type: string
+        expires_at:
+          type: string
+          format: date-time
+      required:
+        - upload_url, storage_key, expires_at
+    # Document schemas
+    Document:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        type:
+          type: string
+          enum: [pdf, spreadsheet, doc, image, code, presentation, video, audio, archive, other]
+        status:
+          type: string
+          enum: [draft, pending, approved, requires_signature, expired]
+        access_level:
+          type: string
+          enum: [private, team, public]
+        owner_id:
+          type: string
+          format: uuid
+        folder:
+          type: string
+        starred:
+          type: boolean
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        metadata:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, name, type, status, access_level, owner_id, starred, created_at, updated_at
+    DocumentVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        version_number:
+          type: integer
+        storage_reference_id:
+          type: string
+          format: uuid
+        created_by:
+          type: string
+          format: uuid
+        change_description:
+          type: string
+        checksum:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id, document_id, version_number, storage_reference_id, created_by, created_at
+    StorageReference:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        bucket:
+          type: string
+        key:
+          type: string
+        original_filename:
+          type: string
+        mime_type:
+          type: string
+        size_bytes:
+          type: integer
+        checksum:
+          type: string
+        upload_completed_at:
+          type: string
+          format: date-time
+        last_accessed_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, bucket, key, original_filename, mime_type, size_bytes, created_at
+    EntityDocument:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        document_id:
+          type: string
+          format: uuid
+        entity_type:
+          type: string
+        entity_id:
+          type: string
+          format: uuid
+        linked_by:
+          type: string
+          format: uuid
+        link_type:
+          type: string
+        description:
+          type: string
+        linked_at:
+          type: string
+          format: date-time
+      required:
+        - id, document_id, entity_type, entity_id, linked_by, link_type, linked_at
+    CreateDocumentRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        type:
+          type: string
+          enum: [pdf, spreadsheet, doc, image, code, presentation, video, audio, archive, other]
+        access_level:
+          type: string
+          enum: [private, team, public]
+          default: private
+        folder:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        storage_reference_id:
+          type: string
+          format: uuid
+      required:
+        - name, type, storage_reference_id
+    CreateDocumentVersionRequest:
+      type: object
+      properties:
+        storage_reference_id:
+          type: string
+          format: uuid
+        change_description:
+          type: string
+      required:
+        - storage_reference_id
+    LinkDocumentRequest:
+      type: object
+      properties:
+        entity_type:
+          type: string
+        entity_id:
+          type: string
+          format: uuid
+        link_type:
+          type: string
+          default: attachment
+        description:
+          type: string
+      required:
+        - entity_type, entity_id
+    DocumentListResponse:
+      type: object
+      properties:
+        documents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Document"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - documents, pagination
+    DocumentDetailResponse:
+      type: object
+      properties:
+        document:
+          $ref: "#/components/schemas/Document"
+        versions:
+          type: array
+          items:
+            $ref: "#/components/schemas/DocumentVersion"
+        linked_entities:
+          type: array
+          items:
+            $ref: "#/components/schemas/EntityDocument"
+      required:
+        - document, versions, linked_entities
+    # Knowledge schemas
+    KnowledgeEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        content:
+          type: string
+        category:
+          type: string
+          enum: [sop, wiki, training, certification, policy, process, template, faq, best_practice, other]
+        status:
+          type: string
+          enum: [draft, needs-review, published, current]
+        role:
+          type: string
+        department:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        author_id:
+          type: string
+          format: uuid
+        reviewer_id:
+          type: string
+          format: uuid
+        review_due_at:
+          type: string
+          format: date-time
+        last_reviewed_at:
+          type: string
+          format: date-time
+        effective_date:
+          type: string
+          format: date-time
+        expiry_date:
+          type: string
+          format: date-time
+        version_number:
+          type: integer
+        parent_entry_id:
+          type: string
+          format: uuid
+        is_template:
+          type: boolean
+        view_count:
+          type: integer
+        last_accessed_at:
+          type: string
+          format: date-time
+        search_vector:
+          type: string
+        metadata:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        deleted_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, title, content, category, status, author_id, version_number, is_template, view_count, created_at, updated_at
+    KnowledgeVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        knowledge_entry_id:
+          type: string
+          format: uuid
+        version_number:
+          type: integer
+        content:
+          type: string
+        edited_by:
+          type: string
+          format: uuid
+        change_summary:
+          type: string
+        review_status:
+          type: string
+          default: pending
+        reviewed_by:
+          type: string
+          format: uuid
+        review_notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+      required:
+        - id, knowledge_entry_id, version_number, content, edited_by, review_status, created_at
+    CertificationRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        employee_id:
+          type: string
+          format: uuid
+        certification_name:
+          type: string
+        issuing_body:
+          type: string
+        credential_id:
+          type: string
+        certification_level:
+          type: string
+        issued_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        status:
+          type: string
+          enum: [compliant, at-risk, overdue, expired, pending]
+        verification_url:
+          type: string
+        verification_code:
+          type: string
+        certificate_file_id:
+          type: string
+          format: uuid
+        training_completed_at:
+          type: string
+          format: date-time
+        next_renewal_due:
+          type: string
+          format: date-time
+        renewal_reminder_sent:
+          type: boolean
+        notes:
+          type: string
+        cost:
+          type: integer
+        currency:
+          type: string
+          default: USD
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, employee_id, certification_name, issuing_body, issued_at, status, renewal_reminder_sent, currency, created_at, updated_at
+    CreateKnowledgeRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        category:
+          type: string
+          enum: [sop, wiki, training, certification, policy, process, template, faq, best_practice, other]
+        role:
+          type: string
+        department:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        reviewer_id:
+          type: string
+          format: uuid
+        review_due_at:
+          type: string
+          format: date-time
+        effective_date:
+          type: string
+          format: date-time
+        expiry_date:
+          type: string
+          format: date-time
+        parent_entry_id:
+          type: string
+          format: uuid
+        is_template:
+          type: boolean
+          default: false
+      required:
+        - title, content, category
+    UpdateKnowledgeRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        content:
+          type: string
+        status:
+          type: string
+          enum: [draft, needs-review, published, current]
+        role:
+          type: string
+        department:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        reviewer_id:
+          type: string
+          format: uuid
+        review_due_at:
+          type: string
+          format: date-time
+        effective_date:
+          type: string
+          format: date-time
+        expiry_date:
+          type: string
+          format: date-time
+        parent_entry_id:
+          type: string
+          format: uuid
+        change_summary:
+          type: string
+      required:
+        - title, content
+    KnowledgeListResponse:
+      type: object
+      properties:
+        entries:
+          type: array
+          items:
+            $ref: "#/components/schemas/KnowledgeEntry"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - entries, pagination
+    KnowledgeDetailResponse:
+      type: object
+      properties:
+        entry:
+          $ref: "#/components/schemas/KnowledgeEntry"
+        versions:
+          type: array
+          items:
+            $ref: "#/components/schemas/KnowledgeVersion"
+      required:
+        - entry, versions
+    KnowledgeSearchResponse:
+      type: object
+      properties:
+        results:
+          type: array
+          items:
+            type: object
+            properties:
+              entry:
+                $ref: "#/components/schemas/KnowledgeEntry"
+              snippet:
+                type: string
+              score:
+                type: number
+        total:
+          type: integer
+      required:
+        - results, total
+    CertificationListResponse:
+      type: object
+      properties:
+        certifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/CertificationRecord"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - certifications, pagination
+    AppointmentListResponse:
+      type: object
+      properties:
+        appointments:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: string
+                format: uuid
+              title:
+                type: string
+              startTime:
+                type: string
+                format: date-time
+              endTime:
+                type: string
+                format: date-time
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - appointments, pagination
+    # Email schemas
+    EmailAccount:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        provider:
+          type: string
+          enum: [gmail, outlook, imap, yahoo, apple]
+        email_address:
+          type: string
+          format: email
+        display_name:
+          type: string
+        sync_status:
+          type: string
+          enum: [active, error, syncing, disabled]
+        last_synced_at:
+          type: string
+          format: date-time
+        error_message:
+          type: string
+        is_active:
+          type: boolean
+        settings:
+          type: object
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, user_id, provider, email_address, display_name, is_active
+    EmailAccountListResponse:
+      type: object
+      properties:
+        accounts:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmailAccount"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - accounts, pagination
+    CreateEmailAccountRequest:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum: [gmail, outlook, imap, yahoo, apple]
+        email_address:
+          type: string
+          format: email
+        display_name:
+          type: string
+        oauth_token:
+          type: string
+        settings:
+          type: object
+      required:
+        - provider, email_address, display_name, oauth_token
+    EmailMessage:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        account_id:
+          type: string
+          format: uuid
+        folder_id:
+          type: string
+          format: uuid
+        message_id_header:
+          type: string
+        thread_id:
+          type: string
+        from_address:
+          type: string
+          format: email
+        from_name:
+          type: string
+        to_address:
+          type: string
+        cc_address:
+          type: string
+        bcc_address:
+          type: string
+        subject:
+          type: string
+        body_preview:
+          type: string
+        body_full:
+          type: string
+        body_html:
+          type: string
+        is_read:
+          type: boolean
+        is_starred:
+          type: boolean
+        has_attachments:
+          type: boolean
+        attachments:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              size:
+                type: integer
+              content_type:
+                type: string
+        received_at:
+          type: string
+          format: date-time
+        sent_at:
+          type: string
+          format: date-time
+        provider_message_id:
+          type: string
+        labels:
+          type: array
+          items:
+            type: string
+        priority:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, account_id, message_id_header, from_address, to_address, body_preview, received_at
+    EmailMessageListResponse:
+      type: object
+      properties:
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmailMessage"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - messages, pagination
+    SendEmailRequest:
+      type: object
+      properties:
+        to_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        cc_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        bcc_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        subject:
+          type: string
+        body:
+          type: string
+        body_html:
+          type: string
+        attachments:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              content:
+                type: string
+                format: byte
+              content_type:
+                type: string
+      required:
+        - to_address, subject, body
+    EmailDraft:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        tenant_id:
+          type: string
+          format: uuid
+        account_id:
+          type: string
+          format: uuid
+        to_address:
+          type: string
+        cc_address:
+          type: string
+        bcc_address:
+          type: string
+        subject:
+          type: string
+        body:
+          type: string
+        body_html:
+          type: string
+        attachments:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              size:
+                type: integer
+              content_type:
+                type: string
+        is_reply_to:
+          type: string
+          format: uuid
+        is_forward_of:
+          type: string
+          format: uuid
+        last_saved_at:
+          type: string
+          format: date-time
+        auto_save_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, tenant_id, account_id, last_saved_at, auto_save_enabled
+    EmailDraftListResponse:
+      type: object
+      properties:
+        drafts:
+          type: array
+          items:
+            $ref: "#/components/schemas/EmailDraft"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - drafts, pagination
+    CreateEmailDraftRequest:
+      type: object
+      properties:
+        account_id:
+          type: string
+          format: uuid
+        to_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        cc_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        bcc_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        subject:
+          type: string
+        body:
+          type: string
+        body_html:
+          type: string
+        is_reply_to:
+          type: string
+          format: uuid
+        is_forward_of:
+          type: string
+          format: uuid
+      required:
+        - account_id
+    UpdateEmailDraftRequest:
+      type: object
+      properties:
+        to_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        cc_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        bcc_address:
+          type: array
+          items:
+            type: object
+            properties:
+              email:
+                type: string
+                format: email
+              name:
+                type: string
+        subject:
+          type: string
+        body:
+          type: string
+        body_html:
+          type: string
+      required: []
+    # Asset schemas
+    Asset:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        categoryId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        sku:
+          type: string
+        serialNumber:
+          type: string
+        industry:
+          type: string
+          enum: [digital, food, product, equipment, real_estate, fleet]
+        quantity:
+          type: integer
+        unit:
+          type: string
+        purchaseCost:
+          type: number
+          format: decimal
+        currentValue:
+          type: number
+          format: decimal
+        depreciationRatePct:
+          type: number
+          format: decimal
+        reorderPoint:
+          type: integer
+        status:
+          type: string
+          enum: [active, low_stock, expiring, maintenance, inactive, critical]
+        condition:
+          type: string
+          enum: [excellent, good, fair, poor]
+        location:
+          type: string
+        supplier:
+          type: string
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, categoryId, name, industry, quantity, unit, purchaseCost, status, condition, createdAt, updatedAt
+    AssetCategory:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, name, createdAt, updatedAt
+    MaintenanceRecord:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        assetId:
+          type: string
+          format: uuid
+        description:
+          type: string
+        performedBy:
+          type: string
+        performedAt:
+          type: string
+          format: date-time
+        nextDueAt:
+          type: string
+          format: date-time
+        cost:
+          type: number
+          format: decimal
+        notes:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, assetId, description, performedBy, performedAt, createdAt
+    DepreciationSchedule:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        assetId:
+          type: string
+          format: uuid
+        period:
+          type: string
+          format: date-time
+        depreciationAmount:
+          type: number
+          format: decimal
+        accumulatedDepreciation:
+          type: number
+          format: decimal
+        bookValue:
+          type: number
+          format: decimal
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, assetId, period, depreciationAmount, accumulatedDepreciation, bookValue, createdAt
+    AssetListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Asset"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    AssetDetailResponse:
+      type: object
+      properties:
+        asset:
+          $ref: "#/components/schemas/Asset"
+        depreciation:
+          type: array
+          items:
+            $ref: "#/components/schemas/DepreciationSchedule"
+        maintenance:
+          type: array
+          items:
+            $ref: "#/components/schemas/MaintenanceRecord"
+      required:
+        - asset
+    DepreciationScheduleResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/DepreciationSchedule"
+      required:
+        - data
+    AssetCategoryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/AssetCategory"
+      required:
+        - data
+    CreateAssetRequest:
+      type: object
+      properties:
+        categoryId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        sku:
+          type: string
+        serialNumber:
+          type: string
+        industry:
+          type: string
+          enum: [digital, food, product, equipment, real_estate, fleet]
+        quantity:
+          type: integer
+        unit:
+          type: string
+        purchaseCost:
+          type: number
+          format: decimal
+        depreciationRatePct:
+          type: number
+          format: decimal
+        reorderPoint:
+          type: integer
+        location:
+          type: string
+        supplier:
+          type: string
+        notes:
+          type: string
+      required:
+        - categoryId, name, industry, quantity, unit, purchaseCost
+    UpdateAssetRequest:
+      type: object
+      properties:
+        categoryId:
+          type: string
+          format: uuid
+        name:
+          type: string
+        sku:
+          type: string
+        serialNumber:
+          type: string
+        industry:
+          type: string
+          enum: [digital, food, product, equipment, real_estate, fleet]
+        quantity:
+          type: integer
+        unit:
+          type: string
+        currentValue:
+          type: number
+          format: decimal
+        depreciationRatePct:
+          type: number
+          format: decimal
+        reorderPoint:
+          type: integer
+        status:
+          type: string
+          enum: [active, low_stock, expiring, maintenance, inactive, critical]
+        condition:
+          type: string
+          enum: [excellent, good, fair, poor]
+        location:
+          type: string
+        supplier:
+          type: string
+        notes:
+          type: string
+    CreateMaintenanceRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        performedBy:
+          type: string
+        performedAt:
+          type: string
+          format: date-time
+        nextDueAt:
+          type: string
+          format: date-time
+        cost:
+          type: number
+          format: decimal
+        notes:
+          type: string
+      required:
+        - description, performedBy, performedAt
+    CreateAssetCategoryRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+      required:
+        - name
+    # Finance Schemas
+    Account:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        code:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [asset, liability, equity, income, expense]
+        subtype:
+          type: string
+        is_active:
+          type: boolean
+        description:
+          type: string
+        parent_account_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, code, name, type, is_active, created_at, updated_at
+    CreateAccountRequest:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        type:
+          type: string
+          enum: [asset, liability, equity, income, expense]
+        subtype:
+          type: string
+        description:
+          type: string
+        parent_account_id:
+          type: string
+          format: uuid
+      required:
+        - code, name, type
+    AccountListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Account"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    Transaction:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        account_id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        amount:
+          type: number
+          format: decimal
+        category:
+          type: string
+        date:
+          type: string
+          format: date
+        is_reconciled:
+          type: boolean
+        source:
+          type: string
+          enum: [manual, imported, invoice, bill, journal]
+        counterparty:
+          type: string
+        reference:
+          type: string
+        invoice_id:
+          type: string
+          format: uuid
+        bill_id:
+          type: string
+          format: uuid
+        journal_entry_line_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, account_id, description, amount, date, is_reconciled, source, created_at, updated_at
+    CreateTransactionRequest:
+      type: object
+      properties:
+        account_id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        amount:
+          type: number
+          format: decimal
+        category:
+          type: string
+        date:
+          type: string
+          format: date
+        counterparty:
+          type: string
+        reference:
+          type: string
+      required:
+        - account_id, description, amount, date
+    UpdateTransactionRequest:
+      type: object
+      properties:
+        is_reconciled:
+          type: boolean
+        category:
+          type: string
+    TransactionListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Transaction"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    Invoice:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        client_id:
+          type: string
+          format: uuid
+        invoice_number:
+          type: string
+        amount:
+          type: number
+          format: decimal
+        status:
+          type: string
+          enum: [draft, sent, paid, overdue, cancelled]
+        issued_at:
+          type: string
+          format: date
+        due_at:
+          type: string
+          format: date
+        paid_at:
+          type: string
+          format: date
+        description:
+          type: string
+        terms:
+          type: string
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, client_id, invoice_number, amount, status, issued_at, due_at, created_at, updated_at
+    CreateInvoiceRequest:
+      type: object
+      properties:
+        client_id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: decimal
+        description:
+          type: string
+        terms:
+          type: string
+        notes:
+          type: string
+        issued_at:
+          type: string
+          format: date
+        due_at:
+          type: string
+          format: date
+      required:
+        - client_id, amount, issued_at, due_at
+    UpdateInvoiceRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [draft, sent, paid, overdue, cancelled]
+        paid_at:
+          type: string
+          format: date
+        notes:
+          type: string
+    InvoiceListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Invoice"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    Bill:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        vendor_id:
+          type: string
+          format: uuid
+        bill_number:
+          type: string
+        amount:
+          type: number
+          format: decimal
+        status:
+          type: string
+          enum: [draft, pending-approval, scheduled, paid, overdue]
+        due_at:
+          type: string
+          format: date
+        description:
+          type: string
+        category:
+          type: string
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, vendor_id, bill_number, amount, status, due_at, created_at, updated_at
+    CreateBillRequest:
+      type: object
+      properties:
+        vendor_id:
+          type: string
+          format: uuid
+        amount:
+          type: number
+          format: decimal
+        description:
+          type: string
+        category:
+          type: string
+        notes:
+          type: string
+        due_at:
+          type: string
+          format: date
+      required:
+        - vendor_id, amount, due_at
+    UpdateBillRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [draft, pending-approval, scheduled, paid, overdue]
+        notes:
+          type: string
+    BillListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Bill"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    JournalEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        description:
+          type: string
+        reference:
+          type: string
+        status:
+          type: string
+          enum: [draft, posted]
+        date:
+          type: string
+          format: date
+        created_by:
+          type: string
+        approved_by:
+          type: string
+        posted_at:
+          type: string
+          format: date-time
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, description, status, date, created_by, created_at, updated_at
+    JournalEntryLine:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        journal_entry_id:
+          type: string
+          format: uuid
+        account_id:
+          type: string
+          format: uuid
+        debit:
+          type: number
+          format: decimal
+        credit:
+          type: number
+          format: decimal
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, journal_entry_id, account_id, debit, credit, created_at, updated_at
+    CreateJournalEntryRequest:
+      type: object
+      properties:
+        description:
+          type: string
+        reference:
+          type: string
+        date:
+          type: string
+          format: date
+        lines:
+          type: array
+          items:
+            type: object
+            properties:
+              account_id:
+                type: string
+                format: uuid
+              debit:
+                type: number
+                format: decimal
+              credit:
+                type: number
+                format: decimal
+              description:
+                type: string
+            required:
+              - account_id
+      required:
+        - description, date, lines
+    UpdateJournalEntryRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [draft, posted]
+        approved_by:
+          type: string
+    JournalEntryWithLines:
+      type: object
+      properties:
+        journal_entry:
+          $ref: "#/components/schemas/JournalEntry"
+        lines:
+          type: array
+          items:
+            $ref: "#/components/schemas/JournalEntryLine"
+      required:
+        - journal_entry, lines
+    JournalEntryListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/JournalEntry"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    Budget:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        category:
+          type: string
+          enum: [operations, marketing, sales, rd, admin, capex, other]
+        budgeted_amount:
+          type: number
+          format: decimal
+        period_start:
+          type: string
+          format: date
+        period_end:
+          type: string
+          format: date
+        description:
+          type: string
+        notes:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, category, budgeted_amount, period_start, period_end, created_at, updated_at
+    CreateBudgetRequest:
+      type: object
+      properties:
+        category:
+          type: string
+          enum: [operations, marketing, sales, rd, admin, capex, other]
+        budgeted_amount:
+          type: number
+          format: decimal
+        period_start:
+          type: string
+          format: date
+        period_end:
+          type: string
+          format: date
+        description:
+          type: string
+        notes:
+          type: string
+      required:
+        - category, budgeted_amount, period_start, period_end
+    BudgetListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Budget"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    Goal:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        target_amount:
+          type: number
+          format: decimal
+        current_amount:
+          type: number
+          format: decimal
+        target_date:
+          type: string
+          format: date
+        description:
+          type: string
+        category:
+          type: string
+        is_active:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+      required:
+        - id, name, target_amount, current_amount, is_active, created_at, updated_at
+    CreateGoalRequest:
+      type: object
+      properties:
+        name:
+          type: string
+        target_amount:
+          type: number
+          format: decimal
+        target_date:
+          type: string
+          format: date
+        description:
+          type: string
+        category:
+          type: string
+      required:
+        - name, target_amount
+    UpdateGoalRequest:
+      type: object
+      properties:
+        current_amount:
+          type: number
+          format: decimal
+        is_active:
+          type: boolean
+        target_date:
+          type: string
+          format: date
+    GoalListResponse:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: "#/components/schemas/Goal"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - data, pagination
+    IncomeStatement:
+      type: object
+      properties:
+        period_start:
+          type: string
+          format: date
+        period_end:
+          type: string
+          format: date
+        revenue:
+          type: object
+          properties:
+            total:
+              type: number
+              format: decimal
+            breakdown:
+              type: array
+              items:
+                type: object
+                properties:
+                  account_name:
+                    type: string
+                  amount:
+                    type: number
+                    format: decimal
+        expenses:
+          type: object
+          properties:
+            total:
+              type: number
+              format: decimal
+            breakdown:
+              type: array
+              items:
+                type: object
+                properties:
+                  account_name:
+                    type: string
+                  amount:
+                    type: number
+                    format: decimal
+        net_income:
+          type: number
+          format: decimal
+      required:
+        - period_start, period_end, revenue, expenses, net_income
+    BalanceSheet:
+      type: object
+      properties:
+        as_of_date:
+          type: string
+          format: date
+        assets:
+          type: object
+          properties:
+            total:
+              type: number
+              format: decimal
+            breakdown:
+              type: array
+              items:
+                type: object
+                properties:
+                  account_name:
+                    type: string
+                  amount:
+                    type: number
+                    format: decimal
+        liabilities:
+          type: object
+          properties:
+            total:
+              type: number
+              format: decimal
+            breakdown:
+              type: array
+              items:
+                type: object
+                properties:
+                  account_name:
+                    type: string
+                  amount:
+                    type: number
+                    format: decimal
+        equity:
+          type: object
+          properties:
+            total:
+              type: number
+              format: decimal
+            breakdown:
+              type: array
+              items:
+                type: object
+                properties:
+                  account_name:
+                    type: string
+                  amount:
+                    type: number
+                    format: decimal
+      required:
+        - as_of_date, assets, liabilities, equity
 

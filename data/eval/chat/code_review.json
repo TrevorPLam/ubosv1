@@ -1,0 +1,56 @@
+[
+  {
+    "id": "chat_code_001",
+    "input": "Review this React component for potential issues: function UserProfile({ user }) { return <div>{user.name}</div>; }",
+    "scenario": "Developer needs code review assistance",
+    "expected_output": "The component has a few potential issues: 1) Missing prop validation for the user parameter, 2) No error handling if user or user.name is undefined, 3) Could benefit from TypeScript interfaces. Consider adding PropTypes or TypeScript, and implement null checks: {user?.name || 'Unknown'}",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.25,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.1
+    },
+    "metadata": {
+      "category": "code_review",
+      "difficulty": "medium",
+      "tags": ["react", "javascript", "best_practices"]
+    }
+  },
+  {
+    "id": "chat_code_002",
+    "input": "Is this SQL query efficient? SELECT * FROM users WHERE email = 'john@example.com';",
+    "scenario": "Database performance review",
+    "expected_output": "The query is reasonably efficient for a single lookup, but could be optimized: 1) Ensure there's an index on the email column, 2) Consider selecting only needed columns instead of SELECT *, 3) Use parameterized queries to prevent SQL injection. With proper indexing, this query should perform well.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.25,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.1
+    },
+    "metadata": {
+      "category": "code_review",
+      "difficulty": "medium",
+      "tags": ["sql", "database", "performance"]
+    }
+  },
+  {
+    "id": "chat_code_003",
+    "input": "What's wrong with this async function? async function fetchData() { const data = await api.get(); return data; }",
+    "scenario": "Async/await code review",
+    "expected_output": "The function has a potential issue: no error handling. If api.get() fails, the promise will reject and the error won't be caught. Add try-catch or use .catch() to handle errors. Also consider adding timeout handling and validating the response structure.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.3,
+      "groundedness_weight": 0.2,
+      "safety_weight": 0.25,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.1
+    },
+    "metadata": {
+      "category": "code_review",
+      "difficulty": "easy",
+      "tags": ["javascript", "async", "error_handling"]
+    }
+  }
+]

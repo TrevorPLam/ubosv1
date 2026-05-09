@@ -52,3 +52,33 @@ export * from "./approvals";
 // Export chat schema
 export * from "./chat";
 export * from "./chat-rls";
+
+// Export work schema
+export * from "./work";
+export * from "./work-rls";
+
+// Export integrations schema for MCP servers and tools
+export * from "./integrations";
+
+// Export CRM schema for client and contact management
+export * from "./clients";
+export * from "./crm";
+export * from "./agreements";
+
+// Export document and knowledge management schemas
+export * from "./documents";
+export * from "./documents-rls";
+export * from "./knowledge";
+export * from "./knowledge-rls";
+
+// Export email management schemas
+export * from "./email";
+
+// Export asset management schemas
+export * from "./assets";
+
+// Export billing and cost governance schemas
+export * from "./billing";
+
+// Export finance and accounting schemas
+export * from "./finance";

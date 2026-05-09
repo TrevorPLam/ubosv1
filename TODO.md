@@ -823,10 +823,11 @@ N/A
 
 ---
 
-## [ ] TASK-013 — Work, Project & Task Schema
+## [x] TASK-013 — Work, Project & Task Schema
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Work Management  
@@ -882,18 +883,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-013.1` Create `lib/db/src/schema/work.ts` with tables `projects`, `tasks`, `task_comments`, `task_dependencies`, `project_templates`, `template_tasks`. Use `pgEnum` for status and priority.
-- [ ] `TASK-013.2` Add `tenant_id` and RLS policies to all tables.
-- [ ] `TASK-013.3` Add a CHECK constraint on `task_dependencies` to prevent `dependent_task_id = dependency_task_id`.
-- [ ] `TASK-013.4` Export the work schema from `lib/db/src/schema/index.ts` and generate Drizzle types.
-- [ ] `TASK-013.5` Write schema tests for task lifecycle constraints and dependency integrity.
+- [x] `TASK-013.1` Create `lib/db/src/schema/work.ts` with tables `projects`, `tasks`, `task_comments`, `task_dependencies`, `project_templates`, `template_tasks`. Use `pgEnum` for status and priority.
+- [x] `TASK-013.2` Add `tenant_id` and RLS policies to all tables.
+- [x] `TASK-013.3` Add a CHECK constraint on `task_dependencies` to prevent `dependent_task_id = dependency_task_id`.
+- [x] `TASK-013.4` Export the work schema from `lib/db/src/schema/index.ts` and generate Drizzle types.
+- [x] `TASK-013.5` Write schema tests for task lifecycle constraints and dependency integrity.
 
 ---
 
-## [ ] TASK-014 — Work, Project & Task APIs
+## [x] TASK-014 — Work, Project & Task APIs
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Work Management  
@@ -955,19 +957,20 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-014.1` Add project, task, template, and comment endpoints to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-014.2` Create `artifacts/api-server/src/routes/projects.ts` with CRUD and template instantiation.
-- [ ] `TASK-014.3` Create `artifacts/api-server/src/routes/tasks.ts` with CRUD, move, comments, and dependencies.
-- [ ] `TASK-014.4` Create `artifacts/api-server/src/lib/work-service.ts` containing all business logic.
-- [ ] `TASK-014.5` Register the new routers in `artifacts/api-server/src/routes/index.ts`.
-- [ ] `TASK-014.6` Run `codegen`; verify typecheck; write integration tests for task lifecycle and template cloning.
+- [x] `TASK-014.1` Add project, task, template, and comment endpoints to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-014.2` Create `artifacts/api-server/src/routes/projects.ts` with CRUD and template instantiation.
+- [x] `TASK-014.3` Create `artifacts/api-server/src/routes/tasks.ts` with CRUD, move, comments, and dependencies.
+- [x] `TASK-014.4` Create `artifacts/api-server/src/lib/work-service.ts` containing all business logic.
+- [x] `TASK-014.5` Register the new routers in `artifacts/api-server/src/routes/index.ts`.
+- [x] `TASK-014.6` Run `codegen`; verify typecheck; write integration tests for task lifecycle and template cloning.
 
 ---
 
-## [ ] TASK-015 — MCP Server Runtime & Tool Integration
+## [x] TASK-015 — MCP Server Runtime & Tool Integration
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Integration Management  
@@ -1026,19 +1029,20 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-015.1` Create `lib/db/src/schema/integrations.ts` with tables `mcp_servers` (id, tenant_id, name, description, transport_type, endpoint_url, trust_tier, status) and `mcp_tools` (id, server_id, name, description, input_schema JSONB).
-- [ ] `TASK-015.2` Export the integration schema and add tenant isolation.
-- [ ] `TASK-015.3` Install `@modelcontextprotocol/server` and `@modelcontextprotocol/client` SDK packages in `artifacts/api-server/package.json`.
-- [ ] `TASK-015.4` Implement `artifacts/api-server/src/lib/mcp/runtime.ts` with `registerServer`, `listTools`, and `invokeTool`.
-- [ ] `TASK-015.5` Implement security: `enableDnsRebindingProtection`, `hostHeaderValidation`, and basic sandboxing (process timeout, output cap).
-- [ ] `TASK-015.6` Write integration tests for tool listing and invocation with mocked MCP server.
+- [x] `TASK-015.1` Create `lib/db/src/schema/integrations.ts` with tables `mcp_servers` (id, tenant_id, name, description, transport_type, endpoint_url, trust_tier, status) and `mcp_tools` (id, server_id, name, description, input_schema JSONB).
+- [x] `TASK-015.2` Export the integration schema and add tenant isolation.
+- [x] `TASK-015.3` Install `@modelcontextprotocol/server` and `@modelcontextprotocol/client` SDK packages in `artifacts/api-server/package.json`.
+- [x] `TASK-015.4` Implement `artifacts/api-server/src/lib/mcp/runtime.ts` with `registerServer`, `listTools`, and `invokeTool`.
+- [x] `TASK-015.5` Implement security: `enableDnsRebindingProtection`, `hostHeaderValidation`, and basic sandboxing (process timeout, output cap).
+- [x] `TASK-015.6` Write integration tests for tool listing and invocation with mocked MCP server.
 
 ---
 
-## [ ] TASK-016 — RAG Pipeline & Vector Knowledge Base
+## [x] TASK-016 — RAG Pipeline & Vector Knowledge Base
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Knowledge Management (shared memory)
@@ -1102,20 +1106,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-016.1` Install `openai` SDK in `artifacts/api-server/package.json` (if not already present). Create config for embedding model.
-- [ ] `TASK-016.2` Implement `artifacts/api-server/src/lib/rag/chunker.ts` for recursive character text splitting.
-- [ ] `TASK-016.3` Implement `artifacts/api-server/src/lib/rag/embedder.ts` to call OpenAI embeddings API with explicit `dimensions: 1536`.
-- [ ] `TASK-016.4` Implement `artifacts/api-server/src/lib/rag/indexer.ts` to insert chunks and embeddings into the `embeddings_chunks` table.
-- [ ] `TASK-016.5` Implement `artifacts/api-server/src/lib/rag/searcher.ts` with hybrid search: pgvector cosine similarity + `ts_rank` over `content_tsv` column, fused with RRF.
-- [ ] `TASK-016.6` Create a BullMQ job `index-content` that triggers on new knowledge article or message creation; schedule HNSW rebuild via `pg_cron`.
-- [ ] `TASK-016.7` Write integration tests: index sample content, search, validate top‑k results.
+- [x] `TASK-016.1` Install `openai` SDK in `artifacts/api-server/package.json` (if not already present). Create config for embedding model.
+- [x] `TASK-016.2` Implement `artifacts/api-server/src/lib/rag/chunker.ts` for recursive character text splitting.
+- [x] `TASK-016.3` Implement `artifacts/api-server/src/lib/rag/embedder.ts` to call OpenAI embeddings API with explicit `dimensions: 1536`.
+- [x] `TASK-016.4` Implement `artifacts/api-server/src/lib/rag/indexer.ts` to insert chunks and embeddings into the `embeddings_chunks` table.
+- [x] `TASK-016.5` Implement `artifacts/api-server/src/lib/rag/searcher.ts` with hybrid search: pgvector cosine similarity + `ts_rank` over `content_tsv` column, fused with RRF.
+- [x] `TASK-016.6` Create a BullMQ job `index-content` that triggers on new knowledge article or message creation; schedule HNSW rebuild via `pg_cron`.
+- [x] `TASK-016.7` Write integration tests: index sample content, search, validate top‑k results.
 
 ---
 
-## [ ] TASK-017 — AI Supervisory Agent Orchestration
+## [x] TASK-017 — AI Supervisory Agent Orchestration
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Agent Orchestration  
@@ -1185,10 +1190,11 @@ N/A
 
 ---
 
-## [ ] TASK-018 — AI Evaluation Framework & Golden Dataset
+## [x] TASK-018 — AI Evaluation Framework & Golden Dataset
 
-**Status:** `NOT_STARTED`  
-**Size:** `SMALL`
+**Status:** `COMPLETED`  
+**Size:** `SMALL`  
+**Completed:** `2026-05-08`
 
 ### DDD
 - N/A (Quality Assurance / AI Governance)
@@ -1246,21 +1252,22 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-018.1` Create the evaluation runner framework in `artifacts/api-server/src/lib/eval/runner.ts` with a pluggable scorer interface.
-- [ ] `TASK-018.2` Implement the five scorers: correctness, groundedness, safety, cost‑latency, regression.
-- [ ] `TASK-018.3` Curate a golden dataset of at least 20 examples for chat Q&A and save in `data/eval/chat/`.
-- [ ] `TASK-018.4` Add the `eval` script to `artifacts/api-server/package.json` that runs the runner.
-- [ ] `TASK-018.5` Integrate the eval script into CI (GitHub Actions) with a regression threshold of 5%.
-- [ ] `TASK-018.6` Document how to add new examples and update baselines in a contributing guide.
+- [x] `TASK-018.1` Create the evaluation runner framework in `artifacts/api-server/src/lib/eval/runner.ts` with a pluggable scorer interface.
+- [x] `TASK-018.2` Implement the five scorers: correctness, groundedness, safety, cost‑latency, regression.
+- [x] `TASK-018.3` Curate a golden dataset of at least 20 examples for chat Q&A and save in `data/eval/chat/`.
+- [x] `TASK-018.4` Add the `eval` script to `artifacts/api-server/package.json` that runs the runner.
+- [x] `TASK-018.5` Integrate the eval script into CI (GitHub Actions) with a regression threshold of 5%.
+- [x] `TASK-018.6` Document how to add new examples and update baselines in a contributing guide.
 
 # Phase 3 — CRM, Documents, Knowledge & Content Domains
 
 ---
 
-## [ ] TASK-019 — CRM, Client & Agreement Schema
+## [x] TASK-019 — CRM, Client & Agreement Schema
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Relationship Management  
@@ -1319,20 +1326,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-019.1` Create `lib/db/src/schema/clients.ts` with tables `clients`, `client_emails`, `client_phones`, `client_websites`, `client_social_profiles`, `client_addresses`. Use `pgEnum` for client status, email type, phone type, gender, salutation, address type.
-- [ ] `TASK-019.2` Create `lib/db/src/schema/crm.ts` with tables `contacts` and `opportunities`. Use `pgEnum` for contact status and opportunity stage.
-- [ ] `TASK-019.3` Create `lib/db/src/schema/agreements.ts` with tables `agreements`, `agreement_versions`, `signature_requests`. Use `pgEnum` for agreement status and signature status.
-- [ ] `TASK-019.4` Add `tenant_id` and RLS policies to all tables.
-- [ ] `TASK-019.5` Add foreign keys: `clients` → optional `crm_contact_id`; `opportunities` → `client_id` and `contact_id`; `agreements` → `client_id`; `signature_requests` → `agreement_version_id`.
-- [ ] `TASK-019.6` Export all new schemas from `lib/db/src/schema/index.ts`; generate Drizzle types.
-- [ ] `TASK-019.7` Write schema tests for client-contact relationships and agreement version chains.
+- [x] `TASK-019.1` Create `lib/db/src/schema/clients.ts` with tables `clients`, `client_emails`, `client_phones`, `client_websites`, `client_social_profiles`, `client_addresses`. Use `pgEnum` for client status, email type, phone type, gender, salutation, address type.
+- [x] `TASK-019.2` Create `lib/db/src/schema/crm.ts` with tables `contacts` and `opportunities`. Use `pgEnum` for contact status and opportunity stage.
+- [x] `TASK-019.3` Create `lib/db/src/schema/agreements.ts` with tables `agreements`, `agreement_versions`, `signature_requests`. Use `pgEnum` for agreement status and signature status.
+- [x] `TASK-019.4` Add `tenant_id` and RLS policies to all tables.
+- [x] `TASK-019.5` Add foreign keys: `clients` → optional `crm_contact_id`; `opportunities` → `client_id` and `contact_id`; `agreements` → `client_id`; `signature_requests` → `agreement_version_id`.
+- [x] `TASK-019.6` Export all new schemas from `lib/db/src/schema/index.ts`; generate Drizzle types.
+- [x] `TASK-019.7` Write schema tests for client-contact relationships and agreement version chains.
 
 ---
 
-## [ ] TASK-020 — CRM, Client & Agreement APIs
+## [x] TASK-020 — CRM, Client & Agreement APIs
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Relationship Management  
@@ -1392,20 +1400,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-020.1` Add client, contact, opportunity, and agreement endpoints to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-020.2` Create `artifacts/api-server/src/routes/clients.ts` with CRUD and cross‑linked sub‑resources.
-- [ ] `TASK-020.3` Create `artifacts/api-server/src/routes/crm.ts` with contacts and pipeline management routes.
-- [ ] `TASK-020.4` Create `artifacts/api-server/src/routes/agreements.ts` with CRUD, versioning, and signature state updates.
-- [ ] `TASK-020.5` Create service files: `artifacts/api-server/src/lib/client-service.ts`, `crm-service.ts`, `agreement-service.ts`.
-- [ ] `TASK-020.6` Register routers in `artifacts/api-server/src/routes/index.ts`.
-- [ ] `TASK-020.7` Run `codegen`; verify typecheck; write integration tests for pipeline movement and agreement version chaining.
+- [x] `TASK-020.1` Add client, contact, opportunity, and agreement endpoints to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-020.2` Create `artifacts/api-server/src/routes/clients.ts` with CRUD and cross‑linked sub‑resources.
+- [x] `TASK-020.3` Create `artifacts/api-server/src/routes/crm.ts` with contacts and pipeline management routes.
+- [x] `TASK-020.4` Create `artifacts/api-server/src/routes/agreements.ts` with CRUD, versioning, and signature state updates.
+- [x] `TASK-020.5` Create service files: `artifacts/api-server/src/lib/client-service.ts`, `crm-service.ts`, `agreement-service.ts`.
+- [x] `TASK-020.6` Register routers in `artifacts/api-server/src/routes/index.ts`.
+- [x] `TASK-020.7` Run `codegen`; verify typecheck; write integration tests for pipeline movement and agreement version chaining.
 
 ---
 
-## [ ] TASK-021 — Document, Knowledge & Storage Schema
+## [x] TASK-021 — Document, Knowledge & Storage Schema
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Knowledge & Document Management  
@@ -1458,17 +1467,17 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-021.1` Create `lib/db/src/schema/documents.ts` with `documents`, `document_versions`, `storage_references`, and `entity_documents`.
-- [ ] `TASK-021.2` Create `lib/db/src/schema/knowledge.ts` with `knowledge_entries`, `knowledge_versions`, and `certification_records`.
-- [ ] `TASK-021.3` Add `tenant_id` and RLS policies to all tables.
-- [ ] `TASK-021.4` Export schemas from `lib/db/src/schema/index.ts` and generate Drizzle types.
-- [ ] `TASK-021.5` Write schema tests for version chaining and polymorphic linking.
+- [x] `TASK-021.1` Create `lib/db/src/schema/documents.ts` with `documents`, `document_versions`, `storage_references`, and `entity_documents`.
+- [x] `TASK-021.2` Create `lib/db/src/schema/knowledge.ts` with `knowledge_entries`, `knowledge_versions`, and `certification_records`.
+- [x] `TASK-021.3` Add `tenant_id` and RLS policies to all tables.
+- [x] `TASK-021.4` Export schemas from `lib/db/src/schema/index.ts` and generate Drizzle types.
+- [x] `TASK-021.5` Write schema tests for version chaining and polymorphic linking.
 
 ---
 
-## [ ] TASK-022 — Document, Knowledge & Upload APIs
+## [x] TASK-022 — Document, Knowledge & Upload APIs
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
 
 ### DDD
@@ -1530,20 +1539,22 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-022.1` Add document, upload, and knowledge endpoints to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-022.2` Create `artifacts/api-server/src/routes/documents.ts` with CRUD, versioning, and linking routes.
-- [ ] `TASK-022.3` Create `artifacts/api-server/src/routes/knowledge.ts` for SOPs, wiki, training, and certification operations.
-- [ ] `TASK-022.4` Create `artifacts/api-server/src/lib/storage-service.ts` (pre‑signed URL generation for S3/R2) and `artifacts/api-server/src/lib/document-service.ts`.
-- [ ] `TASK-022.5` Create `artifacts/api-server/src/lib/knowledge-service.ts` with versioning and search logic.
-- [ ] `TASK-022.6` Register the new routers in `artifacts/api-server/src/routes/index.ts`.
-- [ ] `TASK-022.7` Run `codegen`; verify typecheck; write integration tests for upload and knowledge versioning.
+- [x] `TASK-022.1` Add document, upload, and knowledge endpoints to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-022.2` Create `artifacts/api-server/src/lib/storage-service.ts` (pre‑signed URL generation for S3/R2).
+- [x] `TASK-022.3` Create `artifacts/api-server/src/lib/document-service.ts` with CRUD, versioning, and linking logic.
+- [x] `TASK-022.4` Create `artifacts/api-server/src/lib/knowledge-service.ts` with versioning and search logic.
+- [x] `TASK-022.5` Create `artifacts/api-server/src/routes/files.ts` and `artifacts/api-server/src/routes/documents.ts` with CRUD, versioning, and linking routes.
+- [x] `TASK-022.6` Create `artifacts/api-server/src/routes/knowledge.ts` for SOPs, wiki, training, and certification operations.
+- [x] `TASK-022.7` Register the new routers in `artifacts/api-server/src/routes/index.ts`.
+- [x] `TASK-022.8` Write integration tests for upload and knowledge versioning.
 
 ---
 
-## [ ] TASK-023 — Email Schema & API
+## [x] TASK-023 — Email Schema & API
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Communication  
@@ -1595,18 +1606,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-023.1` Create `lib/db/src/schema/email.ts` with tables `email_accounts`, `email_messages`, `email_folders`, `email_drafts`. Use `pgEnum` for provider, folder type.
-- [ ] `TASK-023.2` Add email endpoints to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-023.3` Create `artifacts/api-server/src/routes/email.ts` with CRUD routes for accounts, messages, drafts, and folders.
-- [ ] `TASK-023.4` Create `artifacts/api-server/src/lib/email-service.ts` with business logic (mock provider initially).
-- [ ] `TASK-023.5` Register email router; run `codegen`; verify typecheck; write integration tests.
+- [x] `TASK-023.1` Create `lib/db/src/schema/email.ts` with tables `email_accounts`, `email_messages`, `email_folders`, `email_drafts`. Use `pgEnum` for provider, folder type.
+- [x] `TASK-023.2` Add email endpoints to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-023.3` Create `artifacts/api-server/src/routes/email.ts` with CRUD routes for accounts, messages, drafts, and folders.
+- [x] `TASK-023.4` Create `artifacts/api-server/src/lib/email-service.ts` with business logic (mock provider initially).
+- [x] `TASK-023.5` Register email router; run `codegen`; verify typecheck; write integration tests.
 
 ---
 
-## [ ] TASK-024 — Asset Schema & API
+## [x] TASK-024 — Asset Schema & API
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Asset Management  
@@ -1658,17 +1670,18 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-024.1` Create `lib/db/src/schema/assets.ts` with tables `assets`, `asset_categories`, `depreciation_schedules`, `maintenance_records`. Use `pgEnum` for status, condition, industry.
-- [ ] `TASK-024.2` Add asset endpoints to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-024.3` Create `artifacts/api-server/src/routes/assets.ts` and `artifacts/api-server/src/lib/asset-service.ts`.
-- [ ] `TASK-024.4` Register asset router; run `codegen`; verify typecheck; write integration tests for depreciation and maintenance flows.
+- [x] `TASK-024.1` Create `lib/db/src/schema/assets.ts` with tables `assets`, `asset_categories`, `depreciation_schedules`, `maintenance_records`. Use `pgEnum` for status, condition, industry.
+- [x] `TASK-024.2` Add asset endpoints to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-024.3` Create `artifacts/api-server/src/routes/assets.ts` and `artifacts/api-server/src/lib/asset-service.ts`.
+- [x] `TASK-024.4` Register asset router; run `codegen`; verify typecheck; write integration tests for depreciation and maintenance flows.
 
 ---
 
-## [ ] TASK-025 — Feature Flag & Kill Switch Infrastructure
+## [x] TASK-025 — Feature Flag & Kill Switch Infrastructure
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - N/A (Infrastructure / Operations)
@@ -1717,18 +1730,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-025.1` Add Unleash server to Docker Compose in the repository root `docker-compose.yml`.
-- [ ] `TASK-025.2` Create `artifacts/api-server/src/lib/feature-flags.ts` initializing the Unleash client with the server URL and API key.
-- [ ] `TASK-025.3` Define all initial feature flags in Unleash admin UI and document them in `docs/feature-flags.md`.
-- [ ] `TASK-025.4` Integrate `isEnabled` checks at the entry points of AI chat streaming, content generation, supervisor agent, MCP tool execution, and RAG hybrid search.
-- [ ] `TASK-025.5` Write integration tests: verify that a disabled flag rejects requests; enabling it allows requests within the same test run.
+- [x] `TASK-025.1` Add Unleash server to Docker Compose in the repository root `docker-compose.yml`.
+- [x] `TASK-025.2` Create `artifacts/api-server/src/lib/feature-flags.ts` initializing the Unleash client with the server URL and API key.
+- [x] `TASK-025.3` Define all initial feature flags in Unleash admin UI and document them in `docs/feature-flags.md`.
+- [x] `TASK-025.4` Integrate `isEnabled` checks at the entry points of AI chat streaming, content generation, supervisor agent, MCP tool execution, and RAG hybrid search.
+- [x] `TASK-025.5` Write integration tests: verify that a disabled flag rejects requests; enabling it allows requests within the same test run.
 
 ---
 
-## [ ] TASK-026 — Token Budget Enforcement & Cost Governance
+## [x] TASK-026 — Token Budget Enforcement & Cost Governance
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Agent Orchestration / Cost Analytics  
@@ -1782,20 +1796,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-026.1` Create `lib/db/src/schema/billing.ts` with tables `tenant_token_budgets` (monthly_limit, current_usage, reset_date) and `token_usage_events` (tenant_id, timestamp, model, input_tokens, output_tokens, cost, metadata JSONB).
-- [ ] `TASK-026.2` Implement `artifacts/api-server/src/lib/cost-service.ts` with `recordUsage(tenantId, tokens, cost)` (atomic update) and `checkBudget(tenantId)`.
-- [ ] `TASK-026.3` Create middleware `artifacts/api-server/src/middlewares/token-budget.ts` that calls `checkBudget` before LLM endpoints.
-- [ ] `TASK-026.4` Integrate token recording into chat stream and agent invocation services.
-- [ ] `TASK-026.5` Write integration tests: verify budget enforcement and atomic counter integrity.
+- [x] `TASK-026.1` Create `lib/db/src/schema/billing.ts` with tables `tenant_token_budgets` (monthly_limit, current_usage, reset_date) and `token_usage_events` (tenant_id, timestamp, model, input_tokens, output_tokens, cost, metadata JSONB).
+- [x] `TASK-026.2` Implement `artifacts/api-server/src/lib/cost-service.ts` with `recordUsage(tenantId, tokens, cost)` (atomic update) and `checkBudget(tenantId)`.
+- [x] `TASK-026.3` Create middleware `artifacts/api-server/src/middlewares/token-budget.ts` that calls `checkBudget` before LLM endpoints.
+- [x] `TASK-026.4` Integrate token recording into chat stream and agent invocation services.
+- [x] `TASK-026.5` Write integration tests: verify budget enforcement and atomic counter integrity.
 
 # Phase 4 — Finance, Marketing, Team & Compliance Domains
 
 ---
 
-## [ ] TASK-027 — Finance Schema
+## [x] TASK-027 — Finance Schema
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `MEDIUM`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Finance  
@@ -1854,11 +1869,11 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-027.1` Create `lib/db/src/schema/finance.ts` with tables `accounts`, `transactions`, `invoices`, `bills`, `journal_entries`, `journal_entry_lines`, `budgets`, `goals`.
-- [ ] `TASK-027.2` Define `pgEnum` for account type, transaction source, invoice/bill status, journal entry status, and budget category.
-- [ ] `TASK-027.3` Add CHECK constraints on `journal_entry_lines` to prevent zero‑value lines; add application‑level validation for balanced entries.
-- [ ] `TASK-027.4` Add `tenant_id` and RLS to all tables; export schema; generate Drizzle types.
-- [ ] `TASK-027.5` Write schema tests for journal entry balance constraints and invoice status transitions.
+- [x] `TASK-027.1` Create `lib/db/src/schema/finance.ts` with tables `accounts`, `transactions`, `invoices`, `bills`, `journal_entries`, `journal_entry_lines`, `budgets`, `goals`.
+- [x] `TASK-027.2` Define `pgEnum` for account type, transaction source, invoice/bill status, journal entry status, and budget category.
+- [x] `TASK-027.3` Add CHECK constraints on `journal_entry_lines` to prevent zero‑value lines; add application‑level validation for balanced entries.
+- [x] `TASK-027.4` Add `tenant_id` and RLS to all tables; export schema; generate Drizzle types.
+- [x] `TASK-027.5` Write schema tests for journal entry balance constraints and invoice status transitions.
 
 ---
 

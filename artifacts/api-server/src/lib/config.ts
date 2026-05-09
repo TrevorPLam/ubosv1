@@ -142,6 +142,22 @@ const envSchema = z.object({
     .string()
     .min(1, "GRAFANA_CLOUD_API_KEY is required")
     .optional(),
+
+  // Feature flags (Unleash)
+  UNLEASH_URL: z
+    .string()
+    .url("UNLEASH_URL must be a valid URL")
+    .default("http://localhost:4242"),
+  
+  UNLEASH_API_TOKEN: z
+    .string()
+    .min(1, "UNLEASH_API_TOKEN is required")
+    .default("default:token"),
+  
+  UNLEASH_APP_NAME: z
+    .string()
+    .min(1, "UNLEASH_APP_NAME is required")
+    .default("ubos-api-server"),
 });
 
 /**
@@ -177,4 +193,27 @@ export const {
   TWILIO_AUTH_TOKEN,
   STRIPE_SECRET_KEY,
   STRIPE_WEBHOOK_SECRET,
+  UNLEASH_URL,
+  UNLEASH_API_TOKEN,
+  UNLEASH_APP_NAME,
 } = config;
+
+/**
+ * Organized configuration objects for services
+ */
+export const s3 = {
+  accessKey: config.S3_ACCESS_KEY,
+  secretKey: config.S3_SECRET_KEY,
+  bucket: config.S3_BUCKET,
+  endpoint: config.S3_ENDPOINT,
+};
+
+export const aws = {
+  region: 'auto', // Default region for R2 compatibility
+};
+
+export const unleash = {
+  url: config.UNLEASH_URL,
+  apiToken: config.UNLEASH_API_TOKEN,
+  appName: config.UNLEASH_APP_NAME,
+};

@@ -1,0 +1,56 @@
+[
+  {
+    "id": "chat_task_001",
+    "input": "Summarize the current status of the Q4 Marketing Campaign project",
+    "scenario": "User needs a quick overview of project progress",
+    "expected_output": "The Q4 Marketing Campaign project is currently 65% complete with 12 of 18 tasks finished. Key achievements include campaign strategy approval and creative asset development. Remaining tasks focus on media buying and launch coordination. The project is on track to meet the December 15th deadline.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.25,
+      "groundedness_weight": 0.3,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.1
+    },
+    "metadata": {
+      "category": "task_summarization",
+      "difficulty": "medium",
+      "tags": ["projects", "summarization", "progress"]
+    }
+  },
+  {
+    "id": "chat_task_002",
+    "input": "What are the upcoming deadlines for my team this week?",
+    "scenario": "Team lead needs to prioritize work",
+    "expected_output": "This week has 3 critical deadlines: Tuesday - Website redesign mockups due, Thursday - Q3 financial report submission, Friday - Client presentation preparation. Additionally, 5 tasks have Friday deadlines for routine weekly reporting.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.25,
+      "groundedness_weight": 0.3,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.1
+    },
+    "metadata": {
+      "category": "task_summarization",
+      "difficulty": "medium",
+      "tags": ["deadlines", "team", "weekly"]
+    }
+  },
+  {
+    "id": "chat_task_003",
+    "input": "Show me all overdue tasks across all projects",
+    "scenario": "Manager needs to address delays",
+    "expected_output": "There are currently 7 overdue tasks across 3 projects: 1. API Integration (Project X, 5 days overdue), 2. User Testing Feedback (Project Y, 3 days overdue), 3. Budget Review (Project Z, 2 days overdue), plus 4 minor documentation tasks. All have been reassigned with new deadlines.",
+    "evaluation_criteria": {
+      "correctness_weight": 0.25,
+      "groundedness_weight": 0.3,
+      "safety_weight": 0.2,
+      "cost_latency_weight": 0.15,
+      "regression_weight": 0.1
+    },
+    "metadata": {
+      "category": "task_summarization",
+      "difficulty": "medium",
+      "tags": ["overdue", "cross_project", "issues"]
+    }
+  }
+]

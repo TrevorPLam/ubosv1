@@ -22,6 +22,18 @@ import examplesRouter from "./examples";
 import agentsRouter from "./agents";
 import approvalsRouter from "./approvals";
 import chatRouter from "./chat";
+import projectsRouter from "./projects";
+import tasksRouter from "./tasks";
+import { clientsRouter } from "./clients";
+import { crmRouter } from "./crm";
+import { agreementsRouter } from "./agreements";
+import filesRouter from "./files";
+import documentsRouter from "./documents";
+import knowledgeRouter from "./knowledge";
+import { emailRouter } from "./email";
+import assetsRouter from "./assets";
+import assetCategoriesRouter from "./asset-categories";
+import financeRouter from "./finance";
 
 const router: IRouter = Router();
 
@@ -39,5 +51,37 @@ router.use(approvalsRouter);
 
 // Chat and conversation routes
 router.use(chatRouter);
+
+// Work management routes
+router.use(projectsRouter);
+router.use(tasksRouter);
+
+// Client management routes
+router.use(clientsRouter);
+
+// CRM and pipeline routes
+router.use(crmRouter);
+
+// Agreement management routes
+router.use(agreementsRouter);
+
+// File storage and upload routes
+router.use("/files", filesRouter);
+
+// Document management routes
+router.use("/documents", documentsRouter);
+
+// Knowledge base and certification routes
+router.use("/knowledge", knowledgeRouter);
+
+// Email management routes
+router.use("/email", emailRouter);
+
+// Asset management routes
+router.use("/assets", assetsRouter);
+router.use("/asset-categories", assetCategoriesRouter);
+
+// Finance and accounting routes
+router.use(financeRouter);
 
 export default router;

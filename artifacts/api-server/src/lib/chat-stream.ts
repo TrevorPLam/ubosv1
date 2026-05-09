@@ -23,6 +23,7 @@ import { eq, and } from "drizzle-orm";
 import { db } from "@workspace/db";
 import { messagesTable, chatThreadsTable } from "@workspace/db";
 import { AppError, ErrorTypes } from "../middlewares/error-handler";
+import { isEnabled, FEATURE_FLAGS, type FeatureFlagContext } from "./feature-flags";
 
 interface StreamClient {
   id: string;
@@ -47,14 +48,28 @@ class ChatStreamService {
   /**
    * Add a new SSE client connection
    */
-  addClient(
+  async addClient(
     clientId: string,
     res: Response,
     threadId: string,
     messageId: string,
     tenantId: string,
     userId: string
-  ): void {
+  ): Promise<void> {
+    // Check if AI chat streaming is enabled
+    const context: FeatureFlagContext = {
+      tenantId,
+      userId,
+    };
+    
+    const streamingEnabled = await isEnabled(FEATURE_FLAGS.AI_CHAT_STREAMING, context);
+    if (!streamingEnabled) {
+      throw new AppError(
+        'AI chat streaming is currently disabled',
+        503,
+        ErrorTypes.ServiceUnavailable
+      );
+    }
     const client: StreamClient = {
       id: clientId,
       response: res,

@@ -33,6 +33,7 @@ import {
   type ToolCall
 } from "@workspace/db/schema";
 import { ErrorTypes } from "../middlewares/error-handler";
+import { CostService } from "./cost-service";
 
 interface ListAgentsParams {
   page: number;
@@ -165,6 +166,55 @@ export class AgentService {
       recentRuns,
       toolCalls
     };
+  }
+
+  /**
+   * Record token usage for an agent run (call this after agent execution)
+   */
+  async recordAgentRunUsage(
+    agentRunId: string,
+    tenantId: string,
+    usage: {
+      inputTokens: number;
+      outputTokens: number;
+      model: string;
+      userId?: string;
+    }
+  ): Promise<void> {
+    try {
+      const eventId = `agent_run_${agentRunId}_${Date.now()}`;
+      
+      await CostService.recordUsage({
+        tenantId,
+        eventId,
+        model: usage.model,
+        eventType: "response", // Agent responses are response type
+        inputTokens: usage.inputTokens,
+        outputTokens: usage.outputTokens,
+        agentRunId,
+        userId: usage.userId,
+        metadata: {
+          agentRunId,
+          totalTokens: usage.inputTokens + usage.outputTokens
+        }
+      });
+
+      // Update the agent run with token usage
+      await db
+        .update(agentRunsTable)
+        .set({
+          tokenUsageInput: usage.inputTokens,
+          tokenUsageOutput: usage.outputTokens,
+          updatedAt: new Date().toISOString()
+        })
+        .where(and(
+          eq(agentRunsTable.id, agentRunId),
+          eq(agentRunsTable.tenantId, tenantId)
+        ));
+    } catch (error) {
+      console.error("Failed to record agent run token usage:", error);
+      throw ErrorTypes.InternalError("Failed to record token usage", error);
+    }
   }
 }
 
