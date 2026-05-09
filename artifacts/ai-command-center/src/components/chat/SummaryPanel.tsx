@@ -101,7 +101,7 @@ export function SummaryPanel({
   }
 
   return (
-    <div className={cn("border-b bg-linear-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20", className)}>
+    <div className={cn("border-b bg-gradient-to-r from-blue-50/50 to-purple-50/50 dark:from-blue-950/20 dark:to-purple-950/20", className)}>
       {/* Header */}
       <div className="px-6 py-3 flex items-center justify-between">
         <div className="flex items-center gap-2">

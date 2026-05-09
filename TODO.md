@@ -2,10 +2,11 @@
 
 ---
 
-## [ ] TASK-001 — Workspace TypeScript & Build Cleanup
+## [x] TASK-001 — Workspace TypeScript & Build Cleanup
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 N/A
@@ -61,20 +62,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-001.1` Fix the calendar type error in `artifacts/ai-command-center/src/components/calendar/CalendarPage.tsx`. Replace the unsafe cast with a properly typed variable or narrow the union type.
-- [ ] `TASK-001.2` Fix the VoiceWaveform type error in `artifacts/ai-command-center/src/components/chat/VoiceWaveform.tsx`. Add a type guard for `window.AudioContext` (including `webkitAudioContext` fallback) using declaration merging.
-- [ ] `TASK-001.3` Fix the client draft type error in `artifacts/ai-command-center/src/components/clients/ClientDetailPage.tsx`. Narrow the `Address` field access with optional chaining and a default fallback.
-- [ ] `TASK-001.4` Fix the invalid gradient class in `artifacts/ai-command-center/src/components/chat/SummaryPanel.tsx`. Replace `bg-linear-to-r` with `bg-gradient-to-r`.
-- [ ] `TASK-001.5` Fix the non-existent Lucide icon import in `artifacts/ai-command-center/src/components/knowledge/CertificationsPage.tsx`. Replace `LinkIcon` with `Link`.
-- [ ] `TASK-001.6` Scan all component files for deprecated Tailwind v4 classes (e.g., removed `@apply` utilities, renamed variants) and update to current equivalents.
-- [ ] `TASK-001.7` Re-run `pnpm run typecheck` and `pnpm run build` from root; confirm all packages pass.
+- [x] `TASK-001.1` Fix the calendar type error in `artifacts/ai-command-center/src/components/calendar/CalendarPage.tsx`. Replace the unsafe cast with a properly typed variable or narrow the union type.
+- [x] `TASK-001.2` Fix the VoiceWaveform type error in `artifacts/ai-command-center/src/components/chat/VoiceWaveform.tsx`. Add a type guard for `window.AudioContext` (including `webkitAudioContext` fallback) using declaration merging.
+- [x] `TASK-001.3` Fix the client draft type error in `artifacts/ai-command-center/src/components/clients/ClientDetailPage.tsx`. Narrow the `Address` field access with optional chaining and a default fallback.
+- [x] `TASK-001.4` Fix the invalid gradient class in `artifacts/ai-command-center/src/components/chat/SummaryPanel.tsx`. Replace `bg-linear-to-r` with `bg-gradient-to-r`.
+- [x] `TASK-001.5` Fix the non-existent Lucide icon import in `artifacts/ai-command-center/src/components/knowledge/CertificationsPage.tsx`. Replace `LinkIcon` with `Link`.
+- [x] `TASK-001.6` Scan all component files for deprecated Tailwind v4 classes (e.g., removed `@apply` utilities, renamed variants) and update to current equivalents.
+- [x] `TASK-001.7` Re-run `pnpm run typecheck` and `pnpm run build` from root; confirm all packages pass.
 
 ---
 
-## [ ] TASK-002 — Environment Configuration & Local Setup
+## [x] TASK-002 — Environment Configuration & Local Setup
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 N/A
@@ -134,18 +136,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-002.1` Create `.env.example` in the repository root with all required variables, descriptions, and example values.
-- [ ] `TASK-002.2` Create a runtime configuration helper at `artifacts/api-server/src/lib/config.ts` using Zod for schema validation of environment variables.
-- [ ] `TASK-002.3` Update `artifacts/api-server/src/index.ts` to import and use the new config helper instead of inline `process.env` reads.
-- [ ] `TASK-002.4` Update `lib/db/src/index.ts` and `lib/db/drizzle.config.ts` to use the centralized configuration.
-- [ ] `TASK-002.5` Document local setup and environment bootstrapping steps in `README.md`.
+- [x] `TASK-002.1` Create `.env.example` in the repository root with all required variables, descriptions, and example values.
+- [x] `TASK-002.2` Create a runtime configuration helper at `artifacts/api-server/src/lib/config.ts` using Zod for schema validation of environment variables.
+- [x] `TASK-002.3` Update `artifacts/api-server/src/index.ts` to import and use the new config helper instead of inline `process.env` reads.
+- [x] `TASK-002.4` Update `lib/db/src/index.ts` and `lib/db/drizzle.config.ts` to use the centralized configuration.
+- [x] `TASK-002.5` Document local setup and environment bootstrapping steps in `README.md`.
 
 ---
 
-## [ ] TASK-003 — Database Provisioning & Extensions
+## [x] TASK-003 — Database Provisioning & Extensions
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 N/A
@@ -198,17 +201,18 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-003.1` Create `lib/db/src/schema/extensions.ts` with SQL statements to enable `pgvector`, `pgvectorscale`, `pg_cron`, `pg_textsearch`, and `anon`.
-- [ ] `TASK-003.2` Export the extensions migration from `lib/db/src/schema/index.ts`.
-- [ ] `TASK-003.3` Run the migration and verify all extensions appear in `pg_extension` catalog.
-- [ ] `TASK-003.4` Add a health check query in `lib/db/src/index.ts` that verifies extension availability on connection.
+- [x] `TASK-003.1` Create `lib/db/src/schema/extensions.ts` with SQL statements to enable `pgvector`, `pgvectorscale`, `pg_cron`, `pg_textsearch`, and `anon`.
+- [x] `TASK-003.2` Export the extensions migration from `lib/db/src/schema/index.ts`.
+- [x] `TASK-003.3` Run the migration and verify all extensions appear in `pg_extension` catalog.
+- [x] `TASK-003.4` Add a health check query in `lib/db/src/index.ts` that verifies extension availability on connection.
 
 ---
 
-## [ ] TASK-004 — Multi-Tenant Isolation & Row-Level Security
+## [x] TASK-004 — Multi-Tenant Isolation & Row-Level Security
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Identity and Access (cross-cutting concern)
@@ -262,19 +266,20 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-004.1` Create a `tenants` table in `lib/db/src/schema/tenants.ts` with columns for `id`, `name`, `created_at`.
-- [ ] `TASK-004.2` Add a `tenant_id` column to all future table definitions. Create a utility type/function in `lib/db/src/schema/helpers.ts` for consistent column definition.
-- [ ] `TASK-004.3` Create RLS policy helper functions in `lib/db/src/schema/helpers.ts` that generate `FORCE ROW LEVEL SECURITY` and `USING (tenant_id = current_setting('app.current_tenant')::uuid)` policies.
-- [ ] `TASK-004.4` Integrate `@usebetterdev/tenant` into the Drizzle ORM configuration in `lib/db/src/index.ts`.
-- [ ] `TASK-004.5` Create tenant identification middleware in `artifacts/api-server/src/middlewares/tenant-context.ts` that extracts `tenant_id` from the JWT and sets the PostgreSQL session variable.
-- [ ] `TASK-004.6` Write integration tests verifying Tenant A cannot read Tenant B rows across representative table queries.
+- [x] `TASK-004.1` Create a `tenants` table in `lib/db/src/schema/tenants.ts` with columns for `id`, `name`, `created_at`.
+- [x] `TASK-004.2` Add a `tenant_id` column to all future table definitions. Create a utility type/function in `lib/db/src/schema/helpers.ts` for consistent column definition.
+- [x] `TASK-004.3` Create RLS policy helper functions in `lib/db/src/schema/helpers.ts` that generate `FORCE ROW LEVEL SECURITY` and `USING (tenant_id = current_setting('app.current_tenant')::uuid)` policies.
+- [x] `TASK-004.4` Integrate tenant context management into the Drizzle ORM configuration in `lib/db/src/index.ts` (manual implementation due to peer dependency issues).
+- [x] `TASK-004.5` Create tenant identification middleware in `artifacts/api-server/src/middlewares/tenant-context.ts` that extracts `tenant_id` from the JWT and sets the PostgreSQL session variable.
+- [x] `TASK-004.6` Write integration tests verifying Tenant A cannot read Tenant B rows across representative table queries.
 
 ---
 
-## [ ] TASK-005 — Modular Monolith Architecture & Transactional Outbox
+## [x] TASK-005 — Modular Monolith Architecture & Transactional Outbox
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded contexts: All (cross-cutting infrastructure)
@@ -325,19 +330,20 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-005.1` Document module ownership boundaries in `artifacts/api-server/src/app.ts` — list which tables each module owns.
-- [ ] `TASK-005.2` Install and configure `pg-transactional-outbox` in `artifacts/api-server/src/lib/outbox.ts` with PostgreSQL-backed poller.
-- [ ] `TASK-005.3` Create the outbox table schema in `lib/db/src/schema/outbox.ts` and the `processed_events` idempotency table.
-- [ ] `TASK-005.4` Create an `artifacts/api-server/src/lib/domain-events.ts` module defining typed event objects for all cross-module events.
-- [ ] `TASK-005.5` Create an event bus abstraction in `artifacts/api-server/src/lib/event-bus.ts` wrapping the outbox publisher and subscriber interfaces.
-- [ ] `TASK-005.6` Implement a NestJS guard in `artifacts/api-server/src/middlewares/module-guard.ts` that prevents cross-module direct database access at the TypeScript lint level (optional enforcement with architectural tests).
+- [x] `TASK-005.1` Document module ownership boundaries in `artifacts/api-server/src/app.ts` — list which tables each module owns.
+- [x] `TASK-005.2` Install and configure `pg-transactional-outbox` in `artifacts/api-server/src/lib/outbox.ts` with PostgreSQL-backed poller.
+- [x] `TASK-005.3` Create the outbox table schema in `lib/db/src/schema/outbox.ts` and the `processed_events` idempotency table.
+- [x] `TASK-005.4` Create an `artifacts/api-server/src/lib/domain-events.ts` module defining typed event objects for all cross-module events.
+- [x] `TASK-005.5` Create an event bus abstraction in `artifacts/api-server/src/lib/event-bus.ts` wrapping the outbox publisher and subscriber interfaces.
+- [x] `TASK-005.6` Implement a NestJS guard in `artifacts/api-server/src/middlewares/module-guard.ts` that prevents cross-module direct database access at the TypeScript lint level (optional enforcement with architectural tests).
 
 ---
 
-## [ ] TASK-006 — Authentication & Session Management (Clerk)
+## [x] TASK-006 — Authentication & Session Management (Clerk)
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Identity and Access
@@ -390,19 +396,20 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-006.1` Install `@clerk/clerk-react` and `@clerk/backend` packages. Add the required environment variables to `.env.example`.
-- [ ] `TASK-006.2` Wrap the application in `ClerkProvider` in `artifacts/ai-command-center/src/main.tsx`. Configure B2B Organizations mode, disable personal accounts.
-- [ ] `TASK-006.3` Create a `useSession` hook in `artifacts/ai-command-center/src/hooks/useSession.ts` that exposes current user and active organization/tenant.
-- [ ] `TASK-006.4` Update `setAuthTokenGetter` in `lib/api-client-react/src/custom-fetch.ts` to call `getToken()` from Clerk, passing the token to the API client.
-- [ ] `TASK-006.5` Install and configure `@clerk/express` middleware in `artifacts/api-server/src/app.ts` to validate session tokens on incoming requests. Attach `tenant_id` context to the request object.
-- [ ] `TASK-006.6` Test the full authentication flow: sign-in, token attachment to API calls, token validation on the server, sign-out.
+- [x] `TASK-006.1` Install `@clerk/react` and `@clerk/backend` packages. Add the required environment variables to `.env.example`.
+- [x] `TASK-006.2` Wrap the application in `ClerkProvider` in `artifacts/ai-command-center/src/main.tsx`. Configure B2B Organizations mode, disable personal accounts.
+- [x] `TASK-006.3` Create a `useSession` hook in `artifacts/ai-command-center/src/hooks/useSession.ts` that exposes current user and active organization/tenant.
+- [x] `TASK-006.4` Update `setAuthTokenGetter` in `lib/api-client-react/src/custom-fetch.ts` to call `getToken()` from Clerk, passing the token to the API client.
+- [x] `TASK-006.5` Install and configure `@clerk/express` middleware in `artifacts/api-server/src/app.ts` to validate session tokens on incoming requests. Attach `tenant_id` context to the request object.
+- [x] `TASK-006.6` Test the full authentication flow: sign-in, token attachment to API calls, token validation on the server, sign-out.
 
 ---
 
-## [ ] TASK-007 — Authorization & Request Middleware Stack
+## [x] TASK-007 — Authorization & Request Middleware Stack
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Identity and Access (cross-cutting)
@@ -455,18 +462,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-007.1` Create `artifacts/api-server/src/middlewares/require-auth.ts` extending Clerk's middleware to reject unauthenticated requests with a 401 JSON response.
-- [ ] `TASK-007.2` Create `artifacts/api-server/src/middlewares/require-permission.ts` that checks the user's organization role against a required permission set; returns 403 on denial.
-- [ ] `TASK-007.3` Create `artifacts/api-server/src/middlewares/validate-request.ts` that accepts a Zod schema and validates `req.body`, `req.query`, or `req.params`; returns 422 with detailed errors on failure.
-- [ ] `TASK-007.4` Create `artifacts/api-server/src/middlewares/error-handler.ts` that catches all unhandled errors and returns a consistent JSON error format.
-- [ ] `TASK-007.5` Register all middleware in `artifacts/api-server/src/app.ts` in the correct execution order.
+- [x] `TASK-007.1` Create `artifacts/api-server/src/middlewares/require-auth.ts` extending Clerk's middleware to reject unauthenticated requests with a 401 JSON response.
+- [x] `TASK-007.2` Create `artifacts/api-server/src/middlewares/require-permission.ts` that checks the user's organization role against a required permission set; returns 403 on denial.
+- [x] `TASK-007.3` Create `artifacts/api-server/src/middlewares/validate-request.ts` that accepts a Zod schema and validates `req.body`, `req.query`, or `req.params`; returns 422 with detailed errors on failure.
+- [x] `TASK-007.4` Create `artifacts/api-server/src/middlewares/error-handler.ts` that catches all unhandled errors and returns a consistent JSON error format.
+- [x] `TASK-007.5` Register all middleware in `artifacts/api-server/src/app.ts` in the correct execution order.
 
 ---
 
-## [ ] TASK-008 — Observability & Monitoring Setup
+## [x] TASK-008 — Observability & Monitoring Setup
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 N/A
@@ -514,20 +522,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-008.1` Install and configure Sentry SDK in `artifacts/api-server/src/index.ts` and `artifacts/ai-command-center/src/main.tsx`.
-- [ ] `TASK-008.2` Install OpenLIT SDK and initialize it in `artifacts/api-server/src/lib/observability.ts` with auto-instrumentation for OpenAI and Anthropic.
-- [ ] `TASK-008.3` Configure Grafana Cloud endpoint and credentials in environment variables; verify trace export from local development.
-- [ ] `TASK-008.4` Add a `/api/ready` endpoint in `artifacts/api-server/src/routes/health.ts` that checks database and Redis connectivity and returns 200 or 503.
-- [ ] `TASK-008.5` Confirm that unhandled exceptions and LLM call traces appear in the monitoring dashboards.
+- [x] `TASK-008.1` Install and configure Sentry SDK in `artifacts/api-server/src/index.ts` and `artifacts/ai-command-center/src/main.tsx`.
+- [x] `TASK-008.2` Install OpenLIT SDK and initialize it in `artifacts/api-server/src/lib/observability.ts` with auto-instrumentation for OpenAI and Anthropic.
+- [x] `TASK-008.3` Configure Grafana Cloud endpoint and credentials in environment variables; verify trace export from local development.
+- [x] `TASK-008.4` Add a `/api/ready` endpoint in `artifacts/api-server/src/routes/health.ts` that checks database and Redis connectivity and returns 200 or 503.
+- [x] `TASK-008.5` Confirm that unhandled exceptions and LLM call traces appear in the monitoring dashboards.
 
 # Phase 2 — Core Domain Infrastructure & AI Foundation
 
 ---
 
-## [ ] TASK-009 — Agent & Approval Schema
+## [x] TASK-009 — Agent & Approval Schema
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Agent Orchestration  
@@ -585,18 +594,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-009.1` Create `lib/db/src/schema/agents.ts` with tables `agents`, `agent_runs`, `tool_calls`, and `mcp_server_bindings`. Use `pgEnum` for agent status.
-- [ ] `TASK-009.2` Create `lib/db/src/schema/approvals.ts` with tables `approval_requests` and `approval_decisions`. Use `pgEnum` for status and decision.
-- [ ] `TASK-009.3` Add `tenant_id` columns and RLS policies (using helpers from TASK-004) to all new tables.
-- [ ] `TASK-009.4` Export the new schema from `lib/db/src/schema/index.ts` and generate Drizzle types.
-- [ ] `TASK-009.5` Write schema‑level tests verifying table creation, foreign keys, and that status enum values are enforced.
+- [x] `TASK-009.1` Create `lib/db/src/schema/agents.ts` with tables `agents`, `agent_runs`, `tool_calls`, and `mcp_server_bindings`. Use `pgEnum` for agent status.
+- [x] `TASK-009.2` Create `lib/db/src/schema/approvals.ts` with tables `approval_requests` and `approval_decisions`. Use `pgEnum` for status and decision.
+- [x] `TASK-009.3` Add `tenant_id` columns and RLS policies (using helpers from TASK-004) to all new tables.
+- [x] `TASK-009.4` Export the new schema from `lib/db/src/schema/index.ts` and generate Drizzle types.
+- [x] `TASK-009.5` Write schema‑level tests verifying table creation, foreign keys, and that status enum values are enforced.
 
 ---
 
-## [ ] TASK-010 — Agent & Approval APIs
+## [x] TASK-010 — Agent & Approval APIs
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Agent Orchestration  
@@ -654,20 +664,21 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-010.1` Add agent endpoints (`GET /agents`, `GET /agents/:id`) and approval endpoints (`GET /approvals`, `POST /approvals/:id/decide`) to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-010.2` Create `artifacts/api-server/src/routes/agents.ts` with listing and detail routes. Mount under `/agents`.
-- [ ] `TASK-010.3` Create `artifacts/api-server/src/routes/approvals.ts` with listing and decision routes. Mount under `/approvals`.
-- [ ] `TASK-010.4` Create `artifacts/api-server/src/lib/agent-service.ts` and `artifacts/api-server/src/lib/approval-service.ts` containing business logic.
-- [ ] `TASK-010.5` Register the new routers in `artifacts/api-server/src/routes/index.ts`.
-- [ ] `TASK-010.6` Run `pnpm --filter @workspace/api-spec run codegen` to regenerate client libraries; verify `pnpm run typecheck` passes.
-- [ ] `TASK-010.7` Write integration tests for all endpoints confirming auth, pagination, and decision flow.
+- [x] `TASK-010.1` Add agent endpoints (`GET /agents`, `GET /agents/:id`) and approval endpoints (`GET /approvals`, `POST /approvals/:id/decide`) to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-010.2` Create `artifacts/api-server/src/routes/agents.ts` with listing and detail routes. Mount under `/agents`.
+- [x] `TASK-010.3` Create `artifacts/api-server/src/routes/approvals.ts` with listing and decision routes. Mount under `/approvals`.
+- [x] `TASK-010.4` Create `artifacts/api-server/src/lib/agent-service.ts` and `artifacts/api-server/src/lib/approval-service.ts` containing business logic.
+- [x] `TASK-010.5` Register the new routers in `artifacts/api-server/src/routes/index.ts`.
+- [x] `TASK-010.6` Run `pnpm --filter @workspace/api-spec run codegen` to regenerate client libraries; verify `pnpm run typecheck` passes.
+- [x] `TASK-010.7` Write integration tests for all endpoints confirming auth, pagination, and decision flow.
 
 ---
 
-## [ ] TASK-011 — Chat & Message Schema
+## [x] TASK-011 — Chat & Message Schema
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Conversation Management  
@@ -725,18 +736,19 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-011.1` Create `lib/db/src/schema/chat.ts` with tables `chat_threads`, `messages`, `message_versions`, `citations`, `summaries`, `feedback`, `attachments`, and `embeddings_chunks`. Use `pgEnum` for roles, grounding modes, and source types.
-- [ ] `TASK-011.2` Enable pgvector on the `embedding` column in `embeddings_chunks` using `vector(1536)`.
-- [ ] `TASK-011.3` Add `tenant_id` and RLS policies to all new tables.
-- [ ] `TASK-011.4` Export the chat schema from `lib/db/src/schema/index.ts` and generate Drizzle types.
-- [ ] `TASK-011.5` Write schema tests for versioning and feedback constraints.
+- [x] `TASK-011.1` Create `lib/db/src/schema/chat.ts` with tables `chat_threads`, `messages`, `message_versions`, `citations`, `summaries`, `feedback`, `attachments`, and `embeddings_chunks`. Use `pgEnum` for roles, grounding modes, and source types.
+- [x] `TASK-011.2` Enable pgvector on the `embedding` column in `embeddings_chunks` using `vector(1536)`.
+- [x] `TASK-011.3` Add `tenant_id` and RLS policies to all new tables.
+- [x] `TASK-011.4` Export the chat schema from `lib/db/src/schema/index.ts` and generate Drizzle types.
+- [x] `TASK-011.5` Write schema tests for versioning and feedback constraints.
 
 ---
 
-## [ ] TASK-012 — Chat APIs & SSE Streaming Contract
+## [x] TASK-012 — Chat APIs & SSE Streaming Contract
 
-**Status:** `NOT_STARTED`  
+**Status:** `COMPLETED`  
 **Size:** `SMALL`
+**Completed:** `2026-05-08`
 
 ### DDD
 - Bounded context: Conversation Management  
@@ -801,13 +813,13 @@ N/A
 
 ### Subtasks
 
-- [ ] `TASK-012.1` Add chat endpoints (threads, messages, feedback, summaries, grounding) and SSE streaming path to `lib/api-spec/openapi.yaml`.
-- [ ] `TASK-012.2` Create `artifacts/api-server/src/routes/chat.ts` with REST routes for CRUD operations and a `/threads/:id/stream` endpoint.
-- [ ] `TASK-012.3` Create `artifacts/api-server/src/lib/chat-service.ts` with business logic for message persistence, versioning, and validation.
-- [ ] `TASK-012.4` Create `artifacts/api-server/src/lib/chat-stream.ts` implementing SSE token delivery; accepts an LLM response stream and pipes tokens with proper event formatting.
-- [ ] `TASK-012.5` Implement the background jobs for summary generation and feedback processing in `artifacts/api-server/src/lib/jobs/chat-jobs.ts`.
-- [ ] `TASK-012.6` Register the chat router in `artifacts/api-server/src/routes/index.ts`.
-- [ ] `TASK-012.7` Run `codegen`; verify typecheck; write integration tests for message edit versioning and streaming delivery.
+- [x] `TASK-012.1` Add chat endpoints (threads, messages, feedback, summaries, grounding) and SSE streaming path to `lib/api-spec/openapi.yaml`.
+- [x] `TASK-012.2` Create `artifacts/api-server/src/routes/chat.ts` with REST routes for CRUD operations and a `/threads/:id/stream` endpoint.
+- [x] `TASK-012.3` Create `artifacts/api-server/src/lib/chat-service.ts` with business logic for message persistence, versioning, and validation.
+- [x] `TASK-012.4` Create `artifacts/api-server/src/lib/chat-stream.ts` implementing SSE token delivery; accepts an LLM response stream and pipes tokens with proper event formatting.
+- [x] `TASK-012.5` Implement the background jobs for summary generation and feedback processing in `artifacts/api-server/src/lib/jobs/chat-jobs.ts`.
+- [x] `TASK-012.6` Register the chat router in `artifacts/api-server/src/routes/index.ts`.
+- [x] `TASK-012.7` Run `codegen`; verify typecheck; write integration tests for message edit versioning and streaming delivery.
 
 ---
 
@@ -3578,3 +3590,887 @@ N/A
 - [ ] `TASK-054.3` Implement the `onDragEnd` logic: determine source and destination columns; call `PATCH /tasks/:id/move`; perform optimistic cache update.
 - [ ] `TASK-054.4` Add `DragOverlay` component for visual drag feedback; style drop zones with highlight colors.
 - [ ] `TASK-054.5` Test cross‑column moves and within‑column reordering; verify API persistence and error rollback.
+
+# Phase 6 — Testing, Hardening, Compliance & Deployment
+
+---
+
+## [ ] TASK-055 — Integration & End‑to‑End Testing Suite
+
+**Status:** `NOT_STARTED`  
+**Size:** `MEDIUM`
+
+### DDD
+N/A
+
+### TDD
+- Tests themselves are the definition of TDD — write failing integration tests for critical paths, then implement or verify they pass.
+
+### BDD
+- Scenario: A complete user flow from login → create project → add task → assign agent → move task → mark done → view client detail with linked project is executed by Playwright and passes.
+- Scenario: API endpoint tests using Supertest verify that protected routes return 401 unauthenticated and 403 forbidden for insufficient permissions.
+
+### Deep Module
+- Testing boundaries: `tests/integration/` and `tests/e2e/` directories at the repository root
+- API test configuration in `artifacts/api-server/tests/`
+
+### Depends On
+- All Phase 1–5 implementation tasks (system must be functional to test)
+- TASK-002 (environment config for test databases)
+
+### Blocks
+- TASK-062 (production deployment — tests must pass before deploy)
+
+### Imports From
+- All API routes and frontend pages
+
+### Exports To
+- CI pipeline quality gates
+
+### Definition of Done
+- API integration tests using **Vitest + Supertest** exist for every domain module:
+  - Agents & Approvals (TASK-010)
+  - Chat & Messages (TASK-012)
+  - Work, Projects & Tasks (TASK-014)
+  - CRM, Clients & Agreements (TASK-020)
+  - Documents & Knowledge (TASK-022)
+  - Finance (TASK-028)
+  - Marketing (TASK-030)
+  - Team & Calendar (TASK-032)
+  - Vendors (TASK-033)
+  - Integrations (TASK-034)
+  - Outreach (TASK-036)
+  - Cost Analytics (TASK-038)
+  - Export/Import (TASK-039)
+  - Billing Webhooks (TASK-042)
+- Each test file covers: CRUD operations, authentication/authorization enforcement, input validation, error responses, and pagination.
+- End‑to‑end tests using **Playwright** cover critical user journeys:
+  - Login → Dashboard loads with real data
+  - Chat: create thread → send message → receive streaming response
+  - Work: create project → add task → drag task to new column
+  - CRM: create contact → convert to client → view client detail
+  - Finance: create invoice → mark as paid
+  - Settings: change default model → verify persistence
+- Tests run in CI via `pnpm run test:integration` and `pnpm run test:e2e`.
+- Test database uses a fresh PostgreSQL instance with migrations applied; test data is seeded per test or per suite.
+- All tests pass before merging to `main`.
+
+### Out of Scope
+- Visual regression testing (can be added later with Percy/Chromatic)
+- Load testing (separate task)
+
+### Advanced Code Patterns
+- Test fixtures using factories (e.g., `createTestAgent()`, `createTestProject()`) for consistent test data
+- API test helper that authenticates and returns a configured supertest agent
+- Playwright page object models for complex pages (ChatInterface, WorkPage, ClientDetail)
+
+### Anti‑Patterns
+- Tests that depend on external services without mocking (use mock MCP, mock email provider)
+- Sharing mutable test state between test files
+- Skipping auth checks in tests
+
+### Subtasks
+
+- [ ] `TASK-055.1` Set up test infrastructure: configure Vitest for API tests, Playwright for E2E, and a test database provisioning script in `scripts/setup-test-db.ts`.
+- [ ] `TASK-055.2` Create API integration test file for Agents & Approvals at `tests/integration/agents.test.ts` covering CRUD, listing, and approval decision flows.
+- [ ] `TASK-055.3` Create API integration test file for Chat at `tests/integration/chat.test.ts` covering thread CRUD, message send, edit, feedback, and summary.
+- [ ] `TASK-055.4` Create API integration test file for Work at `tests/integration/work.test.ts` covering project/task CRUD, status transitions, comments, and template instantiation.
+- [ ] `TASK-055.5` Create API integration test files for CRM, Documents, Finance, Marketing, Team, Vendors, Integrations, Outreach, Cost Analytics, Export/Import, and Billing at corresponding paths under `tests/integration/`.
+- [ ] `TASK-055.6` Create Playwright E2E test for Dashboard and Chat at `tests/e2e/dashboard.spec.ts` and `tests/e2e/chat.spec.ts`.
+- [ ] `TASK-055.7` Create Playwright E2E test for Work Board and CRM at `tests/e2e/work.spec.ts` and `tests/e2e/crm.spec.ts`.
+- [ ] `TASK-055.8` Add `test:integration` and `test:e2e` scripts to root `package.json`; integrate into CI workflow.
+
+---
+
+## [ ] TASK-056 — Security Audit & Penetration Testing
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Write security tests that attempt cross‑tenant access, SQL injection, XSS injection, and MCP tool injection; all must be blocked.
+
+### BDD
+- Scenario: A user authenticated for Tenant A tries to access Tenant B's data by manipulating a UUID in the URL. The API returns 404 or empty results.
+- Scenario: A malicious prompt attempts to inject SQL or escape the MCP sandbox; the system rejects or sanitizes the input.
+
+### Deep Module
+- Security boundary across `artifacts/api-server/src/middlewares/` and `lib/db/src/schema/` (RLS)
+
+### Depends On
+- TASK-004 (RLS enforcement)
+- TASK-007 (authorization middleware)
+- TASK-015 (MCP security controls)
+
+### Blocks
+- TASK-062 (production deployment)
+
+### Imports From
+- All API routes
+
+### Exports To
+- Security compliance report
+
+### Definition of Done
+- **Cross‑tenant isolation tests:**
+  - Authenticated as Tenant A, attempt to GET/PATCH/DELETE Tenant B's entities (agents, tasks, documents, etc.) — all return 404 or 403.
+  - Verify RLS is enforced at the database level by running raw SQL queries (via integration tests) with different `tenant_id` session variables.
+- **OWASP Top 10 checks:**
+  - SQL injection: inputs with `'; DROP TABLE...` are rejected or sanitized.
+  - XSS injection: stored content with `<script>` tags is escaped on output.
+  - Broken access control: admin‑only endpoints reject non‑admin users.
+  - Security misconfiguration: verify no debug endpoints, verbose error messages, or default credentials in production.
+- **MCP security tests:**
+  - Attempt to invoke a tool with an unregistered MCP server — must fail.
+  - Attempt to invoke a `restricted` tool with write permissions — must be blocked.
+  - Verify DNS rebinding protection and host header validation on MCP HTTP connections.
+- **Input validation:** all API endpoints are tested with malformed JSON, oversized payloads, and missing required fields; return 422 with structured errors.
+- **Rate limiting:** basic rate limiting per tenant is configured (at minimum, a Redis‑backed rate limiter on auth and chat endpoints).
+- **JWT security:** Clerk tokens are validated; attempts with expired or tampered tokens return 401.
+- All security tests are documented and added to `tests/security/`.
+- Any vulnerabilities found are remediated before deployment.
+
+### Out of Scope
+- Full third‑party penetration test (this is automated internal security testing)
+- DDoS protection (infrastructure‑level)
+
+### Advanced Code Patterns
+- Security‑specific test suite with `supertest` + programmatic auth token generation
+- SQL injection test payloads using documented attack vectors
+- RLS exhaustiveness script that verifies every table with `tenant_id` has RLS enabled
+
+### Anti‑Patterns
+- Running security tests only in development mode without production‑like configuration
+- Skipping edge cases with empty or null tenant context
+
+### Subtasks
+
+- [ ] `TASK-056.1` Create `tests/security/cross-tenant.test.ts` with tests for RLS enforcement across all domain entities.
+- [ ] `TASK-056.2` Create `tests/security/owasp.test.ts` with SQL injection, XSS, and access control attack simulations.
+- [ ] `TASK-056.3` Create `tests/security/mcp-security.test.ts` testing MCP sandboxing, trust tier enforcement, and DNS rebinding protection.
+- [ ] `TASK-056.4` Create `tests/security/input-validation.test.ts` testing malformed payloads across all endpoints.
+- [ ] `TASK-056.5` Verify RLS exhaustiveness: a script that iterates all Drizzle table definitions and confirms `tenant_id` column + RLS policy exists.
+- [ ] `TASK-056.6` Implement basic rate limiting middleware in `artifacts/api-server/src/middlewares/rate-limiter.ts`; configure on auth, chat, and export endpoints.
+- [ ] `TASK-056.7` Add `test:security` script to root `package.json`; document results in `docs/security-audit.md`.
+
+---
+
+## [ ] TASK-057 — RLS Performance Optimization & Verification
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Performance test: run representative complex JOIN queries with RLS enabled; measure execution time. Verify no query exceeds 10× the time of the equivalent application‑filtered query.
+
+### BDD
+- Scenario: A query that retrieves all tasks with their project details and agent assignments for a tenant completes within 200ms on a dataset of 10,000 tasks.
+
+### Deep Module
+- Database performance boundary in `lib/db/src/`
+
+### Depends On
+- TASK-004 (RLS implementation)
+- All schema tasks (tables must exist with data to test)
+
+### Blocks
+- TASK-062 (production deployment)
+
+### Imports From
+- `lib/db/src/schema/` (all tables with RLS)
+
+### Exports To
+- Optimized RLS configuration for production
+
+### Definition of Done
+- Composite indexes on `(tenant_id, *)` are verified to exist on all frequently‑queried columns across all tables (tasks, messages, documents, clients, etc.).
+- Representative complex queries are defined and benchmarked:
+  - Tasks with JOIN to projects, agents, and comments — filtered by tenant.
+  - Messages with JOIN to threads and citations — filtered by tenant.
+  - Client detail with sub‑resources — filtered by tenant.
+- For any query where RLS introduces a >10× slowdown compared to a `WHERE tenant_id = ?` equivalent, one of:
+  - A `security_barrier` view is created.
+  - Application‑layer `WHERE tenant_id = ?` is added as a redundant filter (RLS remains as defense‑in‑depth).
+  - The RLS policy is simplified (e.g., using `SET LOCAL app.current_tenant`).
+- A performance regression test suite (`tests/performance/rls-benchmark.test.ts`) runs as part of CI (can be skipped on PR unless label applied) and alerts if any query regresses.
+- Documentation of the RLS strategy with known query plans is added to `docs/rls-performance.md`.
+
+### Out of Scope
+- Index tuning for non‑RLS performance
+- Database sharding or read replicas
+
+### Advanced Code Patterns
+- `EXPLAIN ANALYZE` captured in tests to verify index usage
+- `security_barrier` views with pre‑filtered result sets for complex JOINs
+- Application‑layer tenant filter as optimization, RLS as safety net
+
+### Anti‑Patterns
+- Assuming all queries run fast with RLS without benchmarking
+- Removing RLS for performance without the safety net of application‑layer filtering
+
+### Subtasks
+
+- [ ] `TASK-057.1` Create a data seeding script in `scripts/seed-perf-data.ts` that generates 10,000+ rows per major table for realistic benchmarking.
+- [ ] `TASK-057.2` Verify composite indexes exist on `(tenant_id, id)` and `(tenant_id, project_id)` and other common patterns; add missing indexes via migrations.
+- [ ] `TASK-057.3` Write performance benchmarks in `tests/performance/rls-benchmark.test.ts` for at least 5 representative production queries, measuring with and without RLS.
+- [ ] `TASK-057.4` For any query exceeding the 10× threshold, implement mitigations (security_barrier view, application filter, or policy simplification).
+- [ ] `TASK-057.5` Add CI workflow step that runs performance benchmarks (non‑blocking for PRs, but reports results); document baseline numbers.
+
+---
+
+## [ ] TASK-058 — Mobile Responsiveness & Cross‑Browser Audit
+
+**Status:** `NOT_STARTED`  
+**Size:** `MEDIUM`
+
+### DDD
+N/A
+
+### TDD
+- Visual regression tests at 375px, 768px, 1024px, and 1440px viewport widths confirm no layout breakage, overflow, or inaccessible touch targets.
+
+### BDD
+- Scenario: A user accesses the application on a mobile phone (375px width). The sidebar collapses to an overlay drawer. Data tables transform to card layouts. All touch targets (buttons, links) are at least 44×44px. Modals fit within the viewport and are scrollable if needed.
+
+### Deep Module
+- Responsive layout boundaries across all page components in `artifacts/ai-command-center/src/components/`
+
+### Depends On
+- All Phase 5 wiring tasks (UI must be final or near‑final)
+
+### Blocks
+- Production deployment
+
+### Imports From
+- All page components
+
+### Exports To
+- Responsive, production‑ready UI
+
+### Definition of Done
+- All pages audited at four breakpoints: 375px (mobile), 768px (tablet), 1024px (small desktop), 1440px (large desktop).
+- Data tables with many columns convert to card layouts or provide horizontal scroll with frozen first column on mobile.
+- All interactive elements (buttons, links, dropdowns) have touch targets ≥ 44×44px.
+- Modals and dialogs:
+  - Fit within viewport on mobile.
+  - Are scrollable if content overflows.
+  - Multi‑step forms (e.g., client edit, task create) work on mobile with appropriate spacing.
+- Sidebar transforms to an overlay drawer triggered by hamburger or existing toggle on mobile breakpoints.
+- Charts on dashboard and analytics pages simplify to summary cards or compact representations on mobile.
+- Fixed headers and sticky elements do not obscure content or break scrolling on mobile.
+- Cross‑browser tested on latest Chrome, Firefox, Safari, and Edge — no layout or functional regressions.
+- Audit results documented in `docs/responsive-audit.md`.
+
+### Out of Scope
+- Native mobile app (PWA considerations only)
+- Internet Explorer support
+
+### Advanced Code Patterns
+- Tailwind responsive prefixes (`sm:`, `md:`, `lg:`, `xl:`) used consistently
+- Container queries for complex layout components (e.g., `@container`)
+- Mobile‑first component design with progressive enhancement
+
+### Anti‑Patterns
+- Hiding entire sections on mobile instead of adapting layout
+- Using fixed pixel widths that cause horizontal overflow
+- Relying on hover‑only interactions for critical functionality
+
+### Subtasks
+
+- [ ] `TASK-058.1` Audit all page components at 375px viewport; document issues in `docs/responsive-audit.md`.
+- [ ] `TASK-058.2` Convert data tables to card layout or horizontal scroll on mobile for: Clients table, Contacts table, Agreements table, Documents table, Bills table, Invoices table, Transactions table.
+- [ ] `TASK-058.3` Ensure all buttons and interactive elements meet 44×44px minimum touch target; fix undersized elements.
+- [ ] `TASK-058.4` Make all modals/dialogs responsive: ensure they fit viewport, are scrollable, and forms are usable on mobile.
+- [ ] `TASK-058.5` Fix sidebar behavior on mobile: overlay drawer with correct z‑index and backdrop; ensure navigation is usable.
+- [ ] `TASK-058.6` Simplify charts (dashboard, analytics, finance overview) to summary cards or compact representations on mobile.
+- [ ] `TASK-058.7` Cross‑browser test with Playwright on Chrome, Firefox, Safari, and Edge; fix identified regressions.
+
+---
+
+## [ ] TASK-059 — Keyboard Accessibility (WCAG 2.1 AA)
+
+**Status:** `NOT_STARTED`  
+**Size:** `MEDIUM`
+
+### DDD
+N/A
+
+### TDD
+- Write accessibility tests using `@axe-core/playwright` to scan every page for violations; fix all critical and serious issues.
+
+### BDD
+- Scenario: A user navigates the application using only the keyboard. They can Tab through all interactive elements (buttons, links, inputs, dropdowns), open and close dialogs, navigate tables, and use the command palette — all without a mouse.
+
+### Deep Module
+- Accessibility boundaries across all components in `artifacts/ai-command-center/src/components/`
+
+### Depends On
+- All Phase 5 wiring tasks
+
+### Blocks
+- Production deployment
+
+### Imports From
+- All UI components
+
+### Exports To
+- Accessible, production‑ready UI
+
+### Definition of Done
+- All interactive elements (buttons, links, inputs, select dropdowns, command palette items, sidebar navigation) are reachable via Tab and operable with Enter/Space.
+- Focus management:
+  - Focus is trapped within open modals, dialogs, and the command palette (Tab cycles inside; Escape closes).
+  - Focus returns to the triggering element when a modal or dialog is closed.
+  - Page focus is not lost after async operations (e.g., after an API mutation, focus moves to a logical next element).
+- Screen reader support:
+  - All icon‑only buttons have `aria-label` attributes.
+  - Status indicators have `role="status"` or `aria-live` for updates.
+  - Data tables have proper `caption`, `thead`, and scope attributes.
+  - Form inputs have associated `<label>` elements or `aria-labelledby`.
+  - Dynamic content updates (streaming messages, activity feed) use `aria-live="polite"`.
+- Color contrast: all text meets WCAG AA contrast ratio (4.5:1 for normal text, 3:1 for large text).
+- Keyboard shortcuts: existing shortcuts (⌘K for command palette, Esc for close, Enter for submit) are documented.
+- `@axe-core/playwright` scans run in CI on key pages; all critical and serious violations are resolved.
+- Any existing `tabIndex` usages are verified and correct.
+
+### Out of Scope
+- WCAG AAA compliance
+- Screen reader‑optimized alternative navigation patterns
+
+### Advanced Code Patterns
+- Focus trap utility using existing `handleFocusTrap` in `artifacts/ai-command-center/src/lib/accessibility.ts`
+- Role‑based component composition (button, listbox, dialog roles from Radix UI primitives already provide good baseline)
+- Custom `useFocusRestore` hook for modal close behavior
+
+### Anti‑Patterns
+- Using `tabIndex="0"` on non‑interactive elements without keyboard handlers
+- Hiding focus outlines without providing alternative visible focus indicators
+- Using `aria-hidden` incorrectly, hiding content from screen readers that should be accessible
+
+### Subtasks
+
+- [ ] `TASK-059.1` Run `@axe-core/playwright` scan on all 30+ pages; create an accessibility issue tracker in `docs/accessibility-issues.md`.
+- [ ] `TASK-059.2` Add missing `aria-label` attributes to all icon‑only buttons and interactive elements.
+- [ ] `TASK-059.3` Implement focus trapping in modals, dialogs, and command palette using existing `handleFocusTrap` utility.
+- [ ] `TASK-059.4` Add focus return logic for modals/dialogs on close; ensure no focus loss after async mutations.
+- [ ] `TASK-059.5` Verify and fix color contrast issues using browser DevTools or automated scanner.
+- [ ] `TASK-059.6` Add proper table semantics: `caption`, `aria-describedby`, and correct `scope` attributes on data tables.
+- [ ] `TASK-059.7` Add `aria-live` regions to streaming chat, activity feed, and status indicators.
+- [ ] `TASK-059.8` Integrate `@axe-core/playwright` into CI; fail build on critical violations on key pages.
+
+---
+
+## [ ] TASK-060 — CI/CD Pipeline & Automated Deployments
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- CI pipeline fails if any test, typecheck, lint, or security scan fails.
+
+### BDD
+- Scenario: A developer pushes a commit to a feature branch. CI runs: install → typecheck → lint → unit tests → integration tests → E2E tests → security scan → build. If all pass, preview deployment is created. Merging to main triggers staging deployment.
+
+### Deep Module
+- CI configuration files: `.github/workflows/ci.yml` (or equivalent GitLab CI, CircleCI)
+
+### Depends On
+- TASK-001 (typecheck passing baseline)
+- TASK-055 (test suites)
+- TASK-056 (security tests)
+
+### Blocks
+- TASK-062 (production deployment)
+
+### Imports From
+- All source files
+
+### Exports To
+- Automated quality gates and deployments
+
+### Definition of Done
+- CI pipeline (GitHub Actions) is configured with the following jobs:
+  - **Install**: `pnpm install --frozen-lockfile`
+  - **Typecheck**: `pnpm run typecheck`
+  - **Lint**: `pnpm run lint` (ESLint + Prettier)
+  - **Unit tests**: `pnpm run test:unit`
+  - **Integration tests**: `pnpm run test:integration` (requires test database)
+  - **E2E tests**: `pnpm run test:e2e` (requires running app + test database)
+  - **Security scan**: `pnpm run test:security`
+  - **Build**: `pnpm run build`
+- CI runs on every push to a pull request.
+- Preview deployments are created for PR branches (using Vercel, Railway, or similar).
+- Merges to `main` trigger:
+  - Full CI suite
+  - Deployment to staging environment
+  - Smoke tests against staging
+- Infrastructure as Code (IaC) scripts exist for provisioning staging and production environments (Docker Compose for staging, managed services for production).
+- Environment‑specific configuration is managed via CI secrets/variables.
+- Rollback procedure is documented.
+
+### Out of Scope
+- Canary deployments and feature‑flag‑based rollout (can be added later)
+
+### Advanced Code Patterns
+- Matrix builds for testing against multiple Node.js versions
+- Caching of `pnpm` store and Turbo cache for faster CI
+- Parallelized test jobs with dependency graph
+
+### Anti‑Patterns
+- Hardcoding environment names in CI config
+- Running E2E tests in production environment
+- Skipping typecheck before tests
+
+### Subtasks
+
+- [ ] `TASK-060.1` Create `.github/workflows/ci.yml` with jobs for install, typecheck, lint, and unit tests.
+- [ ] `TASK-060.2` Add integration test and E2E test jobs to CI; configure test database provisioning and app startup.
+- [ ] `TASK-060.3` Add security scan job to CI.
+- [ ] `TASK-060.4` Add build job and artifact upload.
+- [ ] `TASK-060.5` Configure preview deployments for PR branches on Vercel or Railway.
+- [ ] `TASK-060.6` Create staging deployment workflow triggered on merge to `main`.
+- [ ] `TASK-060.7` Create `docker-compose.staging.yml` and `docker-compose.prod.yml` with all services (API, frontend, PostgreSQL, Redis, Unleash, file storage emulator).
+- [ ] `TASK-060.8` Document rollback procedure in `docs/deployment.md`.
+
+---
+
+## [ ] TASK-061 — Staging Environment & Smoke Testing
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Smoke test script hits critical endpoints on staging after deployment; test fails if any return non‑2xx.
+
+### BDD
+- Scenario: After a deployment to staging, the smoke test verifies that the health endpoint, auth flow, and key API endpoints are responding correctly. If smoke tests fail, the deployment is rolled back.
+
+### Deep Module
+- Deployment configuration and smoke test scripts
+
+### Depends On
+- TASK-060 (CI/CD pipeline)
+- TASK-042 (Stripe — test mode for staging)
+
+### Blocks
+- TASK-062 (production deployment)
+
+### Imports From
+- All API routes
+
+### Exports To
+- Staging environment ready for stakeholder review
+
+### Definition of Done
+- Staging environment is provisioned with:
+  - PostgreSQL instance (isolated from production)
+  - Redis instance
+  - File storage bucket (S3/R2 staging bucket)
+  - Clerk application (staging instance)
+  - Stripe (test mode keys)
+  - Feature flag server (Unleash staging instance)
+- Database migrations run automatically on deployment.
+- Seed data script populates staging with realistic demo data (clients, projects, tasks, agents, etc.).
+- Smoke test script (`scripts/smoke-test.ts`) covers:
+  - `/api/healthz` returns 200
+  - `/api/ready` returns 200
+  - Auth endpoints: login simulation with test user
+  - Key domain endpoints: agents list, threads list, tasks list, finance overview
+- Smoke tests run automatically after staging deployment; failures trigger a rollback (or at minimum, block promotion to production).
+- Staging URL is accessible to internal team for manual QA.
+
+### Out of Scope
+- Production data anonymization in staging (uses synthetic seed data)
+
+### Advanced Code Patterns
+- Database migration as part of deployment hook
+- Environment‑specific config injection via CI secrets
+
+### Anti‑Patterns
+- Using production API keys in staging
+- Sharing database between staging and production
+
+### Subtasks
+
+- [ ] `TASK-061.1` Create staging environment provisioning script (`scripts/provision-staging.sh` or IaC template).
+- [ ] `TASK-061.2` Create seed data script `scripts/seed-demo-data.ts` that populates staging with realistic multi‑tenant demo data.
+- [ ] `TASK-061.3` Create smoke test script `scripts/smoke-test.ts` hitting all critical endpoints.
+- [ ] `TASK-061.4` Add smoke test job to CI after staging deployment; configure rollback on failure.
+- [ ] `TASK-061.5` Document staging access and QA procedures in `docs/staging.md`.
+
+---
+
+## [ ] TASK-062 — Production Deployment
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Production readiness checklist: all prior phases complete, all security/performance/accessibility tests pass, smoke tests pass on staging.
+
+### BDD
+- Scenario: The production environment is deployed. Users can sign up, create an organization, and use all features. Monitoring dashboards show healthy metrics. Alerts fire if error rate or latency exceeds thresholds.
+
+### Deep Module
+- Production infrastructure and deployment pipeline
+
+### Depends On
+- TASK-055 through TASK-061 (all testing, security, CI/CD, and staging tasks)
+
+### Blocks
+- Public launch
+
+### Imports From
+- All infrastructure configuration
+
+### Exports To
+- Live production application
+
+### Definition of Done
+- Production environment provisioned with:
+  - Managed PostgreSQL (e.g., AWS RDS, Railway Postgres) with automated backups, point‑in‑time recovery
+  - Redis (managed, e.g., Upstash or AWS ElastiCache)
+  - S3/R2 file storage with appropriate CORS and lifecycle policies
+  - Clerk production instance with custom domain
+  - Stripe live mode keys and webhook endpoint configured
+  - Unleash production instance (or hosted Unleash)
+  - DNS configured for main domain and API subdomain
+  - SSL certificates provisioned and auto‑renewing
+- Production deployment pipeline:
+  - Manual approval gate after staging smoke tests pass.
+  - Database migrations run as part of deployment (with rollback plan).
+  - Zero‑downtime deployment strategy (rolling or blue‑green).
+- Monitoring and alerting:
+  - Sentry captures frontend and backend errors.
+  - Grafana Cloud dashboards show application health, API latency, error rates, LLM cost, and token usage.
+  - Alerts configured for: error rate spike, API latency > 2s p95, token budget exceeded, disk/db capacity > 80%.
+- Backup strategy: automated daily PostgreSQL backups retained for 30 days; backup restoration tested.
+- Incident response runbook documented in `docs/incident-response.md`.
+- Performance baseline: p95 API latency < 500ms, p99 < 2s under normal load; SSE streaming first‑token latency < 1s.
+- Production URL is live and accessible.
+
+### Out of Scope
+- Multi‑region deployment
+- Disaster recovery site
+
+### Advanced Code Patterns
+- Infrastructure as Code (Terraform/Pulumi or platform‑specific config)
+- Blue‑green deployment with health checks and automated rollback
+- Feature flags used to decouple deploy from release
+
+### Anti‑Patterns
+- Running database migrations without a tested rollback plan
+- Deploying on Friday afternoon without on‑call coverage
+- Using production database for test or development purposes
+
+### Subtasks
+
+- [ ] `TASK-062.1` Provision production infrastructure: managed PostgreSQL, Redis, S3 bucket, compute instances.
+- [ ] `TASK-062.2` Configure production DNS records and SSL certificates.
+- [ ] `TASK-062.3` Set up Clerk production instance with custom domain and webhook endpoints.
+- [ ] `TASK-062.4` Configure Stripe live mode keys and production webhook endpoint.
+- [ ] `TASK-062.5` Set up Unleash production instance and configure feature flags for production.
+- [ ] `TASK-062.6` Create production deployment pipeline with manual approval gate and zero‑downtime strategy.
+- [ ] `TASK-062.7` Configure Grafana Cloud dashboards and alerts; verify alert delivery.
+- [ ] `TASK-062.8` Run load test against production infrastructure using k6 or Artillery; verify performance baselines.
+- [ ] `TASK-062.9` Perform production deployment; run smoke tests against production.
+- [ ] `TASK-062.10` Document incident response runbook in `docs/incident-response.md`.
+
+---
+
+## [ ] TASK-063 — GDPR & EU AI Act Compliance Verification
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Compliance tests: data export returns all user data; deletion request anonymizes or removes user data within expected timeframe; all AI‑generated content carries machine‑readable labels.
+
+### BDD
+- Scenario: A data subject access request is submitted. The compliance officer triggers the GDPR export endpoint, receives a structured JSON of all personal data, and delivers it within 30 days. A deletion request is processed; the user's PII is anonymized. An auditor verifies that all AI‑generated content in chat responses includes the required labeling.
+
+### Deep Module
+- `artifacts/api-server/src/lib/compliance.ts` (from TASK-040)  
+- `artifacts/api-server/src/lib/ai-labeling.ts` (from TASK-041)
+
+### Depends On
+- TASK-040 (GDPR implementation)
+- TASK-041 (EU AI Act implementation)
+
+### Blocks
+- Production launch in EU markets
+
+### Imports From
+- All database schemas with PII columns
+- AI content generation services
+
+### Exports To
+- Compliance verification report
+
+### Definition of Done
+- GDPR export endpoint tested: produces complete, structured JSON containing all personal data for a given user across all tables.
+- GDPR deletion endpoint tested: after processing, PII columns are anonymized (using PostgreSQL Anonymizer masks), non‑essential data is deleted, and essential records (financial, audit) are retained per documented retention policy.
+- Data retention cron jobs tested: verify that AI chat history older than 90 days is anonymized; financial records are retained; expired backups are purged.
+- EU AI Act labeling verified:
+  - All chat assistant messages include `is_ai_generated: true` and model metadata.
+  - Content generated via content management pipeline (blog, social, email) includes AI labeling.
+  - Machine‑readable metadata is present in API responses (verified via integration tests).
+- Third‑party processor notification: a documented (and, if automated, tested) process exists for notifying sub‑processors upon deletion.
+- Compliance documentation updated in `docs/gdpr-compliance.md` and `docs/eu-ai-act.md`.
+
+### Out of Scope
+- Full Data Protection Impact Assessment (DPIA) — can reference the documentation
+- External certification (ISO 27001)
+
+### Advanced Code Patterns
+- Automated compliance verification tests that programmatically call export/deletion endpoints
+- Retention policy enforcement via `pg_cron` jobs tested in integration tests
+- AI labeling middleware tested across all generation endpoints
+
+### Anti‑Patterns
+- Soft‑deleting user data without anonymization
+- Relying on manual processes without automated verification
+
+### Subtasks
+
+- [ ] `TASK-063.1` Write integration test for GDPR export: create a user with data across multiple modules, call `/gdpr/export`, verify output contains all expected data.
+- [ ] `TASK-063.2` Write integration test for GDPR deletion: submit deletion, verify PII columns are masked/anonymized, verify non‑essential records deleted, verify essential records retained.
+- [ ] `TASK-063.3` Verify data retention cron jobs execute correctly and produce expected results.
+- [ ] `TASK-063.4` Write integration tests for AI labeling: verify every AI‑generated response includes `is_ai_generated`, model metadata, and human‑visible label.
+- [ ] `TASK-063.5` Update `docs/gdpr-compliance.md` and `docs/eu-ai-act.md` with verification results and process documentation.
+
+---
+
+## [ ] TASK-064 — Performance Optimization & Load Testing
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Load test: simulate 100 concurrent users performing typical operations; p95 latency < 1s, error rate < 0.1%.
+
+### BDD
+- Scenario: Under normal load (100 concurrent users creating tasks, sending chat messages, viewing dashboards), the application remains responsive. The p95 API latency is under 500ms for simple queries and under 2s for AI‑assisted operations (which depend on external LLM latency).
+
+### Deep Module
+- Performance across all API and frontend layers
+
+### Depends On
+- TASK-062 (production infrastructure provisioned)
+
+### Blocks
+- Public launch at scale
+
+### Imports From
+- All API endpoints
+
+### Exports To
+- Performance baseline report
+
+### Definition of Done
+- **Server‑side optimizations:**
+  - Redis cache‑aside strategy implemented for frequently‑read endpoints (agent list, project list, knowledge articles).
+  - Database queries analyzed for N+1 problems; eager loading or batch queries implemented where identified.
+  - SSE connection pooling limits configured.
+- **Frontend optimizations:**
+  - Code splitting via React `lazy` and `Suspense` for all page components (router‑based splitting).
+  - Image optimization for uploaded files (thumbnails generated on upload).
+  - Bundle size analyzed; large dependencies evaluated for tree‑shaking.
+- **Load test:** using **k6** or **Artillery**, run a script that simulates:
+  - 100 virtual users over 5 minutes.
+  - Mix of operations: 40% read queries (dashboard, lists), 30% writes (task creation, message send), 20% AI‑assisted (chat streaming — mock LLM response), 10% admin (settings, integrations).
+  - Metrics collected: p50, p95, p99 latency per endpoint; error rate; throughput (requests/sec).
+- p95 latency targets: < 500ms for CRUD endpoints, < 2s for AI streaming (excluding LLM provider latency).
+- Error rate < 0.1%.
+- Results documented in `docs/performance-baseline.md`.
+- Identified bottlenecks are addressed before launch.
+
+### Out of Scope
+- Horizontal auto‑scaling configuration (infrastructure‑dependent)
+- CDN configuration (frontend asset delivery)
+
+### Advanced Code Patterns
+- Redis cache‑aside with tag‑based invalidation (e.g., `cache:agents:*` cleared on agent mutation)
+- Route‑based code splitting with `React.lazy`
+- Server‑side pagination with cursor‑based pagination for large datasets
+
+### Anti‑Patterns
+- Caching user‑specific data without tenant isolation in cache keys
+- Fixing performance issues by disabling security features (RLS)
+- Optimizing without profiling (guess‑based optimization)
+
+### Subtasks
+
+- [ ] `TASK-064.1` Implement Redis caching for agent list, project list, and knowledge article endpoints in `artifacts/api-server/src/lib/cache.ts`.
+- [ ] `TASK-064.2` Analyze database query plans for top 10 most frequent API calls; add missing indexes and optimize N+1 queries.
+- [ ] `TASK-064.3` Implement route‑based code splitting in `App.tsx` using `React.lazy` and `Suspense` for all page components.
+- [ ] `TASK-064.4` Configure image optimization pipeline: generate thumbnails on upload for preview cards.
+- [ ] `TASK-064.5` Write load test script using k6 or Artillery in `tests/load/` simulating realistic user behavior.
+- [ ] `TASK-064.6` Execute load test against staging environment; collect metrics and document in `docs/performance-baseline.md`.
+- [ ] `TASK-064.7` Address any performance regressions identified in load test before production.
+
+---
+
+## [ ] TASK-065 — Documentation & Developer Onboarding
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Documentation accuracy test: the steps in `docs/local-setup.md` are followed by a fresh developer and result in a running development environment.
+
+### BDD
+- Scenario: A new developer clones the repository, reads `README.md` and `docs/`, and within 30 minutes has a fully running local development environment with seeded data, able to make changes and see them reflected.
+
+### Deep Module
+- Documentation files in `docs/` directory and root `README.md`
+
+### Depends On
+- All implementation tasks (documentation reflects the final state)
+
+### Blocks
+- Public release / open‑source (if applicable)
+
+### Imports From
+- All source files
+
+### Exports To
+- Developer onboarding, API consumers, system administrators
+
+### Definition of Done
+- `README.md` is updated with:
+  - Project overview and architecture diagram
+  - Tech stack summary
+  - Local setup guide (prerequisites, clone, install, configure env, start services, access the app)
+  - Links to all documentation
+- `docs/` directory contains:
+  - `architecture.md` — system architecture, bounded contexts, data flow diagrams
+  - `api-overview.md` — how to use the OpenAPI spec, regenerate clients, and make API calls
+  - `local-setup.md` — detailed environment setup with troubleshooting
+  - `deployment.md` — CI/CD pipeline, staging, production deployment procedures
+  - `data-model.md` — entity relationship diagram and key schema details
+  - `security.md` — authentication, authorization, RLS, MCP security model
+  - `feature-flags.md` — how to use Unleash, list of current flags
+  - `compliance.md` — GDPR and EU AI Act processes
+  - `incident-response.md` — runbook for common incidents
+- API reference is generated from OpenAPI spec and hosted (e.g., Swagger UI as a route in the API server at `/api/docs`).
+- Contributor guide in `CONTRIBUTING.md` covers coding standards, PR process, and testing requirements.
+- All `@ai_instructions` headers in source files are verified to be accurate and complete.
+
+### Out of Scope
+- Video tutorials
+- Localization of documentation
+
+### Advanced Code Patterns
+- Swagger UI served from the API server for live API documentation
+- Architecture diagrams using Mermaid (renderable in Markdown)
+
+### Anti‑Patterns
+- Outdated documentation that hasn't been updated alongside code changes
+- Assuming developer knowledge without explicit steps
+
+### Subtasks
+
+- [ ] `TASK-065.1` Update `README.md` with project overview, tech stack, and quick start guide.
+- [ ] `TASK-065.2` Create `docs/architecture.md` with system diagram, bounded contexts, data flow, and infrastructure overview.
+- [ ] `TASK-065.3` Create `docs/local-setup.md` with step‑by‑step development environment setup instructions.
+- [ ] `TASK-065.4` Create `docs/api-overview.md` explaining OpenAPI spec, codegen, and API usage.
+- [ ] `TASK-065.5` Create `docs/deployment.md` with CI/CD pipeline, staging, and production deployment procedures.
+- [ ] `TASK-065.6` Create `docs/data-model.md` with entity relationship overview and key schema decisions.
+- [ ] `TASK-065.7` Create `docs/security.md`, `docs/feature-flags.md`, `docs/compliance.md`, `docs/incident-response.md`.
+- [ ] `TASK-065.8` Serve Swagger UI at `/api/docs` in the API server using `swagger-ui-express`.
+- [ ] `TASK-065.9` Create `CONTRIBUTING.md` with coding standards, PR process, and testing requirements.
+- [ ] `TASK-065.10` Verify all `@ai_instructions` headers in source files are accurate; update any stale directives.
+
+---
+
+## [ ] TASK-066 — Post‑Launch Monitoring & Alerting Tuning
+
+**Status:** `NOT_STARTED`  
+**Size:** `SMALL`
+
+### DDD
+N/A
+
+### TDD
+- Alerting tests: trigger a simulated error spike and verify that the on‑call engineer receives a notification within 5 minutes.
+
+### BDD
+- Scenario: In production, the error rate on the chat endpoint spikes above 5%. Grafana sends an alert to the on‑call Slack channel within 2 minutes. The on‑call engineer acknowledges and begins investigation using the linked dashboard.
+
+### Deep Module
+- Monitoring configuration in Grafana Cloud and Sentry
+
+### Depends On
+- TASK-062 (production deployment)
+- TASK-008 (observability setup)
+
+### Blocks
+- Reliable production operations
+
+### Imports From
+- Grafana Cloud dashboards, Sentry project
+
+### Exports To
+- Operations runbook
+
+### Definition of Done
+- Grafana Cloud dashboards include:
+  - **Application Health**: request rate, error rate, p50/p95/p99 latency per endpoint.
+  - **AI Metrics**: LLM call volume, token usage (input/output), cost per tenant, model latency.
+  - **Database**: connection pool utilization, query latency, deadlocks.
+  - **Business Metrics**: active users, tasks created, messages sent, deals closed.
+- Alerts configured with appropriate thresholds:
+  - Error rate > 5% for 5 minutes → notify on‑call (PagerDuty/Slack).
+  - p95 latency > 2s for 5 minutes → notify on‑call.
+  - Token budget 90% consumed → notify product team.
+  - Database connection pool > 80% utilized → notify on‑call.
+  - SSL certificate expiring within 7 days → notify ops.
+  - Stripe webhook failures > 3 in 10 minutes → notify on‑call.
+- Alert rules are tested by simulating conditions (e.g., manually triggering errors, exhausting rate limits) and verifying notification delivery.
+- Alert tuning completed after 1 week of production traffic (adjust thresholds based on real patterns).
+- On‑call rotation documented in `docs/incident-response.md`.
+
+### Out of Scope
+- Custom business‑specific dashboards beyond the standard templates
+- Full APM integration (e.g., Datadog)
+
+### Advanced Code Patterns
+- Structured logging with correlation IDs traceable from frontend → API → database queries
+- SLO‑based alerting (error budget burn rate) as a future enhancement
+
+### Anti‑Patterns
+- Setting alert thresholds too tight, causing alert fatigue
+- Not having a documented response procedure for each alert
+
+### Subtasks
+
+- [ ] `TASK-066.1` Create Grafana Cloud dashboards for Application Health, AI Metrics, Database, and Business Metrics.
+- [ ] `TASK-066.2` Configure alert rules for error rate, latency, token budget, database utilization, SSL expiry, and Stripe webhook failures.
+- [ ] `TASK-066.3` Test each alert by simulating the triggering condition; verify notification delivery.
+- [ ] `TASK-066.4` After 1 week of production traffic, review and tune alert thresholds based on actual patterns.
+- [ ] `TASK-066.5` Update `docs/incident-response.md` with on‑call rotation and alert response procedures.

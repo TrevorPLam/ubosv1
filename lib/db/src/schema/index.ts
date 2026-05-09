@@ -35,4 +35,20 @@
 //   export type InsertPost = z.infer<typeof insertPostSchema>;
 //   export type Post = typeof postsTable.$inferSelect;
 
-export {}
+// Export PostgreSQL extensions setup
+export * from "./extensions";
+
+// Export tenant infrastructure and RLS helpers
+export * from "./tenants";
+export * from "./helpers";
+
+// Export outbox schema for transactional events
+export * from "./outbox";
+
+// Export agent and approval schemas
+export * from "./agents";
+export * from "./approvals";
+
+// Export chat schema
+export * from "./chat";
+export * from "./chat-rls";

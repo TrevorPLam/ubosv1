@@ -19,7 +19,7 @@
 import { Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, Award, Bell, LinkIcon, BarChart2, Upload, RefreshCw, CheckCircle2, Clock, AlertCircle } from "lucide-react";
+import { ChevronRight, Award, Bell, Link as LinkIcon, BarChart2, Upload, RefreshCw, CheckCircle2, Clock, AlertCircle } from "lucide-react";
 
 const features = [
   {

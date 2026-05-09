@@ -20,6 +20,9 @@ import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useAuth } from "@clerk/react";
+import { setAuthTokenGetter } from "@workspace/api-client-react";
+import { useEffect } from "react";
 import NotFound from "@/pages/not-found";
 
 import { Sidebar } from "@/components/layout/Sidebar";
@@ -84,6 +87,28 @@ import { PurchaseApprovalsPage } from "@/components/vendors/PurchaseApprovalsPag
 import { SpendVisibilityPage } from "@/components/vendors/SpendVisibilityPage";
 
 const queryClient = new QueryClient();
+
+/**
+ * Component to configure Clerk auth token for API calls
+ */
+function AuthTokenProvider({ children }: { children: React.ReactNode }) {
+  const { getToken } = useAuth();
+
+  useEffect(() => {
+    // Configure the API client to use Clerk's session token
+    setAuthTokenGetter(async () => {
+      try {
+        const token = await getToken();
+        return token;
+      } catch (error) {
+        console.error("Failed to get auth token:", error);
+        return null;
+      }
+    });
+  }, [getToken]);
+
+  return <>{children}</>;
+}
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -170,9 +195,11 @@ function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
-          <Router />
-        </WouterRouter>
+        <AuthTokenProvider>
+          <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <Router />
+          </WouterRouter>
+        </AuthTokenProvider>
         <Toaster />
       </TooltipProvider>
     </QueryClientProvider>

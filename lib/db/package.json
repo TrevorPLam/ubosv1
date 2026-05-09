@@ -10,7 +10,9 @@
   },
   "scripts": {
     "push": "drizzle-kit push --config ./drizzle.config.ts",
-    "push-force": "drizzle-kit push --force --config ./drizzle.config.ts"
+    "push-force": "drizzle-kit push --force --config ./drizzle.config.ts",
+    "verify-extensions": "node -e \"import('./src/index.js').then(m => m.healthCheck()).then(console.log).catch(console.error)\"",
+    "health-check": "node -e \"import('./src/index.js').then(m => m.healthCheck()).then(result => { console.log('Database Health Status:', result.status); console.log('Extensions:', result.extensions); process.exit(result.status === 'healthy' ? 0 : 1); }).catch(console.error)"
   },
   "dependencies": {
     "drizzle-orm": "catalog:",

@@ -18,6 +18,14 @@
 
 import { useEffect, useRef } from 'react';
 
+// Type declaration for AudioContext support across browsers
+declare global {
+  interface Window {
+    AudioContext: typeof AudioContext;
+    webkitAudioContext?: typeof AudioContext;
+  }
+}
+
 interface VoiceWaveformProps {
   isListening: boolean;
   className?: string;
@@ -47,7 +55,11 @@ export function VoiceWaveform({ isListening, className }: VoiceWaveformProps) {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
 
-      const AudioContextClass = (window as any).AudioContext || (window as any).webkitAudioContext;
+      // Use proper type guard for AudioContext with webkit fallback
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContextClass) {
+        throw new Error('AudioContext is not supported in this browser');
+      }
       const audioContext = new AudioContextClass();
       audioContextRef.current = audioContext;
 

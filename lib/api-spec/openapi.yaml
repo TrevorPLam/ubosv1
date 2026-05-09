@@ -23,6 +23,12 @@ servers:
 tags:
   - name: health
     description: Health operations
+  - name: agents
+    description: Agent management operations
+  - name: approvals
+    description: Approval workflow operations
+  - name: chat
+    description: Chat and conversation management operations
 paths:
   /healthz:
     get:
@@ -37,6 +43,608 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /agents:
+    get:
+      operationId: listAgents
+      tags: [agents]
+      summary: List agents
+      description: Returns paginated list of agents with current status
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [idle, thinking, running-tool, awaiting-approval, error]
+      responses:
+        "200":
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /agents/{id}:
+    get:
+      operationId: getAgent
+      tags: [agents]
+      summary: Get agent details
+      description: Returns agent details including recent runs and tool calls
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Agent details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Agent not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /approvals:
+    get:
+      operationId: listApprovals
+      tags: [approvals]
+      summary: List pending approvals
+      description: Returns pending approval requests
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, approved, rejected, expired]
+            default: pending
+      responses:
+        "200":
+          description: List of approval requests
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /approvals/{id}/decide:
+    post:
+      operationId: decideApproval
+      tags: [approvals]
+      summary: Decide on approval request
+      description: Records decision and updates agent status
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApprovalDecisionRequest"
+      responses:
+        "200":
+          description: Decision recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ApprovalDecisionResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "403":
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Approval request not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+  /threads:
+    post:
+      operationId: createThread
+      tags: [chat]
+      summary: Create a new chat thread
+      description: Creates a new chat thread with optional title and project association
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateThreadRequest"
+      responses:
+        "201":
+          description: Thread created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatThread"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    get:
+      operationId: listThreads
+      tags: [chat]
+      summary: List chat threads
+      description: Returns paginated list of chat threads for the tenant
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: integer
+            default: 1
+            minimum: 1
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            minimum: 1
+            maximum: 100
+        - name: projectId
+          in: query
+          schema:
+            type: string
+        - name: isActive
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of threads
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ThreadListResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /threads/{id}:
+    get:
+      operationId: getThread
+      tags: [chat]
+      summary: Get chat thread details
+      description: Returns thread with all messages
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: Thread details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ThreadDetailResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      operationId: updateThread
+      tags: [chat]
+      summary: Update thread
+      description: Updates thread title or other metadata
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateThreadRequest"
+      responses:
+        "200":
+          description: Thread updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatThread"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    delete:
+      operationId: deleteThread
+      tags: [chat]
+      summary: Delete thread
+      description: Soft-deletes a thread (marks as inactive)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "204":
+          description: Thread deleted
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /threads/{id}/messages:
+    post:
+      operationId: sendMessage
+      tags: [chat]
+      summary: Send a message
+      description: Sends a user message and initiates assistant response
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendMessageRequest"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+  /threads/{id}/stream:
+    get:
+      operationId: streamResponse
+      tags: [chat]
+      summary: Stream assistant response
+      description: SSE endpoint that streams assistant response tokens in real-time
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: messageId
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: ID of the user message to respond to
+      responses:
+        "200":
+          description: SSE stream of response tokens
+          content:
+            text/event-stream:
+              schema:
+                type: string
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread or message not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /messages/{id}:
+    patch:
+      operationId: editMessage
+      tags: [chat]
+      summary: Edit a message
+      description: Edits a user message, creating a new version
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EditMessageRequest"
+      responses:
+        "200":
+          description: Message edited
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+  /messages/{id}/feedback:
+    post:
+      operationId: submitFeedback
+      tags: [chat]
+      summary: Submit feedback
+      description: Records user feedback on a message
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FeedbackRequest"
+      responses:
+        "201":
+          description: Feedback recorded
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Feedback"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Message not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+  /threads/{id}/summarize:
+    post:
+      operationId: generateSummary
+      tags: [chat]
+      summary: Generate thread summary
+      description: Generates or regenerates a summary for the thread
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/GenerateSummaryRequest"
+      responses:
+        "202":
+          description: Summary generation started
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SummaryJobResponse"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /threads/{id}/grounding:
+    post:
+      operationId: updateGrounding
+      tags: [chat]
+      summary: Update grounding mode
+      description: Updates the grounding mode for the thread
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGroundingRequest"
+      responses:
+        "200":
+          description: Grounding mode updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatThread"
+        "401":
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "404":
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "422":
+          description: Validation error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
 components:
   schemas:
     HealthStatus:
@@ -46,4 +654,552 @@ components:
           type: string
       required:
         - status
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        model:
+          type: string
+        status:
+          type: string
+          enum: [idle, thinking, running-tool, awaiting-approval, error]
+        memoryUsageMb:
+          type: integer
+        tokenCount:
+          type: integer
+        lastHeartbeatAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, name, model, status, createdAt, updatedAt
+    AgentRun:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        agentId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, running, completed, failed, cancelled]
+        startedAt:
+          type: string
+          format: date-time
+        completedAt:
+          type: string
+          format: date-time
+        tokenUsageInput:
+          type: integer
+        tokenUsageOutput:
+          type: integer
+        costEstimate:
+          type: string
+          format: decimal
+        errorMessage:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, agentId, status, createdAt
+    ToolCall:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        agentRunId:
+          type: string
+          format: uuid
+        toolName:
+          type: string
+        status:
+          type: string
+          enum: [pending, running, completed, failed, timeout]
+        startedAt:
+          type: string
+          format: date-time
+        finishedAt:
+          type: string
+          format: date-time
+        errorMessage:
+          type: string
+        executionTimeMs:
+          type: integer
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, agentRunId, toolName, status, createdAt
+    ApprovalRequest:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        agentRunId:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        status:
+          type: string
+          enum: [pending, approved, rejected, expired]
+        priority:
+          type: string
+          enum: [low, medium, high, critical]
+        requiredBy:
+          type: string
+          format: date-time
+        expiresAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+        resolvedAt:
+          type: string
+          format: date-time
+      required:
+        - id, agentRunId, title, description, status, priority, createdAt
+    ApprovalDecision:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        approvalRequestId:
+          type: string
+          format: uuid
+        decision:
+          type: string
+          enum: [approved, rejected]
+        decidedBy:
+          type: string
+        decidedByName:
+          type: string
+        comment:
+          type: string
+        decidedAt:
+          type: string
+          format: date-time
+      required:
+        - id, approvalRequestId, decision, decidedBy, decidedAt
+    AgentListResponse:
+      type: object
+      properties:
+        agents:
+          type: array
+          items:
+            $ref: "#/components/schemas/Agent"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - agents, pagination
+    AgentDetailResponse:
+      type: object
+      properties:
+        agent:
+          $ref: "#/components/schemas/Agent"
+        recentRuns:
+          type: array
+          items:
+            $ref: "#/components/schemas/AgentRun"
+        toolCalls:
+          type: array
+          items:
+            $ref: "#/components/schemas/ToolCall"
+      required:
+        - agent
+    ApprovalListResponse:
+      type: object
+      properties:
+        approvals:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApprovalRequest"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - approvals, pagination
+    ApprovalDecisionRequest:
+      type: object
+      properties:
+        decision:
+          type: string
+          enum: [approved, rejected]
+        comment:
+          type: string
+      required:
+        - decision
+    ApprovalDecisionResponse:
+      type: object
+      properties:
+        decision:
+          $ref: "#/components/schemas/ApprovalDecision"
+        approvalRequest:
+          $ref: "#/components/schemas/ApprovalRequest"
+      required:
+        - decision, approvalRequest
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+        limit:
+          type: integer
+        total:
+          type: integer
+        totalPages:
+          type: integer
+      required:
+        - page, limit, total, totalPages
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+      required:
+        - error, statusCode
+    ValidationError:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        statusCode:
+          type: integer
+        details:
+          type: object
+      required:
+        - error, statusCode
+    # Chat schemas
+    ChatThread:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        projectId:
+          type: string
+        parentThreadId:
+          type: string
+          format: uuid
+        branchPointMessageId:
+          type: string
+          format: uuid
+        groundingMode:
+          type: string
+          enum: [none, web, knowledge_base, document]
+        summaryId:
+          type: string
+          format: uuid
+        messageCount:
+          type: integer
+        isActive:
+          type: boolean
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, title, groundingMode, messageCount, isActive, createdAt, updatedAt
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        threadId:
+          type: string
+          format: uuid
+        role:
+          type: string
+          enum: [user, assistant, tool_call, tool_result, system]
+        content:
+          type: string
+        agentId:
+          type: string
+          format: uuid
+        isEdited:
+          type: boolean
+        editedAt:
+          type: string
+          format: date-time
+        groundingMode:
+          type: string
+          enum: [none, web, knowledge_base, document]
+        confidenceScore:
+          type: string
+          format: decimal
+        tokenCount:
+          type: integer
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+      required:
+        - id, threadId, role, content, groundingMode, createdAt, updatedAt
+    MessageVersion:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        messageId:
+          type: string
+          format: uuid
+        content:
+          type: string
+        isCurrent:
+          type: boolean
+        versionNumber:
+          type: integer
+        editReason:
+          type: string
+        editedBy:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, messageId, content, isCurrent, versionNumber, createdAt
+    Citation:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        messageId:
+          type: string
+          format: uuid
+        number:
+          type: integer
+        title:
+          type: string
+        url:
+          type: string
+        snippet:
+          type: string
+        sourceType:
+          type: string
+          enum: [web, knowledge_base, document]
+        domain:
+          type: string
+        publishedAt:
+          type: string
+          format: date-time
+        relevanceScore:
+          type: string
+          format: decimal
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, messageId, number, title, snippet, sourceType, createdAt
+    Summary:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        threadId:
+          type: string
+          format: uuid
+        keyPoints:
+          type: array
+          items:
+            type: string
+        actionItems:
+          type: array
+          items:
+            type: string
+        overallSummary:
+          type: string
+        messageCount:
+          type: integer
+        generatedAt:
+          type: string
+          format: date-time
+        lastUpdated:
+          type: string
+          format: date-time
+        isAutoGenerated:
+          type: boolean
+        modelUsed:
+          type: string
+        metadata:
+          type: object
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, threadId, keyPoints, actionItems, overallSummary, messageCount, generatedAt, lastUpdated, isAutoGenerated, createdAt
+    Feedback:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        messageId:
+          type: string
+          format: uuid
+        userId:
+          type: string
+        rating:
+          type: string
+          enum: [positive, negative]
+        category:
+          type: string
+          enum: [accuracy, relevance, clarity, helpfulness, safety, other]
+        comment:
+          type: string
+        context:
+          type: object
+        isHelpful:
+          type: boolean
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id, messageId, userId, rating, category, createdAt
+    # Chat request/response schemas
+    CreateThreadRequest:
+      type: object
+      properties:
+        title:
+          type: string
+        projectId:
+          type: string
+        groundingMode:
+          type: string
+          enum: [none, web, knowledge_base, document]
+          default: none
+      required:
+        - title
+    UpdateThreadRequest:
+      type: object
+      properties:
+        title:
+          type: string
+      required:
+        - title
+    SendMessageRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        groundingMode:
+          type: string
+          enum: [none, web, knowledge_base, document]
+      required:
+        - content
+    EditMessageRequest:
+      type: object
+      properties:
+        content:
+          type: string
+        editReason:
+          type: string
+      required:
+        - content
+    FeedbackRequest:
+      type: object
+      properties:
+        rating:
+          type: string
+          enum: [positive, negative]
+        category:
+          type: string
+          enum: [accuracy, relevance, clarity, helpfulness, safety, other]
+        comment:
+          type: string
+        isHelpful:
+          type: boolean
+      required:
+        - rating, category
+    GenerateSummaryRequest:
+      type: object
+      properties:
+        forceRegenerate:
+          type: boolean
+          default: false
+    UpdateGroundingRequest:
+      type: object
+      properties:
+        groundingMode:
+          type: string
+          enum: [none, web, knowledge_base, document]
+      required:
+        - groundingMode
+    # Chat response schemas
+    ThreadListResponse:
+      type: object
+      properties:
+        threads:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChatThread"
+        pagination:
+          $ref: "#/components/schemas/Pagination"
+      required:
+        - threads, pagination
+    ThreadDetailResponse:
+      type: object
+      properties:
+        thread:
+          $ref: "#/components/schemas/ChatThread"
+        messages:
+          type: array
+          items:
+            $ref: "#/components/schemas/Message"
+        summary:
+          $ref: "#/components/schemas/Summary"
+      required:
+        - thread, messages
+    SummaryJobResponse:
+      type: object
+      properties:
+        jobId:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [pending, running, completed, failed]
+        estimatedCompletion:
+          type: string
+          format: date-time
+      required:
+        - jobId, status
 

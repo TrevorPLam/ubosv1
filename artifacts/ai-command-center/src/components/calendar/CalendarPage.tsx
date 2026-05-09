@@ -991,7 +991,7 @@ function TaskEventModal({ task, dueDate, onClose }: { task: Task; dueDate: strin
           <div>
             <span className="text-[10px] text-muted-foreground uppercase tracking-wider block mb-1">Priority</span>
             <span className={cn("inline-flex items-center gap-1.5 px-2 py-1 rounded border text-xs font-medium", p.chip)}>
-              <span className={cn("w-1.5 h-1.5 rounded-full", p.dotClass)} />
+              <span className={cn("w-1.5 h-1.5 rounded-full", p.dot)} />
               {p.label}
             </span>
           </div>

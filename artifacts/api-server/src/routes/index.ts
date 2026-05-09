@@ -18,9 +18,26 @@
 
 import { Router, type IRouter } from "express";
 import healthRouter from "./health";
+import examplesRouter from "./examples";
+import agentsRouter from "./agents";
+import approvalsRouter from "./approvals";
+import chatRouter from "./chat";
 
 const router: IRouter = Router();
 
+// Health routes (no authentication)
 router.use(healthRouter);
+
+// Example routes (demonstrating middleware usage)
+router.use(examplesRouter);
+
+// Agent management routes
+router.use(agentsRouter);
+
+// Approval workflow routes
+router.use(approvalsRouter);
+
+// Chat and conversation routes
+router.use(chatRouter);
 
 export default router;

@@ -427,10 +427,44 @@ export function ClientDetailPage() {
     (client.company && a.title.toLowerCase().includes(client.company.toLowerCase()))
   );
 
-  function startEdit() { setDraft({ ...client }); setEditing(true); }
+  function startEdit() { 
+    if (!client) return;
+    setDraft({ 
+      id: client.id,
+      salutation: client.salutation,
+      firstName: client.firstName,
+      middleName: client.middleName,
+      lastName: client.lastName,
+      suffix: client.suffix,
+      preferredName: client.preferredName,
+      dateOfBirth: client.dateOfBirth,
+      gender: client.gender,
+      preferredLanguage: client.preferredLanguage,
+      company: client.company,
+      jobTitle: client.jobTitle,
+      status: client.status,
+      source: client.source,
+      crmContactId: client.crmContactId,
+      lastActivity: client.lastActivity,
+      emails: client.emails,
+      phones: client.phones,
+      websites: client.websites,
+      socialProfiles: client.socialProfiles,
+      physicalAddress: client.physicalAddress,
+      mailingAddress: client.mailingAddress,
+      businessAddress: client.businessAddress,
+      clientOwner: client.clientOwner,
+      notes: client.notes,
+      tags: client.tags,
+      linkedProjectIds: client.linkedProjectIds,
+      linkedDocumentIds: client.linkedDocumentIds,
+      linkedAgreementIds: client.linkedAgreementIds,
+    }); 
+    setEditing(true); 
+  }
   function cancelEdit() { setDraft(null); setEditing(false); }
   function saveEdit() {
-    if (!draft) return;
+    if (!draft || !draft.id) return;
     const idx = mockClients.findIndex((c) => c.id === draft.id);
     if (idx !== -1) mockClients[idx] = draft;
     setClient(draft);

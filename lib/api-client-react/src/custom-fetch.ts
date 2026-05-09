@@ -57,6 +57,14 @@ export function setBaseUrl(url: string | null): void {
  *
  * NOTE: This function should never be used in web applications where session
  * token cookies are automatically associated with API calls by the browser.
+ * 
+ * For Clerk integration, this will be configured in the frontend with:
+ * ```tsx
+ * import { useAuth } from '@clerk/react'
+ * import { setAuthTokenGetter } from '@workspace/api-client-react'
+ * 
+ * setAuthTokenGetter(() => getToken())
+ * ```
  */
 export function setAuthTokenGetter(getter: AuthTokenGetter | null): void {
   _authTokenGetter = getter;
